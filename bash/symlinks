@@ -1,7 +1,7 @@
 cd "$(dirname "$0")"
 
 DIST="$PWD/../.git/hooks"
-HOOKS=("pre-push" "post-receive" "push-to-checkout")
+HOOKS=("post-receive" "push-to-checkout")
 
 for hook in "${HOOKS[@]}"
 do
