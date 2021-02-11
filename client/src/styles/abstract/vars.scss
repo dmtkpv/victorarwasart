@@ -1,0 +1,62 @@
+// --------------------
+// Responsibility
+// --------------------
+
+$sm-max: 960px;
+$md-min: 961px;
+$md-max: 1280px;
+$lg-min: 1281px;
+$lg-max: 1536px;
+$xl-min: 1537px;
+
+
+
+// --------------------
+// Colors
+// --------------------
+
+$black: #282828;
+$gray: #9a9a9a;
+$cream: #f5f5f0;
+$white: #fffffa;
+$red: #fcd0b1;
+$white-transparent: rgba(255, 255, 250, .3);
+$black-transparent: rgba(40, 40, 40, .3);
+$black-overlay: rgba(40, 40, 40, .95);
+
+
+
+// --------------------
+// Typography
+// --------------------
+
+$t1: 16px;
+$t2: 15px;
+$t3: 13px;
+$w3: 300;
+$w4: 400;
+
+
+
+// --------------------
+// CSS vars
+// --------------------
+
+$column-width: var(--column-width);
+$indent-x: var(--indent-x);
+$indent-y: var(--indent-y);
+
+
+
+// --------------------
+// Exports
+// --------------------
+
+:export {
+    smMax: $sm-max;
+    mdMin: $md-min;
+    mdMax: $md-max;
+    lgMin: $lg-min;
+    lgMax: $lg-max;
+    xlMin: $xl-min;
+}

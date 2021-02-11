@@ -1,0 +1,30 @@
+{
+    "scripts": {
+        "build": "webpack",
+        "daemon": "pm2 delete --silent \"victorarwas:client\"; pm2 start npm --name \"victorarwas:client\" -- run serve",
+        "dev": "NODE_ENV=development npm run",
+        "fetch": "node lib/fetch",
+        "prod": "NODE_ENV=production npm run",
+        "serve": " node server"
+    },
+    "dependencies": {
+        "axios": "^0.21.1",
+        "copy-webpack-plugin": "^6.4.1",
+        "css-loader": "^5.0.1",
+        "express": "^4.17.1",
+        "mini-css-extract-plugin": "^1.3.3",
+        "node-sass": "^5.0.0",
+        "sass-loader": "^10.1.0",
+        "vue": "^2.6.12",
+        "vue-loader": "^15.9.6",
+        "vue-router": "^3.4.9",
+        "vue-server-renderer": "^2.6.12",
+        "vue-template-compiler": "^2.6.12",
+        "vuex": "^3.6.0",
+        "webpack": "^4.44.2",
+        "webpack-cli": "^4.3.1",
+        "webpack-dev-server": "^3.11.2",
+        "webpack-merge": "^4.2.2",
+        "webpack-node-externals": "^2.5.2"
+    }
+}

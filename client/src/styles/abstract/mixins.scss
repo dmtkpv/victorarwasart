@@ -1,0 +1,81 @@
+@import "$styles/abstract/vars";
+
+
+
+// --------------------
+// Responsibility
+// --------------------
+
+@mixin sm {
+    @media (max-width: $sm-max) { @content }
+}
+@mixin sm-md {
+    @media (max-width: $md-max) { @content }
+}
+@mixin sm-lg {
+    @media (max-width: $lg-max) { @content }
+}
+@mixin md {
+    @media (min-width: $md-min) and (max-width: $md-max) { @content }
+}
+@mixin md-lg {
+    @media (min-width: $md-min) and (max-width: $lg-max) { @content }
+}
+@mixin md-xl {
+    @media (min-width: $md-min) { @content }
+}
+@mixin lg {
+    @media (min-width: $lg-min) and (max-width: $lg-max) { @content }
+}
+@mixin lg-xl {
+    @media (min-width: $lg-min) { @content }
+}
+@mixin xl {
+    @media (min-width: $xl-min) { @content }
+}
+
+
+
+// --------------------
+// Helpers
+// --------------------
+
+//@mixin hover {
+//    @media (hover: hover) and (min-width: $md-min) { &:hover { @content } }
+//}
+@mixin stretch {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+@mixin center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+
+// --------------------
+// Elements
+// --------------------
+
+@mixin column {
+    position: fixed;
+    top: 0;
+    width: $column-width;
+    height: 100%;
+    overflow: auto;
+}
+@mixin line {
+    content: '';
+    position: fixed;
+    top: $indent-y;
+    bottom: $indent-y;
+    width: 1px;
+    background: $white-transparent;
+    margin-left: calc(#{$indent-x} * -1);
+    z-index: 1;
+}

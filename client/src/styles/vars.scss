@@ -1,0 +1,35 @@
+// --------------------
+// Column width
+// --------------------
+
+:root {
+    @include xl {
+        --column-width: 20%;
+    }
+    @include lg {
+        --column-width: 25%;
+    }
+    @include md {
+        --column-width: 33.33%;
+    }
+    @include sm {
+        --column-width: 100%;
+    }
+}
+
+
+
+// --------------------
+// Padding
+// --------------------
+
+:root {
+    @include md-xl {
+        --indent-x: 21px;
+        --indent-y: 29px;
+    }
+    @include sm {
+        --indent-x: 12px;
+        --indent-y: 12px;
+    }
+}
