@@ -1,0 +1,8 @@
+cd "$(dirname "$0")" # victorarwas/bash
+cd "$(pwd -P)/../"
+
+# restart admin
+# restart client
+
+npm install
+npm run build

@@ -1,0 +1,10 @@
+ #!/bin/bash
+
+BASH_DIR="$(dirname "$0")"
+HOOK_DIR="$BASH_DIR/../.git/hooks"
+HOOKS=("pre-push")
+
+for hook in "${HOOKS[@]}"
+do
+    ln -sf "$BASH_DIR/$hook" "$HOOK_DIR/$hook"
+done

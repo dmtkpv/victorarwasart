@@ -150,12 +150,19 @@ if (mode === 'development') {
 // -------------------
 
 else {
-    // run webpack compiler
-    // run afterBuild
+
     const app = express();
+    const compiler = webpack(webpackConfig);
+
+    compiler.run((err, stats) => {
+        if (err) console.log(err);
+        else afterBuild(compiler, stats);
+    })
+
     app.use(express.static('www'));
     SSR.init(app);
     listen(app);
+
 }
 
 

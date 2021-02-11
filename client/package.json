@@ -1,9 +1,12 @@
 {
+    "//": [
+        "npm run dev serve",
+        "npm run prod daemon"
+    ],
     "scripts": {
         "build": "webpack",
         "daemon": "pm2 delete --silent \"victorarwas:client\"; pm2 start npm --name \"victorarwas:client\" -- run serve",
         "dev": "NODE_ENV=development npm run",
-        "fetch": "node lib/fetch",
         "prod": "NODE_ENV=production npm run",
         "serve": " node server"
     },

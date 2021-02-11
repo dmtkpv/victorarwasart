@@ -1,0 +1,80 @@
+module.exports = function (router, { services }) {
+
+
+
+    // -------------------
+    // Helpers
+    // -------------------
+
+    const { ItemsService, MetaService } = services;
+
+    function filter (fields, _contains) {
+        return {
+            _or: fields.split(',').map(field => ({
+                [field]: { _contains }
+            }))
+        }
+    }
+
+
+
+    // -------------------
+    // Search
+    // -------------------
+
+    router.get('/', (req, res, next) => {
+
+        const { limit, offset, text, options } = req.query;
+
+        const requests = options.map(async option => {
+            const { collection, fields, searchIn } = JSON.parse(option);
+            const service = new ItemsService(collection, { schema: req.schema });
+            const data = await service.readByQuery({
+                limit,
+                offset,
+                fields: fields.split(','),
+                filter: filter(searchIn, text)
+            })
+            return {
+                collection,
+                data
+            }
+        })
+
+        Promise.all(requests).then(data => {
+            res.json({ data: data.filter(item => item.data.length) });
+        }).catch(next);
+
+    });
+
+
+
+    // -------------------
+    // Count
+    // -------------------
+
+    router.get('/count', (req, res, next) => {
+
+        const { text, options } = req.query;
+
+        const requests = options.map(async option => {
+            const { collection, searchIn } = JSON.parse(option);
+            const service = new MetaService({ schema: req.schema });
+            const { filter_count } = await service.getMetaForQuery(collection, {
+                filter: filter(searchIn, text),
+                meta: ['filter_count']
+            })
+            return [
+                collection,
+                filter_count
+            ]
+        })
+
+        Promise.all(requests).then(data => {
+            res.json({ data: Object.fromEntries(data) });
+        }).catch(next);
+
+    });
+
+
+};

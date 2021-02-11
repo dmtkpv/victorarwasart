@@ -1,0 +1,4 @@
+if [ $1 == "origin" ]
+then
+    git push github master
+fi
