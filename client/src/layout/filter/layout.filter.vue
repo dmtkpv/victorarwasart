@@ -35,6 +35,8 @@
 
     export default {
 
+        inheritAttrs: false,
+
         components: {
             links,
             params

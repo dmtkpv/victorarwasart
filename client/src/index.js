@@ -7,6 +7,7 @@ import '$styles/vars'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
+import { sync } from 'vuex-router-sync'
 import Axios from '$services/axios'
 import Store from '$services/store'
 import Router from '$services/router'
@@ -18,7 +19,7 @@ import Index from './index.vue'
 // Constants
 // ------------------
 
-const baseURL = 'http://18.133.175.240:49012'
+const baseURL = 'http://93.188.166.42:49012'
 
 
 
@@ -42,6 +43,8 @@ export default function init () {
     const axios = Axios({ baseURL });
     const store = Store({ axios });
     const router = Router({ $store: store });
+
+    sync(store, router);
 
     const app = new Vue({
         store,

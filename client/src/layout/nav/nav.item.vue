@@ -3,41 +3,78 @@
 -->
 
 <style lang="scss">
-
-    %link-active {
-        @include md-xl {
-            color: $red;
-            .total { display: block; }
-        }
-    }
-
-    .l-nav-link {
-        @extend %row;
-        text-transform: uppercase;
-        .total { display: none; }
-        &:hover { @extend %link-active }
-    }
-
     .l-nav-item {
 
-        .l-filter-head {
-            margin-top: 42px;
+
+
+        // --------------------
+        // Helpers
+        // --------------------
+
+        %link-active {
+            @include md-xl {
+                color: $red;
+                .total { display: block; }
+            }
         }
-        .l-filter:last-child {
-            margin-bottom: 118px;
+
+
+
+        // --------------------
+        // Filter
+        // --------------------
+
+        .l-filter {
+
+            .l-filter-head {
+                margin-top: 42px;
+                .clear { display: none }
+                &.filtered { color: $white; }
+            }
+
+            &:last-child {
+                margin-bottom: 118px;
+            }
+
         }
+
+
+
+        // --------------------
+        // Link
+        // --------------------
+
+        .l-nav-link {
+            @extend %row;
+            .title { text-transform: uppercase; }
+            .total { display: none; }
+            .clear { display: none; }
+            &:hover { @extend %link-active }
+        }
+
+
+
+        // --------------------
+        // Modifiers
+        // --------------------
+
         &:not(.active) {
             .l-filter { display: none }
         }
         &.active {
             .l-nav-link { @extend %link-active }
         }
-        @include  sm {
+        &.active.filtered {
+            .l-nav-link .total { display: none };
+            .l-nav-link .clear { display: block };
+        }
+        @include sm {
             .l-filter { display: none }
         }
 
-    }
 
+
+    }
 </style>
 
 
@@ -47,14 +84,15 @@
 -->
 
 <template>
-    <div class="l-nav-item" :class="{ active: $route.path === path }">
+    <div class="l-nav-item" :class="{ active: $route.path === path, filtered }">
 
-        <router-link class="l-nav-link" :to="path">
-            <p class="title">{{ title }}</p>
+        <div class="l-nav-link">
+            <router-link :to="path" class="title">{{ title }}</router-link>
             <p class="total">{{ total }}</p>
-        </router-link>
+            <a class="clear" @click="clear">Clear</a>
+        </div>
 
-        <layout-filter v-for="(filter, i) in filters" v-bind="filter" :key="i" />
+        <layout-filter v-for="(filter, i) in filters" v-bind="filter" :key="filter.id" />
 
     </div>
 </template>
@@ -80,7 +118,29 @@
             'title',
             'total',
             'filters'
-        ]
+        ],
+
+        computed: {
+
+            filtered () {
+                if (!this.filters) return false;
+                const ids = this.filters.map(filter => filter.id);
+                const values = this.$store.getters['filters/values'](ids);
+                return Object.values(values).flat().length;
+            }
+
+        },
+
+        methods: {
+
+            clear () {
+                const query = { ...this.$route.query };
+                const params = this.filters.map(filter => filter.options.param);
+                params.forEach(param => delete query[param]);
+                this.$router.push({ query });
+            }
+
+        }
 
     }
 
