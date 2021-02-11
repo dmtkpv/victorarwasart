@@ -1,8 +1,9 @@
-cd "$(dirname "$0")" # victorarwas/bash
-cd "$(pwd -P)/../"
+cd "$(dirname "$0")"
 
-# restart admin
-# restart client
-
+cd "../admin"
 npm install
-npm run build
+npm run prod daemon
+
+cd "../client"
+npm install
+npm run prod daemon
