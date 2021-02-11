@@ -33,7 +33,8 @@ export default {
     },
 
     get dehydrated () {
-        return !NODE || !document.getElementById('app').getAttribute('data-server-rendered');
+        if (NODE) return false;
+        return !document.getElementById('app').getAttribute('data-server-rendered');
     }
 
 }
