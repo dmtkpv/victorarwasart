@@ -1,4 +1,0 @@
-cd "$(dirname "$0")"
-cd "$(pwd -P)/../"
-npm install
-npm run build
