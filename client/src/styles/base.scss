@@ -43,9 +43,10 @@ body {
     line-height: 1.27;
     color: $white;
     background: $black;
-    //background: #FF0000;
 }
-
+section {
+    min-height: 100vh;
+}
 input {
     display: block;
     padding: 0;
