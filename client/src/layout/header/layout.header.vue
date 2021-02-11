@@ -73,7 +73,7 @@
                 </template>
             </div>
 
-            <layout-header-sort v-if="sortable" v-show="!menu" />
+            <header-sort v-if="sortable" v-show="!menu" />
 
             <div class="refine" v-if="mode === 'refine'">
                 <a v-show="!menu && !activeFilters.length" @click="toggle(true)">Refine</a>
@@ -87,7 +87,7 @@
 
         <!-- filters -->
 
-        <layout-header-filters
+        <header-filters
             v-model:menu="menu"
             :filters="flatFilters"
             :active="activeFilters"
@@ -118,17 +118,17 @@
 <script>
 
     import svgRight from '$svg/right'
-    import layoutFilter from '$layout/filter'
-    import layoutHeaderSort from '$layout/header/sort'
-    import layoutHeaderFilters from '$layout/header/filters'
+    import layoutFilter from '$layout/filter/layout.filter'
+    import headerSort from './header.sort'
+    import headerFilters from './header.filters'
 
     export default {
 
         components: {
             svgRight,
             layoutFilter,
-            layoutHeaderSort,
-            layoutHeaderFilters
+            headerSort,
+            headerFilters
         },
 
         props: [

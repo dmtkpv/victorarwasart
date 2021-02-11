@@ -41,17 +41,17 @@
 
         <!-- head -->
 
-        <layout-filter-head :head="head" :class="{ filtered: selected.length }">
+        <filter-head :head="head" :class="{ filtered: selected.length }">
             <a class="clear" @click.stop="clear">
                 <svg-close />
                 <span>Clear</span>
             </a>
-        </layout-filter-head>
+        </filter-head>
 
 
         <!-- list -->
 
-        <layout-filter-list :items="items" :options="options" v-slot="{ item, index }">
+        <filter-list :items="items" :options="options" v-slot="{ item, index }">
 
             <a :class="{ active: selected.includes(item.id) }" @click="select(item.id)">
                 <svg-close class="hidden" />
@@ -59,7 +59,7 @@
                 <p class="total">{{ item.total }}</p>
             </a>
 
-        </layout-filter-list>
+        </filter-list>
 
 
     </div>
@@ -75,15 +75,15 @@
 
     import $ from '$services/utils'
     import svgClose from '$svg/close'
-    import layoutFilterList from './filter.list'
-    import layoutFilterHead from './filter.head'
+    import filterList from './filter.list'
+    import filterHead from './filter.head'
 
     export default {
 
         components: {
             svgClose,
-            layoutFilterList,
-            layoutFilterHead
+            filterList,
+            filterHead
         },
 
         props: [

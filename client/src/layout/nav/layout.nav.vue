@@ -47,12 +47,12 @@
 <template>
     <nav class="l-nav">
 
-        <layout-nav-head primary @toggle="toggle(true)" />
+        <nav-head primary @toggle="toggle(true)" />
 
         <div class="l-nav-menu" v-show="opened">
-            <layout-nav-head @toggle="toggle(false)" />
-            <layout-nav-item v-for="(link, i) in nav" v-bind="link" :key="i" />
-            <layout-nav-search />
+            <nav-head @toggle="toggle(false)" />
+            <nav-item v-for="(link, i) in nav" v-bind="link" :key="i" />
+            <nav-search />
         </div>
 
     </nav>
@@ -66,16 +66,16 @@
 
 <script>
 
-    import layoutNavHead from './nav.head'
-    import layoutNavItem from './nav.item'
-    import layoutNavSearch from './nav.search'
+    import navHead from './nav.head'
+    import navItem from './nav.item'
+    import navSearch from './nav.search'
 
     export default {
 
         components: {
-            layoutNavHead,
-            layoutNavItem,
-            layoutNavSearch
+            navHead,
+            navItem,
+            navSearch
         },
 
         data () {

@@ -28,12 +28,12 @@
 
         <!-- head -->
 
-        <layout-filter-head :head="head" />
+        <filter-head :head="head" />
 
 
         <!-- list -->
 
-        <layout-filter-list :class="{ numeric: options.numeric }" :items="items" :options="options" v-slot="{ item, index }">
+        <filter-list :class="{ numeric: options.numeric }" :items="items" :options="options" v-slot="{ item, index }">
 
             <a :class="{ active: active(item) }" @click="open(item)">
                 <p class="hidden" v-if="options.numeric">{{ number(index) }}</p>
@@ -41,7 +41,7 @@
                 <p class="total" v-if="item.total">{{ item.total }}</p>
             </a>
 
-        </layout-filter-list>
+        </filter-list>
 
 
     </div>
@@ -56,15 +56,15 @@
 <script>
 
     import svgDown from '$svg/down'
-    import layoutFilterList from './filter.list'
-    import layoutFilterHead from './filter.head'
+    import filterList from './filter.list'
+    import filterHead from './filter.head'
 
     export default {
 
         components: {
             svgDown,
-            layoutFilterList,
-            layoutFilterHead
+            filterList,
+            filterHead
         },
 
         props: [
