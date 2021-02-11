@@ -1,9 +1,11 @@
 cd "$(dirname "$0")/../../"
 
-cd "../admin"
+echo "$(pwd)"
+
+cd admin
 npm install
 npm run prod daemon
 
-cd "../client"
+cd ../client
 npm install
 npm run prod daemon
