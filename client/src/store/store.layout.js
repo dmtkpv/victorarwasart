@@ -8,10 +8,10 @@ export default {
                     title: 'Artwork',
                     path: '/artwork',
                     total: getters['api/count'].artworks,
-                    filters: [
-                        getters['filter/movements'],
-                        getters['filter/types']
-                    ]
+                    filters: getters['filters/config']([
+                        'movements',
+                        'types'
+                    ]),
                 },
                 {
                     title: 'Viewing room',
@@ -22,9 +22,9 @@ export default {
                     title: 'Publications',
                     path: '/publications',
                     total: getters['api/count'].publications,
-                    filters: [
-                        getters['filter/publications']
-                    ]
+                    filters: getters['filters/config']([
+                        'publications'
+                    ])
                 },
                 {
                     title: 'Writings',

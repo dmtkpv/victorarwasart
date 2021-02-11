@@ -4,150 +4,175 @@ export default {
 
 
         // ------------------
-        // Artworks
+        // Configuration
         // ------------------
 
-        'filter/movements' (state, getters) {
-            return {
-                items: getters['api/filter/movements'],
-                mode: 'params',
-                options: {
-                    param: 'movement'
+        filters (state, getters) {
+            return [
+
+
+                // artworks
+
+                {
+                    id: 'movements',
+                    items: getters['api/filter/movements'],
+                    mode: 'params',
+                    options: {
+                        param: 'movement'
+                    },
+                    head: {
+                        name: 'Movements',
+                        total: getters['api/filter/movements'].length
+                    }
                 },
-                head: {
-                    name: 'Movements',
-                    total: getters['api/filter/movements'].length
-                }
-            }
-        },
 
-        'filter/types' (state, getters) {
-            return {
-                items: getters['api/filter/types'],
-                mode: 'params',
-                options: {
-                    param: 'type'
+                {
+                    id: 'types',
+                    items: getters['api/filter/types'],
+                    mode: 'params',
+                    options: {
+                        param: 'type'
+                    },
+                    head: {
+                        name: 'Type',
+                        total: getters['api/filter/types'].length
+                    }
                 },
-                head: {
-                    name: 'Type',
-                    total: getters['api/filter/types'].length
-                }
-            }
-        },
 
-        'filter/artists' (state, getters) {
-            return {
-                items: getters['api/filter/artists'],
-                mode: 'params',
-                options: {
-                    param: 'artist',
-                    alphabetic: true
+                {
+                    id: 'artists',
+                    items: getters['api/filter/artists'],
+                    mode: 'params',
+                    options: {
+                        param: 'artist',
+                        alphabetic: true
+                    },
+                    head: {
+                        name: 'Artists',
+                        total: getters['api/filter/artists'].length
+                    }
                 },
-                head: {
-                    name: 'Artists',
-                    total: getters['api/filter/artists'].length
-                }
-            }
-        },
 
 
+                // publications
 
-        // ------------------
-        // Publications
-        // ------------------
-
-        'filter/publications' (state, getters) {
-            return {
-                items: getters['api/filter/publications'],
-                mode: 'params',
-                options: {
-                    param: 'type'
-                }
-            }
-        },
-
-
-
-        // ------------------
-        // Search
-        // ------------------
-
-        'filter/search' (state, getters) {
-            const count = getters['api/search/count'];
-            return {
-                mode: 'params',
-                options: {
-                    param: 'type'
-                },
-                items: [{
-                    id: 'artworks',
-                    title: 'Artwork',
-                    total: count.artworks || 0
-                }, {
-                    id: 'rooms',
-                    title: 'Viewing room',
-                    total: count.rooms || 0
-                }, {
+                {
                     id: 'publications',
-                    title: 'Publications',
-                    total: count.publications || 0
-                }, {
-                    id: 'writings',
-                    title: 'Writing',
-                    total: (count.essays + count.poems + count.artists) || 0
-                }]
-            }
+                    items: getters['api/filter/publications'],
+                    mode: 'params',
+                    options: {
+                        param: 'type'
+                    }
+                },
+
+
+                // search
+
+                {
+                    id: 'search',
+                    mode: 'params',
+                    options: {
+                        param: 'type'
+                    },
+                    items: [{
+                        id: 'artworks',
+                        title: 'Artwork',
+                        total: getters['api/search/count'].artworks || 0
+                    }, {
+                        id: 'rooms',
+                        title: 'Viewing room',
+                        total: getters['api/search/count'].rooms || 0
+                    }, {
+                        id: 'publications',
+                        title: 'Publications',
+                        total: getters['api/search/count'].publications || 0
+                    }, {
+                        id: 'writings',
+                        title: 'Writing',
+                        total: (getters['api/search/count'].essays + getters['api/search/count'].poems + getters['api/search/count'].artists) || 0
+                    }]
+                },
+
+
+                // writings
+
+                {
+                    id: 'biographies',
+                    mode: 'links',
+                    options: {
+                        alphabetic: true,
+                        path: '/writings?biography='
+                    },
+                    head: {
+                        name: 'Biographies',
+                        total: getters['api/filter/artists'].length
+                    },
+                    items: getters['api/filter/artists']
+                },
+
+                {
+                    id: 'essays',
+                    mode: 'links',
+                    options: {
+                        numeric: true,
+                        path: '/writings/essay/'
+                    },
+                    head: {
+                        name: 'Essays',
+                        total: getters['api/essays'].length
+                    },
+                    items: getters['api/essays']
+                },
+
+                {
+                    id: 'poems',
+                    mode: 'links',
+                    options: {
+                        numeric: true,
+                        path: '/writings?poem='
+                    },
+                    head: {
+                        name: 'Poems',
+                        total: getters['api/poems'].length
+                    },
+                    items: getters['api/poems']
+                }
+
+            ]
         },
 
 
 
         // ------------------
-        // Writings
+        // Helpers
         // ------------------
 
-        'filter/biographies' (state, getters) {
-            return {
-                mode: 'links',
-                options: {
-                    alphabetic: true,
-                    path: '/writings?biography='
-                },
-                head: {
-                    name: 'Biographies',
-                    total: getters['api/filter/artists'].length
-                },
-                items: getters['api/filter/artists']
+        'filter/config' (state, getters) {
+            return id => getters.filters.find(filter => filter.id === id);
+        },
+
+        'filters/config' (state, getters) {
+            return ids => ids.map(id => getters['filter/config'](id));
+        },
+
+        'filter/values' (state, getters, rootState) {
+            return id => {
+                const config = getters['filter/config'](id);
+                const param = config.options.param;
+                let values = rootState.route.query[param];
+                if (!Array.isArray(values)) values = [values];
+                values = values.map(id => isNaN(id) ? id : +id);
+                values = values.filter((value, i, self) => self.indexOf(value) === i);
+                values = values.filter(value => config.items.find(item => item.id === value));
+                return values;
             }
         },
 
-        'filter/essays' (state, getters) {
-            return {
-                mode: 'links',
-                options: {
-                    numeric: true,
-                    path: '/writings/essay/'
-                },
-                head: {
-                    name: 'Essays',
-                    total: getters['api/essays'].length
-                },
-                items: getters['api/essays']
-            }
-        },
-
-        'filter/poems' (state, getters) {
-            return {
-                mode: 'links',
-                options: {
-                    numeric: true,
-                    path: '/writings?poem='
-                },
-                head: {
-                    name: 'Poems',
-                    total: getters['api/poems'].length
-                },
-                items: getters['api/poems']
-            }
+        'filters/values' (state, getters) {
+            return ids => ids.reduce((result, id) => {
+                result[id] = getters['filter/values'](id);
+                return result;
+            }, {});
         }
 
 
