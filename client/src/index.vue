@@ -52,6 +52,8 @@
             layoutFooter
         },
 
+        
+
         computed: {
 
             footer () {
