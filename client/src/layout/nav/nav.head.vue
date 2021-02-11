@@ -10,6 +10,7 @@
 
         .logo svg {
             height: 13px;
+            margin-top: 6px;
         }
 
         .toggle {

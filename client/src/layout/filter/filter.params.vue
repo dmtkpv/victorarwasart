@@ -87,6 +87,7 @@
         },
 
         props: [
+            'id',
             'head',
             'items',
             'options'
@@ -97,7 +98,7 @@
             selected: {
 
                 get () {
-                    return $.params(this.$route.query[this.options.param]);
+                    return this.$store.getters['filter/values'](this.id);
                 },
 
                 set (value) {

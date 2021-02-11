@@ -16,6 +16,7 @@
     <component
         class="l-filter"
         :is="mode"
+        :id="id"
         :head="head"
         :items="items"
         :options="options"
@@ -35,8 +36,6 @@
 
     export default {
 
-        inheritAttrs: false,
-
         components: {
             links,
             params
@@ -44,6 +43,7 @@
 
         props: [
             'mode',
+            'id',
             'head',
             'items',
             'options'
