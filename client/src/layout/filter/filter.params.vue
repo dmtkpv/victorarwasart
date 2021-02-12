@@ -70,7 +70,7 @@
 -->
 
 <script>
-    
+
     import svgClose from '$svg/close'
     import filterList from './filter.list'
     import filterHead from './filter.head'
