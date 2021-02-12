@@ -13,7 +13,7 @@
         "article": "rollup -c article/rollup.js"
     },
     "dependencies": {
-        "directus": "9.0.0-rc.34",
+        "directus": "9.0.0-rc.32",
         "html-to-text": "^6.0.0",
         "mysql": "^2.18.1"
     },
