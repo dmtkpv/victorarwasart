@@ -3,18 +3,29 @@
 -->
 
 <style lang="scss">
-
     .l-header-filters {
 
         @extend %row;
 
-        .list {
+
+
+        // --------------------
+        // Heading
+        // --------------------
+
+        .heading {
             flex: 1;
             white-space: nowrap;
             overflow-x: scroll;
             padding-right: $indent-x;
             &::-webkit-scrollbar { display: none }
         }
+
+
+
+        // --------------------
+        // Heading
+        // --------------------
 
         .cut {
 
@@ -37,12 +48,19 @@
 
         }
 
+
+
+        // --------------------
+        // Modifiers
+        // --------------------
+
         @include md-xl {
             display: none;
         }
 
-    }
 
+
+    }
 </style>
 
 
@@ -52,12 +70,12 @@
 -->
 
 <template>
-    <div class="l-header-filters" v-show="active.length">
-        <div class="list" ref="list">{{ list }}</div>
+    <div class="l-header-filters" v-show="titles.length">
+        <div class="heading" ref="heading">{{ heading }}</div>
         <div class="cut" v-show="cut">&nbsp;</div>
-        <a v-show="!menu" @click="toggle(true)">Refine</a>
+        <a v-show="!menu" @click="$emit('update:menu', true)">Refine</a>
         <a v-show="menu && !apply" @click="clear()">Clear</a>
-        <a v-show="menu && apply" @click="toggle(false)">APPLY</a>
+        <a v-show="menu && apply" @click="$emit('update:menu', false)">Apply</a>
     </div>
 </template>
 
@@ -73,8 +91,7 @@
 
         props: [
             'menu',
-            'filters',
-            'active'
+            'filters'
         ],
 
         data () {
@@ -86,18 +103,24 @@
 
         computed: {
 
-            list () {
-                return this.active.join(' + ');
+            titles () {
+                return this.filters.map(filter => {
+                    const values = this.$store.getters['filter/values'](filter.id);
+                    return values.map(id => filter.items.find(item => item.id === id).title);
+                }).flat();
+            },
+
+            heading () {
+                return this.titles.join(' + ');
             }
 
         },
 
         watch: {
 
-            active () {
+            titles () {
                 if (this.menu) this.apply = true;
                 this.$nextTick(this.setCut);
-
             },
 
             menu () {
@@ -109,21 +132,14 @@
         methods: {
 
             setCut () {
-                this.cut = this.$refs.list.offsetWidth < this.$refs.list.scrollWidth;
-            },
-
-            toggle (value) {
-                this.$emit('update:menu', value);
+                this.cut = this.$refs.heading.offsetWidth < this.$refs.heading.scrollWidth;
             },
 
             clear () {
-                this.$router.push({ query: {
-                    ...this.$route.query,
-                    ...this.filters.reduce((query, filter) => {
-                        if (filter.mode === 'params') query[filter.options.param] = [];
-                        return query;
-                    }, {})
-                }});
+                const query = { ...this.$route.query };
+                const params = this.filters.map(filter => filter.options.param);
+                params.forEach(param => delete query[param]);
+                this.$router.push({ query });
             }
 
         },

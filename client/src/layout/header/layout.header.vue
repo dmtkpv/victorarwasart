@@ -10,31 +10,6 @@
     // Head
     // --------------------
 
-    .l-header-head {
-
-        @extend %row;
-
-        .breadcrumbs {
-
-            @extend %u-row;
-            color: $red;
-            text-transform: uppercase;
-
-            svg {
-                width: 12px;
-                margin: 0 8px;
-                &:last-child { display: none }
-            }
-
-        }
-
-        @include md-xl {
-            .breadcrumbs { display: none }
-            .refine { display: none }
-        }
-
-
-    }
 
 
 
@@ -64,33 +39,20 @@
 
         <!-- head -->
 
-        <div class="l-header-head">
-
-            <div class="breadcrumbs">
-                <template v-for="item in breadcrumbs">
-                    <router-link :to="item.path" v-text="item.name" />
-                    <svg-right />
-                </template>
-            </div>
-
-            <header-sort v-if="sortable" v-show="!menu" />
-
-            <div class="refine" v-if="mode === 'refine'">
-                <a v-show="!menu && !activeFilters.length" @click="toggle(true)">Refine</a>
-                <a v-show="menu" @click="toggle(false)">Close</a>
-            </div>
-
-            <a v-if="mode === 'back'">Close</a>
-
-        </div>
+        <header-head
+            :mode="mode"
+            :sort="sort"
+            :breadcrumbs="breadcrumbs"
+            :filters="filtersFlat"
+            :menu.sync="menu"
+        />
 
 
         <!-- filters -->
 
         <header-filters
-            v-model:menu="menu"
-            :filters="flatFilters"
-            :active="activeFilters"
+            :filters="filtersFlat"
+            :menu.sync="menu"
         />
 
 
@@ -119,6 +81,7 @@
 
     import svgRight from '$svg/right'
     import layoutFilter from '$layout/filter/layout.filter'
+    import headerHead from './header.head'
     import headerSort from './header.sort'
     import headerFilters from './header.filters'
 
@@ -127,13 +90,14 @@
         components: {
             svgRight,
             layoutFilter,
+            headerHead,
             headerSort,
             headerFilters
         },
 
         props: [
             'mode',
-            'sortable',
+            'sort',
             'breadcrumbs',
             'filters'
         ],
@@ -146,22 +110,14 @@
 
         computed: {
 
-            flatFilters () {
-                return this.filters.reduce((result, filter) => {
-                    if (Array.isArray(filter)) result = result.concat(filter);
-                    else result.push(filter);
-                    return result;
-                }, []);
+            filtersFlat () {
+                return this.filters.flat();
             },
 
-            activeFilters () {
-                return this.flatFilters.reduce((result, filter) => {
-                    if (filter.mode !== 'params') return result;
-                    let active = this.$route.query[filter.options.param] || [];
-                    if (!Array.isArray(active)) active = [active];
-                    active = active.filter(name => filter.items.find(item => item.name === name));
-                    return result.concat(active);
-                }, []);
+            filterTitles () {
+                const ids = this.filters.flat().map(filter => filter.id);
+                const values = this.$store.getters['filters/values'](ids);
+                return Object.keys(values).map()
             }
 
         },
