@@ -2,7 +2,7 @@
 // Imports
 // ------------------
 
-// import home from '$routes/home'
+import home from '$routes/route.home'
 import artworks from '$routes/route.artworks'
 // import Router from "vue-router";
 // import room from '@/components/routes/room/route.room.vue'
@@ -23,10 +23,10 @@ import artworks from '$routes/route.artworks'
 // ------------------
 
 export default [
-    // // {
-    // //     path: '/',
-    // //     component: home
-    // // },
+    {
+        path: '/',
+        component: home
+    },
     {
         path: '/artwork',
         component: artworks,

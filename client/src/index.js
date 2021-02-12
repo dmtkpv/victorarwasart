@@ -39,7 +39,6 @@ Vue.use(VueRouter);
 // Initialization
 // ------------------
 
-
 export default function init () {
 
     const axios = Axios({ baseURL });
