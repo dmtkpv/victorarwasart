@@ -1,4 +1,4 @@
-export default {
+export default () => ({
     getters: {
 
         'layout/nav' (state, getters) {
@@ -45,4 +45,4 @@ export default {
         }
 
     }
-}
+})

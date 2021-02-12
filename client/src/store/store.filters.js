@@ -1,4 +1,4 @@
-export default {
+export default () => ({
     getters: {
 
 
@@ -156,10 +156,11 @@ export default {
         },
 
         'filter/values' (state, getters, rootState) {
-            return (id, route = rootState.route) => {
+            return (id, query = rootState.route.query) => {
+                // console.log(id, query)
                 const config = getters['filter/config'](id);
                 const param = config.options.param;
-                let values = route.query[param];
+                let values = query[param];
                 if (!Array.isArray(values)) values = [values];
                 values = values.map(id => isNaN(id) ? id : +id);
                 values = values.filter((value, i, self) => self.indexOf(value) === i);
@@ -169,8 +170,8 @@ export default {
         },
 
         'filters/values' (state, getters) {
-            return (ids, route) => ids.reduce((result, id) => {
-                result[id] = getters['filter/values'](id, route);
+            return (ids, query) => ids.reduce((result, id) => {
+                result[id] = getters['filter/values'](id, query);
                 return result;
             }, {});
         }
@@ -178,4 +179,4 @@ export default {
 
 
     }
-}
+});

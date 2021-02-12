@@ -16,9 +16,9 @@ import layout from '$store/store.layout'
 export default function (context) {
     return new Vuex.Store({
         modules: {
-            api,
-            filter,
-            layout
+            api: api(),
+            filter: filter(),
+            layout: layout()
         },
         plugins: [
             store => Object.assign(store, context)
