@@ -157,7 +157,6 @@ export default () => ({
 
         'filter/values' (state, getters, rootState) {
             return (id, query = rootState.route.query) => {
-                // console.log(id, query)
                 const config = getters['filter/config'](id);
                 const param = config.options.param;
                 let values = query[param];
