@@ -1,5 +1,38 @@
 import $ from '$services/utils';
 
+const fields = {
+
+    'artworks': [
+        'id',
+        'title',
+        'artist.name',
+        'artist.lifetime',
+        'image.id',
+        'image.width',
+        'image.height',
+        'year',
+        'technique',
+        'dimensions',
+        'reference',
+        'note'
+    ],
+
+    'artworks/item': [
+        'id',
+        'title',
+        'artist.name',
+        'artist.lifetime',
+        'image.id',
+        'year',
+        'technique',
+        'dimensions',
+        'reference',
+        'note',
+        'additional_images.directus_files_id'
+    ]
+
+}
+
 export default {
 
 
@@ -55,7 +88,10 @@ export default {
         return {
             url: '/items/home',
             params: {
-                fields: 'artworks.artworks_id.*'
+                fields: fields['artworks/item'].map(field => `artworks.artworks_id.${field}`).join(',')
+            },
+            transform (response) {
+                return response.artworks.map(item => item.artworks_id);
             }
         }
     },
@@ -64,7 +100,7 @@ export default {
         return {
             url: '/items/artworks',
             params: {
-                fields: 'id,title,artist.name,artist.lifetime,image.id,image.width,image.height,year,technique,dimensions,reference,note',
+                fields: fields['artworks'].join(','),
                 'filter[types][artwork_types_id][_in]': $.filter(types),
                 'filter[movements][artwork_movements_id][_in]': $.filter(movements),
                 'filter[artist][id][_in]': $.filter(artists),
@@ -77,7 +113,7 @@ export default {
         return {
             url: '/items/artworks/' + id,
             params: {
-                fields: 'id,title,artist.name,artist.lifetime,image.id,image.width,image.height,year,technique,dimensions,reference,note,additional_images.*.*',
+                fields: fields['artworks/item'].join(','),
             },
             default: {}
         }
