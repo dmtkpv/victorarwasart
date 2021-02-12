@@ -79,7 +79,7 @@
     ]
 
     function getParams (ctx, route = ctx.$route) {
-        const values = ctx.$store.getters['filters/values'](filters, route);
+        const values = ctx.$store.getters['filters/values'](filters, route.query);
         const params = { sort: route.query.sort, ...values };
         return Object.assign({ limit: 50, offset: 0 }, params);
     }
@@ -136,7 +136,6 @@
 
             update () {
                 this.params = getParams(this);
-                console.log(this.params);
                 this.$store.commit('cancel', 'artworks');
                 this.$store.dispatch('request', ['artworks', this.params]);
             },
@@ -155,14 +154,15 @@
 
         },
 
-        beforeRouteEnter (to, from, next) {
+        async beforeRouteEnter (to, from, next) {
             if ($.dehydrated) this.$store.commit('cancel', 'artworks');
-            Promise.all([
+            await Promise.all([
                 this.$store.dispatch('request', 'filter/movements'),
                 this.$store.dispatch('request', 'filter/types'),
-                this.$store.dispatch('request', 'filter/artists'),
-                this.$store.dispatch('request', ['artworks', getParams(this, to)])
-            ]).then(next);
+                this.$store.dispatch('request', 'filter/artists')
+            ]);
+            await this.$store.dispatch('request', ['artworks', getParams(this, to)]);
+            next();
         },
 
         created () {

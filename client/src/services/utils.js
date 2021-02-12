@@ -28,7 +28,7 @@ export default {
     },
 
     filter (values) {
-        return values.length ? values.join(',') : undefined;
+        return values && values.length ? values.join(',') : undefined;
     },
 
     get dehydrated () {
