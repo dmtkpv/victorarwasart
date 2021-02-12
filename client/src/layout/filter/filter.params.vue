@@ -3,7 +3,6 @@
 -->
 
 <style lang="scss">
-
     .l-filter--params .l-filter-head {
 
         .clear {
@@ -26,7 +25,6 @@
         }
 
     }
-
 </style>
 
 
@@ -72,8 +70,7 @@
 -->
 
 <script>
-
-    import $ from '$services/utils'
+    
     import svgClose from '$svg/close'
     import filterList from './filter.list'
     import filterHead from './filter.head'

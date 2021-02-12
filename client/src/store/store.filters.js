@@ -21,7 +21,7 @@ export default {
                         param: 'movement'
                     },
                     head: {
-                        name: 'Movements',
+                        title: 'Movements',
                         total: getters['api/filter/movements'].length
                     }
                 },
@@ -34,7 +34,7 @@ export default {
                         param: 'type'
                     },
                     head: {
-                        name: 'Type',
+                        title: 'Type',
                         total: getters['api/filter/types'].length
                     }
                 },
@@ -48,7 +48,7 @@ export default {
                         alphabetic: true
                     },
                     head: {
-                        name: 'Artists',
+                        title: 'Artists',
                         total: getters['api/filter/artists'].length
                     }
                 },
@@ -104,7 +104,7 @@ export default {
                         path: '/writings?biography='
                     },
                     head: {
-                        name: 'Biographies',
+                        title: 'Biographies',
                         total: getters['api/filter/artists'].length
                     },
                     items: getters['api/filter/artists']
@@ -118,7 +118,7 @@ export default {
                         path: '/writings/essay/'
                     },
                     head: {
-                        name: 'Essays',
+                        title: 'Essays',
                         total: getters['api/essays'].length
                     },
                     items: getters['api/essays']

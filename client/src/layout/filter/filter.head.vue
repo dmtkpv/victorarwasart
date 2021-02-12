@@ -3,8 +3,6 @@
 -->
 
 <style lang="scss">
-
-
     .l-filter-head {
 
         @extend %row;
@@ -15,7 +13,7 @@
             flex: 1;
         }
 
-        .name {
+        .title {
             flex: 1;
             text-transform: uppercase;
         }
@@ -35,15 +33,13 @@
 
         @include sm {
             padding-top: 60px;
-            .name { font-size: 30px }
+            .title { font-size: 30px }
             &:not(.active) .total { display: block }
             &:not(.active) + .l-filter-list { display: none }
             &.active .close { display: block }
-
         }
 
     }
-
 </style>
 
 
@@ -55,7 +51,7 @@
 <template>
     <div class="l-filter-head" v-if="head" :class="{ active }">
         <a class="toggle" @click="toggle()">
-            <p class="name">{{ head.name }}</p>
+            <p class="title">{{ head.title }}</p>
             <p class="total">{{ head.total }}</p>
             <svg-down class="close" />
         </a>
