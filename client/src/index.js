@@ -27,6 +27,8 @@ const baseURL = 'http://93.188.166.42:49012'
 // Vue config
 // ------------------
 
+Vue.config.devtools = false;
+Vue.config.productionTip = false;
 Vue.prototype.baseURL = baseURL;
 Vue.use(Vuex);
 Vue.use(VueRouter);
