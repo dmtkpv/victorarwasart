@@ -4,12 +4,31 @@
 
 <style lang="scss">
 
-    .l-grid {
+
+
+    // --------------------
+    // Line
+    // --------------------
+
+    .l-masonry-line {
+        @extend %line;
+        &:before { margin-left: 0 }
+    }
+
+
+
+    // --------------------
+    // Grid
+    // --------------------
+
+    .l-masonry-grid {
 
         display: flex;
         flex-flow: column wrap;
         align-content: flex-start;
         overflow: hidden;
+
+        & > * { order: 99999; }
 
         &[col="1"] > * { width: 100% };
         &[col="2"] > * { width: 50% };
@@ -17,9 +36,6 @@
         &[col="4"] > * { width: 25% };
         &[col="5"] > * { width: 20% };
 
-    }
-    .l-grid > * {
-        order: 99999;
     }
 
 
@@ -33,8 +49,11 @@
 -->
 
 <template>
-    <div class="l-grid" :col="cols">
-        <slot />
+    <div class="l-masonry">
+        <div class="l-masonry-line" v-for="col in cols" />
+        <div class="l-masonry-grid" ref="grid" :col="cols">
+            <slot />
+        </div>
     </div>
 </template>
 
@@ -69,7 +88,7 @@
         methods: {
 
             setTiles () {
-                this.tiles = [...this.$el.children];
+                this.tiles = [...this.$refs.grid.children];
             },
 
             resize () {
@@ -91,7 +110,7 @@
                     this.columns[col].push(i);
                 });
 
-                this.$el.style.height = Math.max(...this.heights) + 1 + 'px';
+                this.$refs.grid.style.height = Math.max(...this.heights) + 1 + 'px';
 
                 this.columns.flat().forEach((index, i) => {
                     this.tiles[index].style.order = i;
@@ -112,7 +131,7 @@
                 const scrollTop = mutations.some(mutation => {
                     if (mutation.removedNodes.length) return true;
                     const added = [...mutation.addedNodes];
-                    const children = [...this.$el.children];
+                    const children = [...this.$refs.grid.children];
                     return added.some(node => children.indexOf(node) < this.tiles.length);
                 })
                 this.setTiles();
@@ -140,7 +159,7 @@
             this.setTiles();
             this.resize();
             this.observer = new MutationObserver(this.observe);
-            this.observer.observe(this.$el, { childList: true });
+            this.observer.observe(this.$refs.grid, { childList: true });
             window.addEventListener('resize', this.resize);
             document.addEventListener('scroll', this.scroll);
 

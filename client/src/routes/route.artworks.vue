@@ -29,10 +29,13 @@
     // Section
     // --------------------
 
-    .l-grid {
+    .l-masonry {
 
-        @extend %line;
-        &:before { margin-left: 0 }
+        ::v-deep .l-masonry-line {
+            &:nth-child(1):before { left: calc(#{$column-width} * 2); }
+            &:nth-child(2):before { left: calc(#{$column-width} * 3); }
+            &:nth-child(3):before { left: calc(#{$column-width} * 4); }
+        }
 
         @include md-xl {
             padding-left: calc(#{$column-width} * 2);
@@ -53,9 +56,9 @@
 <template>
     <section>
         <layout-header v-bind="header" />
-        <layout-grid :grid="grid" @more="more">
+        <layout-masonry :grid="grid" @more="more">
             <tile-artwork v-for="item in artworks" v-bind="item" :key="item.id" />
-        </layout-grid>
+        </layout-masonry>
     </section>
 </template>
 
@@ -69,7 +72,7 @@
 
     import $ from '$services/utils'
     import layoutHeader from '$layout/header/layout.header'
-    import layoutGrid from '$layout/grid'
+    import layoutMasonry from '$layout/layout.masonry'
     import tileArtwork from '$tiles/tile.artwork'
 
     const filters = [
@@ -88,7 +91,7 @@
 
         components: {
             layoutHeader,
-            layoutGrid,
+            layoutMasonry,
             tileArtwork
         },
 
