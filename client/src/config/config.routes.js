@@ -3,7 +3,7 @@
 // ------------------
 
 // import home from '$routes/home'
-// import artwork from '$routes/artwork'
+import artworks from '$routes/route.artworks'
 // import Router from "vue-router";
 // import room from '@/components/routes/room/route.room.vue'
 // import publications from '$routes/publications'
@@ -27,13 +27,13 @@ export default [
     // //     path: '/',
     // //     component: home
     // // },
-    // {
-    //     path: '/artwork',
-    //     component: artwork,
-    //     meta: {
-    //         footer: true
-    //     }
-    // },
+    {
+        path: '/artwork',
+        component: artworks,
+        meta: {
+            footer: true
+        }
+    },
     // // {
     // //     path: '/viewing-room',
     // //     component: { }

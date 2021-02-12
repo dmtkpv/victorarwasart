@@ -29,7 +29,7 @@
 <template>
     <div id="app">
         <layout-nav />
-<!--        <router-view />-->
+        <router-view />
 <!--        <layout-footer v-if="footer" />-->
     </div>
 </template>

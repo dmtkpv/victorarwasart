@@ -60,14 +60,14 @@ export default {
         }
     },
 
-    'artworks' ({ type, movement, artist, sort, offset, limit }) {
+    'artworks' ({ types, movements, artists, sort, offset, limit }) {
         return {
             url: '/items/artworks',
             params: {
                 fields: 'id,title,artist.name,artist.lifetime,image.id,image.width,image.height,year,technique,dimensions,reference,note',
-                'filter[types][artwork_types_id][_in]': $.filter(type),
-                'filter[movements][artwork_movements_id][_in]': $.filter(movement),
-                'filter[artist][id][_in]': $.filter(artist),
+                'filter[types][artwork_types_id][_in]': $.filter(types),
+                'filter[movements][artwork_movements_id][_in]': $.filter(movements),
+                'filter[artist][id][_in]': $.filter(artists),
                 offset, limit, sort
             }
         }

@@ -29,7 +29,7 @@
     // Section
     // --------------------
 
-    .l-section {
+    .l-grid {
 
         @extend %line;
         &:before { margin-left: 0 }
@@ -51,14 +51,12 @@
 -->
 
 <template>
-    <div>
-        <layout-header v-if="header" v-bind="header" />
-        <layout-section>
-            <layout-grid :grid="grid" @more="more">
-                <tile-artwork v-for="item in artworks" v-bind="item" :key="item.id" />
-            </layout-grid>
-        </layout-section>
-    </div>
+    <section>
+        <layout-header v-bind="header" />
+        <layout-grid :grid="grid" @more="more">
+            <tile-artwork v-for="item in artworks" v-bind="item" :key="item.id" />
+        </layout-grid>
+    </section>
 </template>
 
 
@@ -69,20 +67,27 @@
 
 <script>
 
-    import layoutHeader from '$layout/header'
-    import layoutSection from '$layout/section'
+    import $ from '$services/utils'
+    import layoutHeader from '$layout/header/layout.header'
     import layoutGrid from '$layout/grid'
-    import tileArtwork from '$tiles/artwork'
+    import tileArtwork from '$tiles/tile.artwork'
 
-    function getParams (route) {
-        return Object.assign({ limit: 50, offset: 0 }, route.query)
+    const filters = [
+        'movements',
+        'types',
+        'artists'
+    ]
+
+    function getParams (ctx, route = ctx.$route) {
+        const values = ctx.$store.getters['filters/values'](filters, route);
+        const params = { sort: route.query.sort, ...values };
+        return Object.assign({ limit: 50, offset: 0 }, params);
     }
 
     export default {
 
         components: {
             layoutHeader,
-            layoutSection,
             layoutGrid,
             tileArtwork
         },
@@ -102,7 +107,23 @@
         computed: {
 
             header () {
-                return this.$store.getters['layout/artworks/header'];
+                return {
+                    mode: 'refine',
+                    sortable: true,
+                    filters: this.$store.getters['filters/config']([
+                        'movements',
+                        'types',
+                        'artists'
+                    ]),
+                    sort: [
+                        { title: 'New' },
+                        { title: 'A-Z', value: 'title' },
+                        { title: 'Year', value: '-year'}
+                    ],
+                    breadcrumbs: [
+                        { title: 'Artwork', path: '/artwork' }
+                    ]
+                }
             },
 
             artworks () {
@@ -114,7 +135,8 @@
         methods: {
 
             update () {
-                this.params = getParams(this.$route);
+                this.params = getParams(this);
+                console.log(this.params);
                 this.$store.commit('cancel', 'artworks');
                 this.$store.dispatch('request', ['artworks', this.params]);
             },
@@ -134,29 +156,17 @@
         },
 
         beforeRouteEnter (to, from, next) {
-            if (this.artworks) this.$store.commit('cancel', 'artworks');
-            if (!NODE) this.artworks = true;
+            if ($.dehydrated) this.$store.commit('cancel', 'artworks');
             Promise.all([
                 this.$store.dispatch('request', 'filter/movements'),
                 this.$store.dispatch('request', 'filter/types'),
                 this.$store.dispatch('request', 'filter/artists'),
-                this.$store.dispatch('request', ['artworks', getParams(to)])
-            ]).then(next);
-        },
-
-        _beforeRouteEnter (to, from, next) {
-            if (this.artworks) this.$store.commit('cancel', 'artworks');
-            if (!NODE) this.artworks = true;
-            Promise.all([
-                this.$store.dispatch('filter/movements'),
-                this.$store.dispatch('filter/types'),
-                this.$store.dispatch('filter/artists'),
-                this.$store.dispatch('artworks', getParams(to))
+                this.$store.dispatch('request', ['artworks', getParams(this, to)])
             ]).then(next);
         },
 
         created () {
-            this.params = getParams(this.$route);
+            this.params = getParams(this);
         }
 
     }

@@ -47,7 +47,7 @@
 
 <script>
 
-    import vars from 'unitless!$css/abstract/vars'
+    import vars from 'unitless!$styles/abstract/vars'
 
     export default {
 

@@ -27,9 +27,8 @@ export default {
         return params;
     },
 
-    filter (params) {
-        const arr = this.params(params);
-        return arr.length ? arr.join(',') : undefined;
+    filter (values) {
+        return values.length ? values.join(',') : undefined;
     },
 
     get dehydrated () {
