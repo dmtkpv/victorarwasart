@@ -15,8 +15,13 @@
             }
         }
 
-        .text {
-            @extend %padding;
+        @include md-xl {
+            .text { padding: $indent-x $indent-x 140px $indent-x; }
+        }
+
+        @include sm {
+            padding: $indent-y $indent-x 140px $indent-x;
+            .text { padding-top: $indent-y; }
         }
 
     }
