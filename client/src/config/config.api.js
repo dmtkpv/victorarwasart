@@ -73,6 +73,16 @@ export default {
         }
     },
 
+    'artworks/item' (id) {
+        return {
+            url: '/items/artworks/' + id,
+            params: {
+                fields: 'id,title,artist.name,artist.lifetime,image.id,image.width,image.height,year,technique,dimensions,reference,note,additional_images.*.*',
+            },
+            default: {}
+        }
+    },
+
     'rooms' () {
         return {
             url: '/items/viewing_room'

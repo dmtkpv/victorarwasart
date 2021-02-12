@@ -37,9 +37,9 @@
 <template>
     <div class="t-artwork">
 
-        <div class="image" :style="{paddingTop: image.height / image.width * 100 + '%'}">
+        <a class="image" :style="{paddingTop: image.height / image.width * 100 + '%'}" @click="modal">
             <img class="u-stretch" :src="`${baseURL}/assets/${image.id}`">
-        </div>
+        </a>
 
         <div class="text">
             <p v-if="artist">{{ artist.name }}, {{ artist.lifetime }}</p>
@@ -75,7 +75,15 @@
             'dimensions',
             'reference',
             'note'
-        ]
+        ],
+
+        methods: {
+
+            modal () {
+                this.$router.push({ query: { ...this.$route.query, modal_artwork: this.id } })
+            }
+
+        }
 
     }
 

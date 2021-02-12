@@ -9,6 +9,7 @@
         .l-header  { z-index: 2 }
         .l-section { z-index: 3 }
         .l-footer  { z-index: 4 }
+        .l-modal   { z-index: 5 }
     }
 
     @include sm {
@@ -16,6 +17,7 @@
         .l-header  { z-index: 4 }
         .l-section { z-index: 1 }
         .l-footer  { z-index: 2 }
+        .l-modal   { z-index: 5 }
     }
 
 </style>
@@ -30,6 +32,7 @@
     <div id="app">
         <layout-nav />
         <router-view />
+        <layout-modal />
 <!--        <layout-footer v-if="footer" />-->
     </div>
 </template>
@@ -44,12 +47,14 @@
 
     import layoutNav from '$layout/nav/layout.nav'
     import layoutFooter from '$layout/footer/layout.footer'
+    import layoutModal from '$layout/modal/layout.modal'
 
     export default {
 
         components: {
             layoutNav,
-            layoutFooter
+            layoutFooter,
+            layoutModal
         },
 
         computed: {
