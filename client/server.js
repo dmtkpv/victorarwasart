@@ -70,6 +70,8 @@ const SSR = {
 
     init (app) {
         app.get('*', async (req, res, next) => {
+            console.log('-----------------------------')
+            console.log(req.url)
             SSR.render(req.url).then(html => res.send(html)).catch(next);
         });
     }
