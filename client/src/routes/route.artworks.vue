@@ -119,7 +119,6 @@
             header () {
                 return {
                     mode: 'refine',
-                    sortable: true,
                     filters: this.filters,
                     sort: [
                         { title: 'New' },

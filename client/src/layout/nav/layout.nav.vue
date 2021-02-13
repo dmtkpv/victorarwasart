@@ -122,6 +122,14 @@
 
         },
 
+        watch: {
+
+            '$route.path' () {
+                this.opened = false;
+            }
+
+        },
+
         async serverPrefetch () {
             return Promise.all([
                 this.$store.dispatch('request', 'count'),
