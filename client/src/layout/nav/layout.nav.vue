@@ -75,7 +75,7 @@
 
 <script>
 
-    import { fix } from '$services/mixins'
+    import { fix, setScroll } from '$services/mixins'
     import navHead from './nav.head'
     import navItem from './nav.item'
     import navSearch from './nav.search'
@@ -89,13 +89,10 @@
         },
 
         mixins: [
+            setScroll('nav', 'opened'),
             fix({
-                minTop () {
-                    return -this.height('$nav') - this.height('$header')
-                },
-                maxTop () {
-                    return 0
-                }
+                minTop () { return -this.height('$nav') - this.height('$header') },
+                maxTop () { return 0 }
             })
         ],
 
@@ -117,7 +114,6 @@
 
             toggle (value) {
                 this.opened = value;
-                // nav -> true
             }
 
         },

@@ -1,5 +1,8 @@
-export function fix ({ minTop, maxTop }) {
+// ------------------
+// Fix
+// ------------------
 
+export function fix ({ minTop, maxTop }) {
     return {
 
         data () {
@@ -65,5 +68,43 @@ export function fix ({ minTop, maxTop }) {
             this.scroll();
             window.addEventListener('scroll', this.scroll);
         }
+    }
+}
+
+
+
+// ------------------
+// Fix
+// ------------------
+
+import cssVars from 'unitless!$styles/abstract/vars'
+
+export function setScroll (key, param) {
+    return {
+
+        methods: {
+
+            resize () {
+                if (window.innerWidth > cssVars.smMax) this[param] = false;
+            }
+
+        },
+
+        watch: {
+
+            [param] (value) {
+                this.$store.commit('scroll/set', { [key]: value });
+            }
+
+        },
+
+        mounted () {
+            window.addEventListener('resize', this.resize);
+        },
+
+        destroyed () {
+            window.removeEventListener('resize', this.resize);
+        }
+
     }
 }
