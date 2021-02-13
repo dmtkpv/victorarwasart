@@ -29,7 +29,7 @@
         }
         @include md {
             &:not(:first-child) {
-                margin-top: 36px;
+                margin-top: 64px;
             }
         }
     }

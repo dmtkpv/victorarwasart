@@ -82,14 +82,15 @@ export default {
         return {
             url: '/items/artists',
             params: {
-                fields: 'id,name,artworks,note'
+                fields: 'id,name,artworks,note',
+                limit: -1
             },
             transform (items) {
-                return items.filter(item => item.artworks).map(item => {
+                return items.map(item => {
                     return {
                         id: item.id,
                         title: item.name,
-                        total: item.artworks.length,
+                        total: item.artworks && item.artworks.length,
                         note: item.note
                     }
                 })

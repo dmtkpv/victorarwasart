@@ -35,7 +35,7 @@ export default () => ({
             return {
                 id: 'a3',
                 mode: 'params',
-                items: getters['api/filter/artists'],
+                items: getters['api/filter/artists'].filter(item => item.total),
                 options: {
                     alphabetic: true
                 },
@@ -104,7 +104,7 @@ export default () => ({
                 items: getters['api/filter/artists'],
                 options: {
                     alphabetic: true,
-                    path: '/writings?biography=',
+                    path: '/writings/biography=',
                 },
                 head: {
                     title: 'Biographies',

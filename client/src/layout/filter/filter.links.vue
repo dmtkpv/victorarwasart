@@ -6,12 +6,12 @@
 
     .l-filter--links {
 
-        .numeric {
-
-            .l-filter-item:not(:last-child) { margin-bottom: $indent-x }
-            a { align-items: flex-start }
+        @include md-xl {
+            .numeric .l-filter-item {
+                a { align-items: flex-start }
+                &:not(:last-child) a { margin-bottom: $indent-x }
+            }
         }
-
     }
 
 </style>
