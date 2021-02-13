@@ -11,8 +11,17 @@
     // --------------------
 
     .l-nav {
+
         @extend %col;
         @include md-xl { padding: $indent-y $indent-x; }
+        background: $black;
+
+        @include sm {
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+
     }
 
 
@@ -66,6 +75,7 @@
 
 <script>
 
+    import { fix } from '$services/mixins'
     import navHead from './nav.head'
     import navItem from './nav.item'
     import navSearch from './nav.search'
@@ -77,6 +87,17 @@
             navItem,
             navSearch
         },
+
+        mixins: [
+            fix({
+                minTop () {
+                    return -this.height('$nav') - this.height('$header')
+                },
+                maxTop () {
+                    return 0
+                }
+            })
+        ],
 
         data () {
             return {
@@ -96,6 +117,7 @@
 
             toggle (value) {
                 this.opened = value;
+                // nav -> true
             }
 
         },

@@ -29,6 +29,7 @@ function bind (context) {
 export default function (context) {
     return new VueRouter({
         mode: 'history',
-        routes: bind(context)
+        routes: bind(context),
+        scrollBehavior: () => ({ x: 0, y: 0 })
     })
 }

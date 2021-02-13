@@ -10,6 +10,16 @@
     // Head
     // --------------------
 
+    .l-header {
+
+        background: $black;
+
+        @include sm {
+            position: absolute;
+            top: 60px;
+            width: 100%;
+        }
+    }
 
 
 
@@ -79,6 +89,7 @@
 
 <script>
 
+    import { fix } from '$services/mixins'
     import svgRight from '$svg/right'
     import layoutFilter from '$layout/filter/layout.filter'
     import headerHead from './header.head'
@@ -94,6 +105,17 @@
             headerSort,
             headerFilters
         },
+
+        mixins: [
+            fix({
+                minTop () {
+                    return -this.height('$header')
+                },
+                maxTop () {
+                    return this.height('$nav')
+                }
+            })
+        ],
 
         props: [
             'mode',

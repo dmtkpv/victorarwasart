@@ -3,23 +3,31 @@
 -->
 
 <style lang="scss">
+    #app {
 
-    @include md-xl {
-        .l-nav     { z-index: 1 }
-        .l-header  { z-index: 2 }
-        .l-section { z-index: 3 }
-        .l-footer  { z-index: 4 }
-        .l-modal   { z-index: 5 }
+        height: 100%;
+
+        .l-section {
+            min-height: 100% ;
+        }
+
+        @include md-xl {
+            .l-nav     { z-index: 1 }
+            .l-header  { z-index: 2 }
+            .l-section { z-index: 3 }
+            .l-footer  { z-index: 4 }
+            .l-modal   { z-index: 5 }
+        }
+
+        @include sm {
+            .l-nav     { z-index: 3 }
+            .l-header  { z-index: 4 }
+            .l-section { z-index: 1 }
+            .l-footer  { z-index: 2 }
+            .l-modal   { z-index: 5 }
+        }
+
     }
-
-    @include sm {
-        .l-nav     { z-index: 3 }
-        .l-header  { z-index: 4 }
-        .l-section { z-index: 1 }
-        .l-footer  { z-index: 2 }
-        .l-modal   { z-index: 5 }
-    }
-
 </style>
 
 
@@ -31,7 +39,7 @@
 <template>
     <div id="app">
         <layout-nav />
-        <router-view />
+        <router-view class="l-section" />
         <layout-modal />
 <!--        <layout-footer v-if="footer" />-->
     </div>

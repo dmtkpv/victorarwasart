@@ -14,9 +14,9 @@
 
         @extend %col;
         @extend %line;
-        left: $column-width;
 
         @include md-xl {
+            left: $column-width;
             padding: $indent-y $indent-x;
             ::v-deep .l-filter:not(:last-child) { display: none }
         }
