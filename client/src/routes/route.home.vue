@@ -4,9 +4,15 @@
 
 <style lang="scss" scoped>
 
-    section {
 
-        height: 100vh;
+
+    // --------------------
+    // Section
+    // --------------------
+
+    .l-section {
+
+        height: 100%;
 
         @extend %line;
         &:before { margin-left: 0 }
@@ -17,9 +23,17 @@
 
     }
 
+
+
+    // --------------------
+    // Artwork
+    // --------------------
+
     .l-artwork {
         height: 100%;
     }
+
+
 
 </style>
 
@@ -30,9 +44,9 @@
 -->
 
 <template>
-    <section>
+    <layout-section>
         <layout-artwork v-bind="artwork" />
-    </section>
+    </layout-section>
 </template>
 
 
@@ -43,11 +57,13 @@
 
 <script>
 
+    import layoutSection from '$layout/layout.section'
     import layoutArtwork from '$layout/layout.artwork'
 
     export default {
 
         components: {
+            layoutSection,
             layoutArtwork
         },
 

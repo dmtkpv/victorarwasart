@@ -54,12 +54,12 @@
 -->
 
 <template>
-    <section>
+    <layout-section>
         <layout-header v-bind="header" />
         <layout-masonry :grid="grid" @more="more">
             <tile-artwork v-for="item in artworks" v-bind="item" :key="item.id" />
         </layout-masonry>
-    </section>
+    </layout-section>
 </template>
 
 
@@ -71,6 +71,7 @@
 <script>
 
     import $ from '$services/utils'
+    import layoutSection from '$layout/layout.section'
     import layoutHeader from '$layout/header/layout.header'
     import layoutMasonry from '$layout/layout.masonry'
     import tileArtwork from '$tiles/tile.artwork'
@@ -95,6 +96,7 @@
     export default {
 
         components: {
+            layoutSection,
             layoutHeader,
             layoutMasonry,
             tileArtwork

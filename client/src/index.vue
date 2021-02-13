@@ -7,10 +7,6 @@
 
         height: 100%;
 
-        .l-section {
-            min-height: 100% ;
-        }
-
         @include md-xl {
             .l-nav     { z-index: 1 }
             .l-header  { z-index: 2 }
@@ -20,8 +16,8 @@
         }
 
         @include sm {
-            .l-nav     { z-index: 3 }
-            .l-header  { z-index: 4 }
+            .l-nav     { z-index: 4 }
+            .l-header  { z-index: 3 }
             .l-section { z-index: 1 }
             .l-footer  { z-index: 2 }
             .l-modal   { z-index: 5 }
@@ -39,7 +35,7 @@
 <template>
     <div id="app">
         <layout-nav />
-        <router-view class="l-section" />
+        <router-view />
         <layout-modal />
 <!--        <layout-footer v-if="footer" />-->
     </div>
