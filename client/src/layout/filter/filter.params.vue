@@ -71,6 +71,7 @@
 
 <script>
 
+    import $ from '$services/utils'
     import svgClose from '$svg/close'
     import filterList from './filter.list'
     import filterHead from './filter.head'
@@ -95,11 +96,11 @@
             selected: {
 
                 get () {
-                    return this.$store.getters['filter/values'](this.id);
+                    return $.filter({ id: this.id, items: this.items }, this.$route.query);
                 },
 
                 set (value) {
-                    this.$router.push({ query: { ...this.$route.query, [this.options.param]: value }});
+                    this.$router.push({ query: { ...this.$route.query, [this.id]: value }});
                 }
 
             }

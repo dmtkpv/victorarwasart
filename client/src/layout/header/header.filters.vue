@@ -87,6 +87,8 @@
 
 <script>
 
+    import $ from '$services/utils'
+
     export default {
 
         props: [
@@ -104,9 +106,9 @@
         computed: {
 
             titles () {
-                return this.filters.map(filter => {
-                    const values = this.$store.getters['filter/values'](filter.id);
-                    return values.map(id => filter.items.find(item => item.id === id).title);
+                return this.filters.map(config => {
+                    const values = $.filter(config, this.$route.query);
+                    return values.map(id => config.items.find(item => item.id === id).title);
                 }).flat();
             },
 
@@ -137,8 +139,7 @@
 
             clear () {
                 const query = { ...this.$route.query };
-                const params = this.filters.map(filter => filter.options.param);
-                params.forEach(param => delete query[param]);
+                this.filters.forEach(config => delete query[config.id]);
                 this.$router.push({ query });
             }
 

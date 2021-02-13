@@ -112,12 +112,6 @@
 
             filtersFlat () {
                 return this.filters.flat();
-            },
-
-            filterTitles () {
-                const ids = this.filters.flat().map(filter => filter.id);
-                const values = this.$store.getters['filters/values'](ids);
-                return Object.keys(values).map()
             }
 
         },

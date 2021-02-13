@@ -92,7 +92,7 @@
             <a class="clear" @click="clear">Clear</a>
         </div>
 
-        <layout-filter v-for="(filter, i) in filters" v-bind="filter" :key="filter.id" />
+        <layout-filter v-for="filter in filters" v-bind="filter" :key="filter.id" />
 
     </div>
 </template>
@@ -105,6 +105,7 @@
 
 <script>
 
+    import $ from '$services/utils'
     import layoutFilter from '$layout/filter/layout.filter'
 
     export default {
@@ -123,10 +124,7 @@
         computed: {
 
             filtered () {
-                if (!this.filters) return false;
-                const ids = this.filters.map(filter => filter.id);
-                const values = this.$store.getters['filters/values'](ids);
-                return Object.values(values).flat().length;
+                return Object.values($.filters(this.filters, this.$route.query)).flat().length;
             }
 
         },
@@ -135,8 +133,7 @@
 
             clear () {
                 const query = { ...this.$route.query };
-                const params = this.filters.map(filter => filter.options.param);
-                params.forEach(param => delete query[param]);
+                this.filters.forEach(config => delete query[config.id]);
                 this.$router.push({ query });
             }
 

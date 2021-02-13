@@ -1,4 +1,17 @@
-import $ from '$services/utils';
+// ------------------
+// Helpers
+// ------------------
+
+function csv (val) {
+    if (Array.isArray(val)) return val.join(',');
+    return val;
+}
+
+
+
+// ------------------
+// Fields
+// ------------------
 
 const fields = {
 
@@ -32,6 +45,12 @@ const fields = {
     ]
 
 }
+
+
+
+// ------------------
+// Endpoints
+// ------------------
 
 export default {
 
@@ -96,14 +115,14 @@ export default {
         }
     },
 
-    'artworks' ({ types, movements, artists, sort, offset, limit }) {
+    'artworks' ({ a1, a2, a3, sort, offset, limit }) {
         return {
             url: '/items/artworks',
             params: {
-                fields: fields['artworks'].join(','),
-                'filter[types][artwork_types_id][_in]': $.filter(types),
-                'filter[movements][artwork_movements_id][_in]': $.filter(movements),
-                'filter[artist][id][_in]': $.filter(artists),
+                fields: csv(fields['artworks']),
+                'filter[movements][artwork_movements_id][_in]': csv(a1),
+                'filter[types][artwork_types_id][_in]': csv(a2),
+                'filter[artist][id][_in]': csv(a3),
                 offset, limit, sort
             }
         }

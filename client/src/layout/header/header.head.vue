@@ -148,6 +148,7 @@
 
 <script>
 
+    import $ from '$services/utils'
     import svgRight from '$svg/right'
 
     export default {
@@ -175,7 +176,7 @@
             },
 
             filtered () {
-                return this.filters.map(filter => this.$store.getters['filter/values'](filter.id)).flat().length;
+                return Object.values($.filters(this.filters, this.$route.query)).flat().length;
             }
 
         },

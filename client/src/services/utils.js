@@ -27,8 +27,20 @@ export default {
         return params;
     },
 
-    filter (values) {
-        return values && values.length ? values.join(',') : undefined;
+    filter (config, query) {
+        let values = this.array(query[config.id]);
+        values = values.map(id => isNaN(id) ? id : +id);
+        values = values.filter((value, i, self) => self.indexOf(value) === i);
+        values = values.filter(value => config.items.find(item => item.id === value));
+        return values;
+    },
+
+    filters (configs = [], query) {
+        return configs.reduce((result, config) => {
+            const values = this.filter(config, query);
+            if (values.length) result[config.id] = values;
+            return result;
+        }, {});
     },
 
     get dehydrated () {

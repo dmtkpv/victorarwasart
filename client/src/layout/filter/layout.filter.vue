@@ -19,7 +19,7 @@
         :id="id"
         :head="head"
         :items="items"
-        :options="options"
+        :options="options || {}"
     />
 </template>
 

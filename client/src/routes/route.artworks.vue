@@ -75,16 +75,21 @@
     import layoutMasonry from '$layout/layout.masonry'
     import tileArtwork from '$tiles/tile.artwork'
 
-    const filters = [
-        'movements',
-        'types',
-        'artists'
-    ]
+    function getFilters (ctx) {
+        return [
+            ctx.$store.getters['filter/movements'],
+            ctx.$store.getters['filter/types'],
+            ctx.$store.getters['filter/artists']
+        ]
+    }
 
-    function getParams (ctx, route = ctx.$route) {
-        const values = ctx.$store.getters['filters/values'](filters, route.query);
-        const params = { sort: route.query.sort, ...values };
-        return Object.assign({ limit: 50, offset: 0 }, params);
+    function getParams (filters, query) {
+        return {
+            ...$.filters(filters, query),
+            sort: query.sort,
+            limit: 50,
+            offset: 0
+        }
     }
 
     export default {
@@ -113,11 +118,7 @@
                 return {
                     mode: 'refine',
                     sortable: true,
-                    filters: this.$store.getters['filters/config']([
-                        'movements',
-                        'types',
-                        'artists'
-                    ]),
+                    filters: this.filters,
                     sort: [
                         { title: 'New' },
                         { title: 'A-Z', value: 'title' },
@@ -129,6 +130,10 @@
                 }
             },
 
+            filters () {
+                return getFilters(this);
+            },
+
             artworks () {
                 return this.$store.state.api.response['artworks'];
             }
@@ -138,7 +143,7 @@
         methods: {
 
             update () {
-                this.params = getParams(this);
+                this.params = getParams(this.filters, this.$route.query);
                 this.$store.commit('cancel', 'artworks');
                 this.$store.dispatch('request', ['artworks', this.params]);
             },
@@ -164,12 +169,14 @@
                 this.$store.dispatch('request', 'filter/types'),
                 this.$store.dispatch('request', 'filter/artists')
             ]);
-            await this.$store.dispatch('request', ['artworks', getParams(this, to)]);
+            const filters = getFilters(this);
+            const params = getParams(filters, to.query)
+            await this.$store.dispatch('request', ['artworks', params]);
             next();
         },
 
         created () {
-            this.params = getParams(this);
+            this.params = getParams(this.filters, this.$route.query);
         }
 
     }

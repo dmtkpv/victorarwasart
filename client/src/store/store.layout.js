@@ -2,16 +2,15 @@ export default () => ({
     getters: {
 
         'layout/nav' (state, getters) {
-
             return [
                 {
                     title: 'Artwork',
                     path: '/artwork',
                     total: getters['api/count'].artworks,
-                    filters: getters['filters/config']([
-                        'movements',
-                        'types'
-                    ]),
+                    filters: [
+                        getters['filter/movements'],
+                        getters['filter/types']
+                    ]
                 },
                 {
                     title: 'Viewing room',
@@ -22,9 +21,9 @@ export default () => ({
                     title: 'Publications',
                     path: '/publications',
                     total: getters['api/count'].publications,
-                    filters: getters['filters/config']([
-                        'publications'
-                    ])
+                    filters: [
+                        getters['filter/publications']
+                    ]
                 },
                 {
                     title: 'Writings',
