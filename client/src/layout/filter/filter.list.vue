@@ -49,6 +49,7 @@
     .l-filter-item a {
 
         @extend %row;
+        position: relative;
         margin-bottom: 2px;
         transition: color .3s;
 

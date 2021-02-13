@@ -15,25 +15,28 @@
         background: $black;
 
         @include sm {
+
             position: absolute;
             top: 60px;
             width: 100%;
+
+            .l-header-menu {
+                display: none;
+                flex: 1;
+                overflow: auto;
+            }
+
+            &.opened {
+                bottom: 0;
+                display: flex;
+                flex-flow: column nowrap;
+                .l-header-menu { display: block }
+            }
+
         }
     }
 
 
-
-    // --------------------
-    // Menu
-    // --------------------
-
-    .l-header-menu {
-
-        @include sm {
-            &:not(.active) { display: none }
-        }
-
-    }
 
 </style>
 
@@ -44,7 +47,7 @@
 -->
 
 <template>
-    <header class="l-header">
+    <header class="l-header" :class="{ opened: menu }">
 
 
         <!-- head -->
@@ -68,10 +71,10 @@
 
         <!-- menu -->
 
-        <div class="l-header-menu" :class="{ active: menu }">
+        <div class="l-header-menu">
             <template v-for="item in filters">
                 <div v-if="item.length" class="filter-wrapper">
-                    <layout-filter class="filter-nested" v-for="(filter, i) in item" v-bind="filter" :key="i" />
+                    <layout-filter class="filter-nested" v-for="filter in item" v-bind="filter" :key="filter.id" />
                 </div>
                 <layout-filter class="filter-direct" v-else v-bind="item" />
             </template>
