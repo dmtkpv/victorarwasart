@@ -7,7 +7,6 @@ import '$styles/vars'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
-import { sync } from 'vuex-router-sync'
 import Axios from '$services/axios'
 import Store from '$services/store'
 import Router from '$services/router'
@@ -44,8 +43,6 @@ export default function init () {
     const axios = Axios({ baseURL });
     const store = Store({ axios });
     const router = Router({ $store: store });
-
-    sync(store, router);
 
     const app = new Vue({
         store,
