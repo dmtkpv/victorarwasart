@@ -18,9 +18,9 @@
 
 <template>
     <aside class="l-modal">
-        <modal-room v-if="room" />
-        <modal-artwork v-if="artwork" :id="artwork" />
-        <modal-inquire v-if="inquire" />
+        <modal-room v-if="modal.room" />
+        <modal-artwork v-if="modal.artwork" :id="modal.artwork" />
+        <modal-inquire v-if="modal.inquire" />
     </aside>
 </template>
 
@@ -46,16 +46,23 @@
 
         computed: {
 
-            artwork () {
-                return +this.$route.query.modal_artwork;
-            },
+            modal () {
+                return {
+                    artwork: +this.$route.query.modal_artwork,
+                    room: false,
+                    inquire: false
+                }
+            }
 
-            room () {
+        },
 
-            },
+        watch: {
 
-            inquire () {
-
+            modal: {
+                immediate: true,
+                handler (value) {
+                    this.$store.commit('scroll/set', value);
+                }
             }
 
         }
