@@ -68,6 +68,7 @@
         },
 
         props: [
+            'id',
             'head',
             'items',
             'options'

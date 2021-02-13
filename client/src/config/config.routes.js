@@ -4,10 +4,9 @@
 
 import home from '$routes/route.home'
 import artworks from '$routes/route.artworks'
-// import Router from "vue-router";
 // import room from '@/components/routes/room/route.room.vue'
 // import publications from '$routes/publications'
-// import writings from '$routes/writings'
+import writings from '$routes/route.writings'
 // import essay from '$routes/writings/essay'
 // import search from '$routes/search'
 // import exhibitions from '@/components/routes/exhibitions/route.exhibitions.vue'
@@ -42,10 +41,10 @@ export default [
     //     path: '/publications',
     //     component: publications
     // },
-    // {
-    //     path: '/writings',
-    //     component: writings
-    // },
+    {
+        path: '/writings',
+        component: writings
+    },
     // {
     //     path: '/writings/essay/:id',
     //     component: essay

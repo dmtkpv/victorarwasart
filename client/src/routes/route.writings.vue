@@ -45,22 +45,17 @@
 
 
     // --------------------
-    // Section
+    // Notes
     // --------------------
 
-    .l-section {
+    .notes {
+        @extend %col;
         @extend %line;
-        padding-left: calc(#{$column-width} * 4);
-        &:before { margin-left: 0 }
-        @include sm-lg { display: none }
-
-    }
-    .l-section p {
         @extend %padding;
+        left: calc(#{$column-width} * 4);
         text-transform: uppercase;
+        @include sm-lg { display: none }
     }
-
-
 
 </style>
 
@@ -71,12 +66,10 @@
 -->
 
 <template>
-    <div>
+    <layout-section>
         <layout-header v-bind="header" />
-        <layout-section>
-            <p>Notes</p>
-        </layout-section>
-    </div>
+        <div class="notes">Notes</div>
+    </layout-section>
 </template>
 
 
@@ -87,8 +80,8 @@
 
 <script>
 
-    import layoutHeader from '$layout/header'
-    import layoutSection from '$layout/section'
+    import layoutHeader from '$layout/header/layout.header'
+    import layoutSection from '$layout/layout.section'
 
     export default {
 
@@ -106,7 +99,19 @@
         computed: {
 
             header () {
-                return this.$store.getters['layout/header/writings'];
+                return {
+                    mode: 'menu',
+                    filters: [
+                        [
+                            this.$store.getters['filter/essays'],
+                            this.$store.getters['filter/poems']
+                        ],
+                        this.$store.getters['filter/biographies']
+                    ],
+                    breadcrumbs: [
+                        { title: 'Writings', path: '/writings' }
+                    ]
+                }
             }
 
         },
