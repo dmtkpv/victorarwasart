@@ -34,6 +34,7 @@ const getters = Object.keys(APIs).reduce((result, key) => {
 // ------------------
 
 export default () => ({
+
     state: {
         cancels: { ...keys },
         pending: { ...keys },

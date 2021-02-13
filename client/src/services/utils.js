@@ -2,8 +2,8 @@ export default {
 
     sort (array, field) {
         return array.sort(item => {
-            if(item[field] < item[field]) return -1;
-            if(item[field] > item[field]) return 1;
+            if (item[field] < item[field]) return -1;
+            if (item[field] > item[field]) return 1;
             return 0;
         })
     },
@@ -49,3 +49,4 @@ export default {
     }
 
 }
+

@@ -6,6 +6,7 @@ import Vuex from 'vuex'
 import api from '$store/store.api'
 import filter from '$store/store.filters'
 import layout from '$store/store.layout'
+import scroll from '$store/store.scroll'
 
 
 
@@ -18,7 +19,8 @@ export default function (context) {
         modules: {
             api: api(),
             filter: filter(),
-            layout: layout()
+            layout: layout(),
+            scroll: scroll()
         },
         plugins: [
             store => Object.assign(store, context)
