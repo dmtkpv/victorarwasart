@@ -116,7 +116,7 @@
 
         watch: {
 
-            titles () {
+            heading () {
                 if (this.menu) this.apply = true;
                 this.$nextTick(this.setCut);
             },

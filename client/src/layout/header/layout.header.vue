@@ -67,7 +67,7 @@
         <!-- filters -->
 
         <header-filters
-            v-if="filtered"
+            v-show="filtered"
             :filters="filtersFlat"
             :menu.sync="menu"
         />
