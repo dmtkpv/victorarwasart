@@ -70,7 +70,7 @@
 -->
 
 <template>
-    <div class="l-header-filters" v-show="titles.length">
+    <div class="l-header-filters">
         <div class="heading" ref="heading">{{ heading }}</div>
         <div class="cut" v-show="cut">&nbsp;</div>
         <a v-show="!menu" @click="$emit('update:menu', true)">Refine</a>
@@ -105,15 +105,11 @@
 
         computed: {
 
-            titles () {
+            heading () {
                 return this.filters.map(config => {
                     const values = $.filter(config, this.$route.query);
                     return values.map(id => config.items.find(item => item.id === id).title);
-                }).flat();
-            },
-
-            heading () {
-                return this.titles.join(' + ');
+                }).flat().join(' + ');
             }
 
         },

@@ -33,6 +33,9 @@
                 .l-header-menu { display: block }
             }
 
+            & + * { padding-top: 60px; }
+            &.filtered + * { padding-top: 120px; }
+
         }
     }
 
@@ -47,7 +50,7 @@
 -->
 
 <template>
-    <header class="l-header" :class="{ opened: menu }">
+    <header class="l-header" :class="{ opened: menu, filtered }">
 
 
         <!-- head -->
@@ -64,6 +67,7 @@
         <!-- filters -->
 
         <header-filters
+            v-if="filtered"
             :filters="filtersFlat"
             :menu.sync="menu"
         />
@@ -92,6 +96,7 @@
 
 <script>
 
+    import $ from '$services/utils'
     import fix from '$mixins/mixin.fix'
     import scrollSet from '$mixins/mixin.scroll.set'
     import svgRight from '$svg/right'
@@ -135,6 +140,10 @@
 
             filtersFlat () {
                 return this.filters.flat();
+            },
+
+            filtered () {
+                return Object.values($.filters(this.filtersFlat, this.$route.query)).flat().length;
             }
 
         },

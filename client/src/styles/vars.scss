@@ -3,6 +3,10 @@
 // --------------------
 
 :root {
+
+    --windowWidth: 100vw;
+    --windowHeight: 100vh;
+
     @include xl {
         --column-width: 20%;
     }
