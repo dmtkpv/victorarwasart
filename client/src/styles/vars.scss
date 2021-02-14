@@ -8,16 +8,16 @@
     --windowHeight: 100vh;
 
     @include xl {
-        --column-width: 20%;
+        --column-width: calc(var(--windowWidth) / 5);
     }
     @include lg {
-        --column-width: 25%;
+        --column-width: calc(var(--windowWidth) / 4);
     }
     @include md {
-        --column-width: 33.33%;
+        --column-width: calc(var(--windowWidth) / 3);
     }
     @include sm {
-        --column-width: 100%;
+        --column-width: var(--windowWidth);
     }
 }
 

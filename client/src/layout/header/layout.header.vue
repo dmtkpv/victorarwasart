@@ -12,13 +12,12 @@
 
     .l-header {
 
-        background: $black;
-
         @include sm {
 
             position: absolute;
             top: 60px;
             width: 100%;
+            background: $black;
 
             .l-header-menu {
                 display: none;

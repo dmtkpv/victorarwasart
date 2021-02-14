@@ -137,7 +137,7 @@
 
         },
 
-        async serverPrefetch () {
+        serverPrefetch () {
             return Promise.all([
                 this.$store.dispatch('request', 'count'),
                 this.$store.dispatch('request', 'filter/movements'),
