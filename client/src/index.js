@@ -4,6 +4,7 @@
 
 import '$styles/base'
 import '$styles/vars'
+import '$services/scripts'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'

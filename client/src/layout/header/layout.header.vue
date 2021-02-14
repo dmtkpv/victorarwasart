@@ -27,7 +27,7 @@
             }
 
             &.opened {
-                bottom: 0;
+                height: calc(var(--windowHeight) - 60px);
                 display: flex;
                 flex-flow: column nowrap;
                 .l-header-menu { display: block }
@@ -135,6 +135,14 @@
 
             filtersFlat () {
                 return this.filters.flat();
+            }
+
+        },
+
+        watch: {
+
+            menu () {
+                this.fixNormalize();
             }
 
         },

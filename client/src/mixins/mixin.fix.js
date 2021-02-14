@@ -23,6 +23,11 @@ export default function ({ minTop, maxTop }) {
 
             setScroll () {
                 this.scrollY = window.scrollY;
+            },
+
+            fixNormalize () {
+                const navTop = this.$nav.getBoundingClientRect().top;
+                window.scrollTo(0, this.scrollY + navTop);
             }
 
         },

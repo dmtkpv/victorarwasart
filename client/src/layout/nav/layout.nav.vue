@@ -123,6 +123,10 @@
 
             '$route.path' () {
                 this.opened = false;
+            },
+
+            opened () {
+                this.fixNormalize();
             }
 
         },
