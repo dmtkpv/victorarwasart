@@ -12,7 +12,7 @@
 
     .l-section {
 
-        height: 100%;
+        height: var(--windowHeight);
 
         @extend %line;
         &:before { margin-left: 0 }

@@ -5,8 +5,6 @@
 <style lang="scss">
     #app {
 
-        height: 100%;
-
         @include md-xl {
             .l-nav     { z-index: 1 }
             .l-header  { z-index: 2 }

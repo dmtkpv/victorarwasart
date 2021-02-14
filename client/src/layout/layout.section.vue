@@ -6,7 +6,7 @@
 
     .l-section {
 
-        min-height: 100%;
+        min-height: var(--windowHeight);
 
         @include sm {
             padding-top: 60px; // nav height
