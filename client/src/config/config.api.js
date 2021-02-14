@@ -229,6 +229,22 @@ export default {
 
 
     // ------------------
+    // About
+    // ------------------
+
+    'contacts' () {
+        return {
+            url: '/items/about_us',
+            params: {
+                fields: 'contacts'
+            },
+            default: {}
+        }
+    },
+
+
+
+    // ------------------
     // Helpers
     // ------------------
 

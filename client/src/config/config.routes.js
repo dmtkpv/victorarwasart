@@ -52,15 +52,24 @@ export default [
     },
     {
         path: '/writings/essay/:id',
-        component: essay
+        component: essay,
+        meta: {
+            footer: true
+        }
     },
     {
         path: '/writings/poem/:id',
-        component: poem
+        component: poem,
+        meta: {
+            footer: true
+        }
     },
     {
         path: '/writings/biography/:id',
-        component: biography
+        component: biography,
+        meta: {
+            footer: true
+        }
     },
     // // {
     // //     path: '/exhibitions',

@@ -35,7 +35,7 @@
         <layout-nav :class="meta.nav" />
         <router-view />
         <layout-modal />
-<!--        <layout-footer v-if="meta.footer" />-->
+        <layout-footer v-if="meta.footer" />
     </div>
 </template>
 
@@ -48,7 +48,7 @@
 <script>
 
     import layoutNav from '$layout/nav/layout.nav'
-    import layoutFooter from '$layout/footer/layout.footer'
+    import layoutFooter from '$layout/layout.footer'
     import layoutModal from '$layout/modal/layout.modal'
 
     export default {
