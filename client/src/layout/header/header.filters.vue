@@ -146,7 +146,7 @@
             window.addEventListener('resize', this.setCut);
         },
 
-        unmounted () {
+        destroyed () {
             window.removeEventListener('resize', this.setCut);
         }
 
