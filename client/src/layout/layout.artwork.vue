@@ -12,6 +12,7 @@
 
     .l-artwork {
         height: 100%;
+        position: relative;
         display: flex;
         flex-flow: column nowrap;
     }
@@ -79,6 +80,19 @@
             transition: transform .7s;
         }
 
+        @include sm {
+            padding-top: 0;
+            .area { display: none }
+            .slide {
+                padding: 0;
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+        }
+
     }
 
 
@@ -102,6 +116,38 @@
             @extend %u-row;
             justify-content: center;
             a { margin: 0 4px; }
+        }
+
+        @include sm {
+            @include stretch;
+            position: absolute;
+            display: flex;
+            flex-flow: column nowrap;
+            align-items: flex-start;
+            justify-content: flex-end;
+            background: rgba($black, .8);
+            .nav { display: none }
+            &:not(.active) { display: none }
+        }
+
+    }
+
+
+
+    // --------------------
+    // Details
+    // --------------------
+
+    .l-slider-details {
+
+        @include md-xl {
+            display: none;
+        }
+
+        @include sm {
+            position: absolute;
+            left: $indent-x;
+            bottom: $indent-y;
         }
 
     }
@@ -137,7 +183,7 @@
 
         <!-- text -->
 
-        <div class="l-artwork-text">
+        <div class="l-artwork-text" :class="{ active: details }">
 
             <div class="nav" v-if="images.length > 1">
                 <a v-for="(image, index) in images"
@@ -153,6 +199,11 @@
             <p>Reference No. {{ reference }} | <a>Inquire</a> </p>
 
         </div>
+
+
+        <!-- details -->
+
+        <a class="l-slider-details" @click="details = !details">{{ details ? 'Close' : 'Details' }}</a>
 
 
     </div>
@@ -185,7 +236,8 @@
 
         data () {
             return {
-                slide: 0
+                slide: 0,
+                details: false
             }
         },
 
