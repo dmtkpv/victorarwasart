@@ -50,7 +50,7 @@
 -->
 
 <template>
-    <header class="l-header" :class="{ opened: menu, filtered }">
+    <header class="l-header" :class="{ opened: menu || mode === 'menu', filtered }">
 
 
         <!-- head -->
@@ -132,7 +132,7 @@
 
         data () {
             return {
-                menu: this.mode === 'menu'
+                menu: false
             }
         },
 

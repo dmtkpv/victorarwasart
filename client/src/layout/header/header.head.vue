@@ -69,6 +69,18 @@
 
 
         // --------------------
+        // Close
+        // --------------------
+
+        .close {
+            @include md-xl {
+                display: none;
+            }
+        }
+
+
+
+        // --------------------
         // Modifiers
         // --------------------
 
@@ -134,7 +146,7 @@
             <a v-show="menu" @click="$emit('update:menu', false)">Close</a>
         </div>
 
-        <a v-if="mode === 'back'">Close</a>
+        <router-link class="close" :to="back" v-if="mode === 'back'">Close</router-link>
 
 
     </div>
@@ -177,6 +189,10 @@
 
             filtered () {
                 return Object.values($.filters(this.filters, this.$route.query)).flat().length;
+            },
+
+            back () {
+                return this.breadcrumbs[this.breadcrumbs.length - 2].path;
             }
 
         },

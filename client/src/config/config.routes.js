@@ -7,7 +7,7 @@ import artworks from '$routes/route.artworks'
 // import room from '@/components/routes/room/route.room.vue'
 // import publications from '$routes/publications'
 import writings from '$routes/route.writings'
-// import essay from '$routes/writings/essay'
+import essay from '$routes/route.writings.essay'
 // import search from '$routes/search'
 // import exhibitions from '@/components/routes/exhibitions/route.exhibitions.vue'
 // import about from '@/components/routes/about/route.about.vue'
@@ -48,10 +48,10 @@ export default [
         path: '/writings',
         component: writings
     },
-    // {
-    //     path: '/writings/essay/:id',
-    //     component: essay
-    // },
+    {
+        path: '/writings/essay/:id',
+        component: essay
+    },
     // // {
     // //     path: '/exhibitions',
     // //     component: { }
