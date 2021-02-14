@@ -242,6 +242,16 @@ export default {
         }
     },
 
+    'about' () {
+        return {
+            url: '/items/about_us',
+            params: {
+                fields: '*,gallery.directus_files_id.title,gallery.directus_files_id.id'
+            },
+            default: {}
+        }
+    },
+
 
 
     // ------------------

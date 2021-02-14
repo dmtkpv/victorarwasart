@@ -65,6 +65,10 @@
                 return this.$route.meta
             }
 
+        },
+
+        serverPrefetch () {
+            return this.$store.dispatch('request', 'contacts');
         }
 
     }

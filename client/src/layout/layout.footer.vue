@@ -139,12 +139,7 @@
                 return this.$store.getters['api/contacts'];
             }
 
-        },
-
-        serverPrefetch () {
-            return this.$store.dispatch('request', 'contacts');
         }
-
 
     }
 

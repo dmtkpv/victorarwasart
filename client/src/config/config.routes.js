@@ -12,7 +12,7 @@ import poem from '$routes/route.writings.poem'
 import biography from '$routes/route.writings.biography'
 // import search from '$routes/search'
 // import exhibitions from '@/components/routes/exhibitions/route.exhibitions.vue'
-// import about from '@/components/routes/about/route.about.vue'
+import about from '$routes/route.about'
 // import search from '@/components/routes/search/route.search.vue'
 
 
@@ -75,10 +75,10 @@ export default [
     // //     path: '/exhibitions',
     // //     component: { }
     // // },
-    // // {
-    // //     path: '/about-us',
-    // //     component: { }
-    // // },
+    {
+        path: '/about-us',
+        component: about
+    },
     // {
     //     path: '/search',
     //     component: search
