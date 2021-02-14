@@ -101,10 +101,10 @@ export default () => ({
             return {
                 id: 'w1',
                 mode: 'links',
-                items: getters['api/filter/artists'],
+                items: getters['api/filter/artists'].map(({ id, title }) => ({ id, title })),
                 options: {
                     alphabetic: true,
-                    path: '/writings/biography=',
+                    path: '/writings/biography/',
                 },
                 head: {
                     title: 'Biographies',

@@ -9,6 +9,7 @@ import artworks from '$routes/route.artworks'
 import writings from '$routes/route.writings'
 import essay from '$routes/route.writings.essay'
 import poem from '$routes/route.writings.poem'
+import biography from '$routes/route.writings.biography'
 // import search from '$routes/search'
 // import exhibitions from '@/components/routes/exhibitions/route.exhibitions.vue'
 // import about from '@/components/routes/about/route.about.vue'
@@ -56,6 +57,10 @@ export default [
     {
         path: '/writings/poem/:id',
         component: poem
+    },
+    {
+        path: '/writings/biography/:id',
+        component: biography
     },
     // // {
     // //     path: '/exhibitions',

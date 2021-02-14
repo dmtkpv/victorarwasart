@@ -196,9 +196,12 @@ export default {
         }
     },
 
-    'biographies' () {
+    'artists/item' (id) {
         return {
-            url: '/items/biographies'
+            url: '/items/artists/' + id,
+            params: {
+                fields: 'id,name,biography'
+            }
         }
     },
 
