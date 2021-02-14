@@ -4,12 +4,6 @@
 
 <style lang="scss" scoped>
 
-
-
-    // --------------------
-    // Section
-    // --------------------
-
     .l-section {
 
         height: var(--windowHeight);
@@ -22,18 +16,6 @@
         }
 
     }
-
-
-
-    // --------------------
-    // Artwork
-    // --------------------
-
-    .l-artwork {
-        height: 100%;
-    }
-
-
 
 </style>
 

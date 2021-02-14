@@ -11,6 +11,7 @@
     // --------------------
 
     .l-artwork {
+        height: 100%;
         display: flex;
         flex-flow: column nowrap;
     }

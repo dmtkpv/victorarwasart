@@ -25,11 +25,11 @@ export default function ({ minTop, maxTop }) {
             },
 
             setScroll () {
-                console.log('setScroll')
                 this.scrollY = window.scrollY;
             },
 
             fixNormalize () {
+                if (!this.fixInitiated) return;
                 const navTop = this.$nav.getBoundingClientRect().top;
                 window.scrollTo(0, this.scrollY + navTop);
             },
