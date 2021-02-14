@@ -1,8 +1,4 @@
-// ------------------
-// Fix
-// ------------------
-
-export function fix ({ minTop, maxTop }) {
+export default function ({ minTop, maxTop }) {
     return {
 
         data () {
@@ -21,11 +17,11 @@ export function fix ({ minTop, maxTop }) {
             minTop,
             maxTop,
 
-            height (node) {
+            getHeight (node) {
                 return this[node] ? this[node].offsetHeight : 0
             },
 
-            scroll () {
+            setScroll () {
                 this.scrollY = window.scrollY;
             }
 
@@ -65,45 +61,12 @@ export function fix ({ minTop, maxTop }) {
         mounted () {
             this.$nav = document.querySelector('.l-nav');
             this.$header = document.querySelector('.l-header');
-            this.scroll();
-            window.addEventListener('scroll', this.scroll);
-        }
-    }
-}
-
-
-
-// ------------------
-// Fix
-// ------------------
-
-import cssVars from 'unitless!$styles/abstract/vars'
-
-export function setScroll (key, param) {
-    return {
-
-        methods: {
-
-            resize () {
-                if (window.innerWidth > cssVars.smMax) this[param] = false;
-            }
-
-        },
-
-        watch: {
-
-            [param] (value) {
-                this.$store.commit('scroll/set', { [key]: value });
-            }
-
-        },
-
-        mounted () {
-            window.addEventListener('resize', this.resize);
+            this.setScroll();
+            window.addEventListener('scroll', this.setScroll);
         },
 
         destroyed () {
-            window.removeEventListener('resize', this.resize);
+            window.removeEventListener('scroll', this.setScroll);
         }
 
     }

@@ -92,7 +92,8 @@
 
 <script>
 
-    import { fix, setScroll } from '$services/mixins'
+    import fix from '$mixins/mixin.fix'
+    import scrollSet from '$mixins/mixin.scroll.set'
     import svgRight from '$svg/right'
     import layoutFilter from '$layout/filter/layout.filter'
     import headerHead from './header.head'
@@ -110,10 +111,10 @@
         },
 
         mixins: [
-            setScroll('header', 'menu'),
+            scrollSet('header', 'menu'),
             fix({
-                minTop () { return -this.height('$header') },
-                maxTop () { return this.height('$nav') }
+                minTop () { return -this.getHeight('$header') },
+                maxTop () { return this.getHeight('$nav') }
             })
         ],
 

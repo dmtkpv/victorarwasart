@@ -75,7 +75,8 @@
 
 <script>
 
-    import { fix, setScroll } from '$services/mixins'
+    import fix from '$mixins/mixin.fix'
+    import scrollSet from '$mixins/mixin.scroll.set'
     import navHead from './nav.head'
     import navItem from './nav.item'
     import navSearch from './nav.search'
@@ -89,9 +90,9 @@
         },
 
         mixins: [
-            setScroll('nav', 'opened'),
+            scrollSet('nav', 'opened'),
             fix({
-                minTop () { return -this.height('$nav') - this.height('$header') },
+                minTop () { return -this.getHeight('$nav') - this.getHeight('$header') },
                 maxTop () { return 0 }
             })
         ],

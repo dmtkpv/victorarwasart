@@ -79,8 +79,8 @@ const Common = {
         alias: {
             $: absPath('src'),
             $config: absPath('src/config'),
-            $config2: absPath('src/config/config'),
             $layout: absPath('src/layout'),
+            $mixins: absPath('src/mixins'),
             $routes: absPath('src/routes'),
             $services: absPath('src/services'),
             $store: absPath('src/store'),
