@@ -97,12 +97,21 @@
 
         },
 
+        watch: {
+
+            '$route.params.id' (id) {
+                this.$store.commit('cancel', 'essays/item');
+                this.$store.dispatch('request', ['essays/item', id])
+            }
+
+        },
+
         async beforeRouteEnter (to, from, next) {
             if ($.dehydrated) this.$store.commit('cancel', 'essays/item');
             await this.$store.dispatch('request', 'essays');
             await this.$store.dispatch('request', ['essays/item', to.params.id]);
             next();
-        },
+        }
 
 
     }

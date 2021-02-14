@@ -168,23 +168,14 @@ export default {
             params: {
                 fields: 'id,title',
                 limit: -1
-            },
-            // transform (items) {
-            //     return items.map(item => {
-            //         return {
-            //             id: item.id,
-            //             title: item.name,
-            //             total: item.artworks.length,
-            //             note: item.note
-            //         }
-            //     })
-            // }
+            }
         }
     },
 
     'essays/item' (id) {
         return {
-            url: '/items/essays/' + id
+            url: '/items/essays/' + id,
+            default: {}
         }
     },
 
@@ -200,7 +191,8 @@ export default {
 
     'poems/item' (id) {
         return {
-            url: '/items/poems/' + id
+            url: '/items/poems/' + id,
+            default: {}
         }
     },
 

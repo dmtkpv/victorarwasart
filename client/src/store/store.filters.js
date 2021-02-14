@@ -136,7 +136,7 @@ export default () => ({
                 items: getters['api/poems'],
                 options: {
                     numeric: true,
-                    path: '/writings?poem=',
+                    path: '/writings/poem/',
                 },
                 head: {
                     title: 'Poems',
