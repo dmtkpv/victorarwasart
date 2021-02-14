@@ -1,3 +1,5 @@
+import cssVars from 'unitless!$styles/abstract/vars'
+
 export default function ({ minTop, maxTop }) {
     return {
 
@@ -8,7 +10,8 @@ export default function ({ minTop, maxTop }) {
                 scrollY: 0,
                 scrollDown: false,
                 elementTop: 0,
-                elementFixed: false
+                elementFixed: false,
+                fixInitiated: false
             }
         },
 
@@ -22,12 +25,31 @@ export default function ({ minTop, maxTop }) {
             },
 
             setScroll () {
+                console.log('setScroll')
                 this.scrollY = window.scrollY;
             },
 
             fixNormalize () {
                 const navTop = this.$nav.getBoundingClientRect().top;
                 window.scrollTo(0, this.scrollY + navTop);
+            },
+
+            fixResize () {
+                this.fixInitiated = window.innerWidth <= cssVars.smMax;
+            },
+
+            fixDestroy () {
+                window.removeEventListener('scroll', this.setScroll);
+                this.scrollY = 0;
+                this.scrollDown = false;
+                this.elementFixed = false;
+                this.$el.style.position = '';
+                this.$el.style.top = '';
+            },
+
+            fixInit () {
+                window.addEventListener('scroll', this.setScroll);
+                this.setScroll();
             }
 
         },
@@ -59,6 +81,11 @@ export default function ({ minTop, maxTop }) {
                     this.$el.style.top = this.maxTop() + 'px';
                     this.elementFixed = true;
                 }
+            },
+
+            fixInitiated (value) {
+                if (value) this.fixInit();
+                else this.fixDestroy();
             }
 
         },
@@ -66,12 +93,14 @@ export default function ({ minTop, maxTop }) {
         mounted () {
             this.$nav = document.querySelector('.l-nav');
             this.$header = document.querySelector('.l-header');
-            this.setScroll();
-            window.addEventListener('scroll', this.setScroll);
+            this.fixResize();
+            window.addEventListener('resize', this.fixResize);
+
         },
 
         destroyed () {
-            window.removeEventListener('scroll', this.setScroll);
+            this.fixDestroy();
+            window.removeEventListener('resize', this.fixResize);
         }
 
     }
