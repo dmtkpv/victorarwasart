@@ -14,13 +14,19 @@
 
         @extend %col;
         @include md-xl { padding: $indent-y $indent-x; }
-        background: $black;
 
         @include sm {
+
             position: absolute;
             top: 0;
             width: 100%;
+
+            &:not(.transparent) { background: $black; }
+            &:not(.transparent) + * { padding-top: 60px; }
+            &.transparent .l-nav-head.primary { border-bottom: none }
+
         }
+
 
     }
 

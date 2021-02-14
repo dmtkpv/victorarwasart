@@ -24,7 +24,10 @@ import writings from '$routes/route.writings'
 export default [
     {
         path: '/',
-        component: home
+        component: home,
+        meta: {
+            nav: 'transparent'
+        }
     },
     {
         path: '/artwork',

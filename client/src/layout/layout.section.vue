@@ -5,13 +5,7 @@
 <style lang="scss">
 
     .l-section {
-
         min-height: var(--windowHeight);
-
-        @include sm {
-            padding-top: 60px; // nav height
-        }
-
     }
 
 </style>

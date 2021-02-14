@@ -32,10 +32,10 @@
 
 <template>
     <div id="app">
-        <layout-nav />
+        <layout-nav :class="meta.nav" />
         <router-view />
         <layout-modal />
-<!--        <layout-footer v-if="footer" />-->
+<!--        <layout-footer v-if="meta.footer" />-->
     </div>
 </template>
 
@@ -61,8 +61,8 @@
 
         computed: {
 
-            footer () {
-                return this.$route.meta.footer
+            meta () {
+                return this.$route.meta
             }
 
         }
