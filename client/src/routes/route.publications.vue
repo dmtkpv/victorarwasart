@@ -169,6 +169,7 @@
     import layoutHeader from '$layout/header/layout.header'
     import layoutSection from '$layout/layout.section'
     import tilePublications from '$tiles/tile.publication'
+    import more from '$mixins/mixin.more'
 
     function getFilters (ctx) {
         return [
@@ -191,6 +192,10 @@
             layoutSection,
             tilePublications
         },
+
+        mixins: [
+            more
+        ],
 
         data () {
             return {
@@ -263,6 +268,7 @@
 
         created () {
             this.params = getParams(this.filters, this.$route.query);
+            this.$on('more', this.more);
         }
 
     }

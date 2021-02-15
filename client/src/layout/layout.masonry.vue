@@ -70,8 +70,13 @@
 <script>
 
     import vars from 'unitless!$styles/abstract/vars'
+    import more from '$mixins/mixin.more'
 
     export default {
+
+        mixins: [
+            more
+        ],
 
         props: [
             'grid'
@@ -139,13 +144,6 @@
                 })
                 this.setTiles();
                 this.update(scrollTop);
-            },
-
-            scroll () {
-                const wh = window.innerHeight;
-                const sh = document.documentElement.scrollHeight;
-                const st = document.documentElement.scrollTop;
-                if (st > sh - wh * 2) this.$emit('more');
             }
 
         },
@@ -164,14 +162,12 @@
             this.observer = new MutationObserver(this.observe);
             this.observer.observe(this.$refs.grid, { childList: true });
             window.addEventListener('resize', this.resize);
-            document.addEventListener('scroll', this.scroll);
 
         },
 
         unmounted () {
             this.observer.disconnect();
             window.removeEventListener('resize', this.resize);
-            document.removeEventListener('scroll', this.scroll);
         }
 
 
