@@ -4,12 +4,45 @@
 
 <style lang="scss" scoped>
 
+
+
+    // --------------------
+    // Header
+    // --------------------
+
     .l-header {
         @include md-xl {
             display: none;
         }
     }
 
+
+
+    // --------------------
+    // Line
+    // --------------------
+
+    .line {
+
+        @extend %line;
+
+        &:before {
+            margin-left: 0;
+            @include xl { left: calc(#{$column-width} * 3) }
+            @include lg { left: calc(#{$column-width} * 2.5) }
+        }
+
+        @include sm-md {
+            display: none;
+        }
+
+    }
+
+
+
+    // --------------------
+    // Grid
+    // --------------------
 
     .grid {
         @extend %line;
@@ -23,100 +56,81 @@
 
     }
 
+
+
+    // --------------------
+    // Tile
+    // --------------------
+
     .t-publication {
 
+
+        // extends
+
+        %flex {
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        // main
+
+        position: relative;
         height: calc(var(--windowHeight) * 0.7);
         min-height: 300px;
-        padding: 10%;
-        position: relative;
-        display: flex;
-        flex-flow: column nowrap;
-        justify-content: center;
+        &:not(:last-child) {
+            border-bottom: 1px solid $white-transparent;
+        }
+
+
+
+        // image
+
+        ::v-deep .image {
+
+            @extend %flex;
+            height: 100%;
+            padding: 10% !important;
+
+            img {
+                position: relative;
+                object-fit: contain;
+            }
+        }
+
+
+        // text
+
+        ::v-deep .text {
+            @extend %u-stretch;
+            @extend %flex;
+            position: absolute;
+            display: none;
+            text-align: center;
+            padding-left: 10%;
+            padding-right: 10%;
+            background: $black-overlay;
+        }
+
+
+        // modifiers
+
+        &.active ::v-deep .text {
+            display: flex;
+        }
 
         @include lg-xl {
             flex-basis: 50%;
         }
 
-
-        ::v-deep .text {
-
-            @extend %u-stretch;
-            position: absolute;
-            display: flex;
-            flex-flow: column nowrap;
-            justify-content: center;
-            text-align: center;
-            background: $black-overlay;
-
-            /*display: none;*/
+        @include sm-md {
+            flex-basis: 100%;
         }
 
     }
 
-
-    /*
-    .l-section {
-
-        display: flex;
-        flex-wrap: wrap;
-
-        @extend %line;
-        &:before { margin-left: 0 }
-
-
-
-
-
-    }
-
-    .line {
-        @extend %line;
-        &:before {
-            margin-left: 0;
-            right: calc((100% - #{$column-width}) / 2);
-        }
-        @include md {
-            display: none;
-        }
-
-    }
-
-    .t-publication {
-
-        height: 70vh;
-        border-bottom: 1px solid $white-transparent;
-
-
-
-    }
-    */
-
-    /*
-       .image, .text {
-           @extend %u-stretch;
-           padding: 10%;
-       }
-
-       .image img {
-           object-fit: contain;
-           width: 100%;
-           height: 100%;
-       }
-
-
-
-       .text {
-           position: absolute;
-           display: flex;
-           flex-flow: column nowrap;
-           justify-content: center;
-           text-align: center;
-           background: $black-overlay;
-           a { display: inline-block }
-       }
-
-
-        */
 
 
 </style>
@@ -139,6 +153,7 @@
                 @click.native="toggle(item.id)"
             />
         </div>
+        <div class="line" />
     </layout-section>
 </template>
 
