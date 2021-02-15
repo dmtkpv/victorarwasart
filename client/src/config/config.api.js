@@ -185,7 +185,11 @@ export default {
 
     'rooms/item' (id) {
         return {
-            url: '/items/viewing_room/' + id
+            url: '/items/viewing_room/' + id,
+            params: {
+                fields: ['title', 'note', ...fields.artworks.map(field => `artworks.artworks_id.${field}`)].join(',')
+            },
+            default: {}
         }
     },
 

@@ -29,9 +29,6 @@
     // --------------------
 
     .l-article {
-
-
-
         @include md-xl {
             padding-left: calc(#{$column-width} * 2);
         }

@@ -5,6 +5,7 @@
 import home from '$routes/route.home'
 import artworks from '$routes/route.artworks'
 import rooms from '$routes/route.rooms'
+import room from '$routes/route.rooms.room'
 import publications from '$routes/route.publications'
 import writings from '$routes/route.writings'
 import essay from '$routes/route.writings.essay'
@@ -38,6 +39,13 @@ export default [
     {
         path: '/viewing-room',
         component: rooms,
+        meta: {
+            footer: true
+        }
+    },
+    {
+        path: '/viewing-room/:id',
+        component: room,
         meta: {
             footer: true
         }
