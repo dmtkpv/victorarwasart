@@ -86,6 +86,7 @@
         methods: {
 
             modal () {
+                this.$store.commit('storage/set', { artwork: this.$props });
                 this.$router.push({ query: { ...this.$route.query, modal_artwork: this.id } })
             }
 

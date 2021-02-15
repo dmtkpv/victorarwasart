@@ -64,18 +64,6 @@
 
             close () {
                 this.$router.replace({ query: { ...this.$route.query, modal_artwork: undefined }});
-            },
-
-            find () {
-                let artwork = this.$store.getters['api/artworks'].find(artwork => artwork.id === this.id);
-                if (artwork) return artwork;
-                const search = this.$store.getters['api/search'];
-                for (let i = 0; i < search.length; i++) {
-                    if (search[i].collection !== 'artworks') continue;
-                    artwork = search[i].data.find(artwork => artwork.id === this.id);
-                    if (artwork) return artwork;
-                }
-                return {}
             }
 
         },
@@ -85,9 +73,10 @@
         },
 
         async beforeMount () {
-            let artwork = this.$store.getters['api/artworks/item'];
-            if (artwork.id === this.id) return (this.artwork = artwork);
-            this.artwork = this.find();
+            const data = this.$store.getters['api/artworks/item'];
+            if (data.id === this.id) return (this.artwork = data);
+            const temp = this.$store.state.storage['artwork'];
+            if (temp.id === this.id) this.artwork = temp;
             await this.$store.commit('cancel', 'artworks/item');
             this.artwork = await this.$store.dispatch('request', ['artworks/item', this.id]);
         }
