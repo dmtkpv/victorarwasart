@@ -43,7 +43,7 @@
 -->
 
 <template>
-    <div class="t-publication" @click="toggle()">
+    <div class="t-publication">
 
         <div class="image" :style="{paddingTop: image.height / image.width * 100 + '%'}">
             <img class="u-stretch" :src="`${baseURL}/assets/${image.id}`">
@@ -77,21 +77,7 @@
             'year',
             'text',
             'reference'
-        ],
-
-        data () {
-            return {
-                active: false
-            }
-        },
-
-        methods: {
-
-            toggle (value = !this.active) {
-                this.active = value;
-            }
-
-        }
+        ]
 
     }
 

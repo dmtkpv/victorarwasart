@@ -10,6 +10,51 @@
         }
     }
 
+
+    .grid {
+        @extend %line;
+        display: flex;
+        flex-wrap: wrap;
+        &:before { margin-left: 0 }
+
+        @include md-xl {
+            padding-left: $column-width;
+        }
+
+    }
+
+    .t-publication {
+
+        height: calc(var(--windowHeight) * 0.7);
+        min-height: 300px;
+        padding: 10%;
+        position: relative;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+
+        @include lg-xl {
+            flex-basis: 50%;
+        }
+
+
+        ::v-deep .text {
+
+            @extend %u-stretch;
+            position: absolute;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: center;
+            text-align: center;
+            background: $black-overlay;
+
+            /*display: none;*/
+        }
+
+    }
+
+
+    /*
     .l-section {
 
         display: flex;
@@ -20,9 +65,7 @@
 
 
 
-        @include md-xl {
-            padding-left: $column-width;
-        }
+
 
     }
 
@@ -46,6 +89,35 @@
 
 
     }
+    */
+
+    /*
+       .image, .text {
+           @extend %u-stretch;
+           padding: 10%;
+       }
+
+       .image img {
+           object-fit: contain;
+           width: 100%;
+           height: 100%;
+       }
+
+
+
+       .text {
+           position: absolute;
+           display: flex;
+           flex-flow: column nowrap;
+           justify-content: center;
+           text-align: center;
+           background: $black-overlay;
+           a { display: inline-block }
+       }
+
+
+        */
+
 
 </style>
 
@@ -56,14 +128,18 @@
 -->
 
 <template>
-    <div>
+    <layout-section>
         <layout-header v-bind="header" />
-        <layout-section>
-            <layout-grid :grid="grid" @more="more">
-                <tile-publication v-for="item in publications" v-bind="item" />
-            </layout-grid>
-        </layout-section>
-    </div>
+        <div class="grid">
+            <tile-publications
+                v-for="item in publications"
+                v-bind="item"
+                :key="item.id"
+                :class="{ active: active === item.id }"
+                @click.native="toggle(item.id)"
+            />
+        </div>
+    </layout-section>
 </template>
 
 
@@ -74,13 +150,23 @@
 
 <script>
 
-    import layoutHeader from '$layout/header'
-    import layoutSection from '$layout/section'
-    import layoutGrid from '$layout/grid'
-    import tilePublication from '$tiles/publication'
+    import $ from '$services/utils'
+    import layoutHeader from '$layout/header/layout.header'
+    import layoutSection from '$layout/layout.section'
+    import tilePublications from '$tiles/tile.publication'
 
-    function getParams (route) {
-        return Object.assign({ limit: 50, offset: 0 }, route.query)
+    function getFilters (ctx) {
+        return [
+            ctx.$store.getters['filter/publications']
+        ]
+    }
+
+    function getParams (filters, query) {
+        return {
+            ...$.filters(filters, query),
+            limit: 20,
+            offset: 0
+        }
     }
 
     export default {
@@ -88,8 +174,7 @@
         components: {
             layoutHeader,
             layoutSection,
-            layoutGrid,
-            tilePublication
+            tilePublications
         },
 
         data () {
@@ -99,17 +184,28 @@
                     lg: 2,
                     md: 1
                 },
+                active: 0
             }
         },
 
         computed: {
 
             header () {
-                return this.$store.getters['layout/publications/header']
+                return {
+                    mode: 'refine',
+                    filters: this.filters,
+                    breadcrumbs: [
+                        { title: 'Publications' }
+                    ]
+                }
+            },
+
+            filters () {
+                return getFilters(this);
             },
 
             publications () {
-                return this.$store.state.api.response['publications'];
+                return this.$store.getters['api/publications'];
             }
 
         },
@@ -117,13 +213,18 @@
         methods: {
 
             update () {
-                this.params = getParams(this.$route);
+                this.params = getParams(this.filters, this.$route.query);
                 this.$store.commit('cancel', 'publications');
                 this.$store.dispatch('request', ['publications', this.params]);
             },
 
             more () {
                 this.$store.dispatch('append', ['publications', this.params]);
+            },
+
+            toggle (id) {
+                if (this.active === id) this.active = 0;
+                else this.active = id;
             }
 
         },
@@ -136,17 +237,17 @@
 
         },
 
-        beforeRouteEnter (to, from, next) {
-            if (this.publications) this.$store.commit('cancel', 'publications');
-            if (!NODE) this.publications = true;
-            Promise.all([
-                this.$store.dispatch('request', 'filter/publications'),
-                this.$store.dispatch('request', ['publications', getParams(to)])
-            ]).then(next);
+        async beforeRouteEnter (to, from, next) {
+            if ($.dehydrated) this.$store.commit('cancel', 'publications');
+            await this.$store.dispatch('request', 'filter/publications');
+            const filters = getFilters(this);
+            const params = getParams(filters, to.query)
+            await this.$store.dispatch('request', ['publications', params]);
+            next();
         },
 
         created () {
-            this.params = getParams(this.$route);
+            this.params = getParams(this.filters, this.$route.query);
         }
 
     }
