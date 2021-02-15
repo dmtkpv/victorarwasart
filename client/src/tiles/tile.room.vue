@@ -14,8 +14,17 @@
             }
         }
 
-        p {
-            @extend %padding;
+        .text {
+            @include md-xl {
+                padding: $indent-y $indent-x;
+            }
+            @include sm {
+                padding-top: $indent-y;
+            }
+        }
+
+        @include sm {
+            padding: $indent-y $indent-x;
         }
 
     }
@@ -35,7 +44,7 @@
             <img class="u-stretch" :src="`${baseURL}/assets/${image.id}`">
         </div>
 
-        <p>{{ title }}</p>
+        <p class="text">{{ title }}</p>
 
     </router-link>
 </template>

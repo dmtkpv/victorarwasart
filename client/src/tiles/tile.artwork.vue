@@ -19,7 +19,7 @@
                 @extend %ui-link;
             }
             @include md-xl {
-                padding: $indent-x $indent-x 140px $indent-x;
+                padding: $indent-y $indent-x;
             }
             @include sm {
                 padding-top: $indent-y;
@@ -27,7 +27,7 @@
         }
 
         @include sm {
-            padding: $indent-y $indent-x 140px $indent-x;
+            padding: $indent-y $indent-x;
         }
 
     }

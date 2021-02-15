@@ -5,7 +5,7 @@
 <style lang="scss">
 
     .t-poem {
-        padding: $indent-y $indent-x 140px $indent-x;
+        padding: $indent-y $indent-x;
     }
 
 </style>
