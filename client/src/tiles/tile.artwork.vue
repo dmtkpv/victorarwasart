@@ -14,13 +14,20 @@
             }
         }
 
-        @include md-xl {
-            .text { padding: $indent-x $indent-x 140px $indent-x; }
+        .text {
+            a {
+                @extend %ui-link;
+            }
+            @include md-xl {
+                padding: $indent-x $indent-x 140px $indent-x;
+            }
+            @include sm {
+                padding-top: $indent-y;
+            }
         }
 
         @include sm {
             padding: $indent-y $indent-x 140px $indent-x;
-            .text { padding-top: $indent-y; }
         }
 
     }
@@ -46,7 +53,7 @@
             <p>{{ technique }}</p>
             <p>{{ dimensions }}</p>
             <p>{{ note }}</p>
-            <p>Reference No. {{ reference }} | Inquire </p>
+            <p>Reference No. {{ reference }} | <a>Inquire</a></p>
         </div>
 
     </div>

@@ -66,3 +66,14 @@
 }
 
 
+
+// --------------------
+// UI
+// --------------------
+
+%ui-link {
+    display: inline-block;
+    &:hover { color: $red; }
+}
+
+

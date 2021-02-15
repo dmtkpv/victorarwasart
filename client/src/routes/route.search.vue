@@ -4,6 +4,12 @@
 
 <style lang="scss" scoped>
 
+
+
+    // --------------------
+    // Header
+    // --------------------
+
     .l-header {
 
         @include md-xl {
@@ -12,16 +18,38 @@
 
     }
 
-    .l-section {
 
-        @extend %line;
-        &:before { margin-left: 0 }
+
+    // --------------------
+    // Text
+    // --------------------
+
+    ::v-deep .search-text {
+        color: $red;
+    }
+
+
+
+    // --------------------
+    // Masonry
+    // --------------------
+
+    .l-masonry {
+
+        ::v-deep .l-masonry-line {
+            &:nth-child(1):before { left: calc(#{$column-width} * 1); }
+            &:nth-child(2):before { left: calc(#{$column-width} * 2); }
+            &:nth-child(3):before { left: calc(#{$column-width} * 3); }
+            &:nth-child(4):before { left: calc(#{$column-width} * 4); }
+        }
 
         @include md-xl {
             padding-left: $column-width;
         }
 
     }
+
+
 
 </style>
 
@@ -32,22 +60,19 @@
 -->
 
 <template>
-    <div>
+    <layout-section>
         <layout-header v-bind="header" />
-        <layout-section>
-            <layout-grid :grid="grid" @more="more">
-                <template v-for="result in results">
-                    <component
-                        v-for="item in result.data"
-                        v-bind="item"
-                        :is="tiles[result.collection]"
-                        :key="result.collection + item.id"
-                        search="true"
-                    />
-                </template>
-            </layout-grid>
-        </layout-section>
-    </div>
+        <layout-masonry :grid="grid" @more="more">
+            <template v-for="result in results">
+                <component
+                    v-for="item in result.data"
+                    v-bind="item"
+                    :is="tiles[result.collection]"
+                    :key="result.collection + item.id"
+                />
+            </template>
+        </layout-masonry>
+    </layout-section>
 </template>
 
 
@@ -64,14 +89,17 @@
     // Imports
     // ------------------
 
-    import $ from '$modules/utils'
-    import layoutHeader from '$layout/header'
-    import layoutSection from '$layout/section'
-    import layoutGrid from '$layout/grid'
-    import tileArtwork from '$tiles/artwork'
-    import tileRoom from '$tiles/room'
-    import tilePublication from '$tiles/publication'
-    import tileWriting from '$tiles/writing'
+    import $ from '$services/utils'
+    import { fields } from '$config/config.api'
+    import layoutHeader from '$layout/header/layout.header'
+    import layoutSection from '$layout/layout.section'
+    import layoutMasonry from '$layout/layout.masonry'
+    import tileArtwork from '$tiles/tile.artwork'
+    import tileRoom from '$tiles/tile.room'
+    import tilePublication from '$tiles/tile.publication'
+    import tileEssay from '$tiles/tile.essay'
+    import tilePoem from '$tiles/tile.poem'
+    import tileArtist from '$tiles/tile.artist'
 
 
 
@@ -79,61 +107,61 @@
     // Helpers
     // ------------------
 
-    const options = [
+    const Config = [
         {
             collection: 'artworks',
-            fields: 'id,title,artist.name,artist.lifetime,image.id,image.width,image.height,year,technique,dimensions,reference,note',
+            fields: fields.artworks.join(','),
             searchIn: 'title,year,technique,dimensions,reference,note',
         },
         {
             collection: 'viewing_room',
-            fields: '*',
+            fields: fields.room.join(','),
             searchIn: 'title'
         },
         {
             collection: 'publications',
-            fields: '*,image.id,image.width,image.height',
+            fields: fields.publications.join(','),
             searchIn: 'title,year,text'
         },
         {
             collection: 'essays',
-            fields: '*',
-            searchIn: 'title,text'
+            fields: fields.essays.join(','),
+            searchIn: 'title'
         },
         {
             collection: 'poems',
-            fields: '*',
-            searchIn: 'title,text'
+            fields: fields.poems.join(','),
+            searchIn: 'title'
         },
         {
             collection: 'artists',
-            fields: '*',
-            searchIn: 'name,lifetime,biography'
+            fields: fields.artists.join(','),
+            searchIn: 'name'
         }
     ]
 
-    const collections = options.map(option => option.collection);
+    function countParams ({ text }) {
+        return { options: Config, text}
+    }
 
-    function countParams (route) {
+    function getFilter (ctx) {
+        return ctx.$store.getters['filter/search'];
+    }
+
+    function searchParams (filter, query) {
+        let types = $.filter(filter, query);
+        if (!types.length) types = Config.map(option => option.collection);
+        let writings = types.indexOf('writings');
+        if (writings > -1) types.splice(writings, 1, 'essays', 'poems', 'artists');
         return {
-            options,
-            text: route.query.text
+            offset: 0, limit: 20,
+            text: query.text,
+            options: Config.filter(option => types.includes(option.collection))
         }
     }
 
-    function searchParams (route) {
-        let types = $.array(route.query.type);
-        let writings = types.indexOf('writings');
-        if (writings > -1) types.splice(writings, 1, 'essays', 'poems', 'artists');
-        types = types.filter(type => collections.includes(type));
-        types = types.filter((value, index, self) => self.indexOf(value) === index);
-        if (!types.length) types = [...collections];
-        return {
-            offset: 0,
-            limit: 20,
-            text: route.query.text,
-            options: options.filter(option => types.includes(option.collection))
-        }
+    function select (node, selector) {
+        return [...node.querySelectorAll(selector)];
     }
 
 
@@ -147,11 +175,13 @@
         components: {
             layoutHeader,
             layoutSection,
-            layoutGrid,
+            layoutMasonry,
             tileArtwork,
             tileRoom,
             tilePublication,
-            tileWriting
+            tileEssay,
+            tilePoem,
+            tileArtist
         },
 
         data () {
@@ -163,11 +193,11 @@
                 },
                 tiles: {
                     artworks: 'tileArtwork',
-                    viewing_room: 'tileArtwork',
+                    viewing_room: 'tileRoom',
                     publications: 'tilePublication',
-                    essays: 'tileWriting',
-                    poems: 'tileWriting',
-                    artists: 'tileWriting'
+                    essays: 'tileEssay',
+                    poems: 'tilePoem',
+                    artists: 'tileArtist'
                 },
                 params: {}
             }
@@ -176,11 +206,32 @@
         computed: {
 
             header () {
-                return this.$store.getters['layout/search/header'];
+                return {
+                    mode: 'refine',
+                    filters: [
+                        this.filter
+                    ],
+                    breadcrumbs: [
+                        { title: 'Search results', path: '/search' },
+                        { title: this.$route.query.text || 'All' }
+                    ]
+                }
             },
 
             results () {
-                return this.$store.state.api.response['search'];
+                return this.$store.getters['api/search'];
+            },
+
+            filter () {
+                return getFilter(this);
+            },
+
+            query () {
+                return this.$route.query.text + '|' + this.$route.query.s;
+            },
+
+            textRegExp () {
+                return new RegExp(`(${this.$route.query.text})`, 'i');
             }
 
         },
@@ -188,43 +239,85 @@
         methods: {
 
             update () {
-                this.params = searchParams(this.$route);
+                this.params = searchParams(this.filter, this.$route.query);
                 this.$store.commit('cancel', 'search');
                 this.$store.commit('cancel', 'search/count');
                 this.$store.dispatch('request', ['search', this.params]);
-                this.$store.dispatch('request', ['search/count', countParams(this.$route)]);
+                this.$store.dispatch('request', ['search/count', countParams(this.$route.query)]);
             },
 
             more () {
                 this.$store.dispatch('append', ['search', this.params]);
+            },
+
+            select (text) {
+                return text.replace(this.textRegExp, `<span class="search-text">$1</span>`)
+            },
+
+            selectClear () {
+                select(this.$el, '.search-text').forEach($text => {
+                    $text.parentNode.innerHTML = $text.parentNode.innerHTML.replace(/<span class="search-text">(.+)<\/span>/, '$1');
+                })
+            },
+
+            selectSingle (selector) {
+                select(this.$el, selector).forEach($node => {
+                    $node.innerHTML = this.select($node.textContent);
+                })
+            },
+
+            selectMultiple (parent, child) {
+                select(this.$el, parent).forEach($parent => {
+                    select($parent, child).some($child => {
+                        const found = this.textRegExp.exec($child.textContent);
+                        if (found) $child.innerHTML = this.select($child.textContent);
+                        return found;
+                    })
+                })
             }
 
         },
 
         watch: {
 
-            $route () {
+            query () {
                 this.update();
+            },
+
+            results: {
+                immediate: true,
+                async handler () {
+                    if (NODE) return;
+                    await this.$nextTick();
+                    this.selectClear();
+                    this.selectSingle('.t-essay');
+                    this.selectSingle('.t-poem');
+                    this.selectSingle('.t-artist');
+                    this.selectSingle('.t-room p');
+                    this.selectMultiple('.t-publication', 'p');
+                    this.selectMultiple('.t-artwork', 'p');
+                }
             }
 
         },
 
-        beforeRouteEnter (to, from, next) {
-            if (this.search) {
+        async beforeRouteEnter (to, from, next) {
+            if ($.dehydrated) {
                 this.$store.commit('cancel', 'search');
                 this.$store.commit('cancel', 'search/count');
             }
-            if (!NODE) this.search = true;
-            Promise.all([
-                this.$store.dispatch('request', ['search', searchParams(to)]),
-                this.$store.dispatch('request', ['search/count', countParams(to)])
-            ]).then(() => {
-                next();
-            });
+            const filter = getFilter(this);
+            const search = searchParams(filter, to.query);
+            const count = countParams(to.query);
+            await Promise.all([
+                this.$store.dispatch('request', ['search', search]),
+                this.$store.dispatch('request', ['search/count', count])
+            ]);
+            next();
         },
 
         created () {
-            this.params = searchParams(this.$route);
+            this.params = searchParams(this.filter, this.$route.query);
         }
 
 

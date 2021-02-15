@@ -5,15 +5,14 @@
 import home from '$routes/route.home'
 import artworks from '$routes/route.artworks'
 // import room from '@/components/routes/room/route.room.vue'
-// import publications from '$routes/publications'
+import publications from '$routes/route.publications'
 import writings from '$routes/route.writings'
 import essay from '$routes/route.writings.essay'
 import poem from '$routes/route.writings.poem'
 import biography from '$routes/route.writings.biography'
-// import search from '$routes/search'
 import exhibitions from '$routes/route.exhibitions'
 import about from '$routes/route.about'
-// import search from '@/components/routes/search/route.search.vue'
+import search from '$routes/route.search'
 
 
 
@@ -42,10 +41,13 @@ export default [
     // //     path: '/viewing-room',
     // //     component: { }
     // // },
-    // {
-    //     path: '/publications',
-    //     component: publications
-    // },
+    {
+        path: '/publications',
+        component: publications,
+        meta: {
+            footer: true
+        }
+    },
     {
         path: '/writings',
         component: writings
@@ -82,8 +84,11 @@ export default [
         path: '/about-us',
         component: about
     },
-    // {
-    //     path: '/search',
-    //     component: search
-    // }
+    {
+        path: '/search',
+        component: search,
+        meta: {
+            footer: true
+        }
+    }
 ]

@@ -4,8 +4,8 @@
 
 <style lang="scss">
 
-    .t-writing {
-        padding: $indent-x;
+    .t-poem {
+        padding: $indent-y $indent-x 140px $indent-x;
     }
 
 </style>
@@ -17,7 +17,7 @@
 -->
 
 <template>
-    <a class="t-writing">{{ title }}</a>
+    <router-link class="t-poem" :to="`/writings/poem/${id}`">{{ title }}</router-link>
 </template>
 
 
@@ -33,6 +33,7 @@
         inheritAttrs: false,
 
         props: [
+            'id',
             'title'
         ]
 

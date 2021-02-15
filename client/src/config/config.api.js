@@ -13,7 +13,7 @@ function csv (val) {
 // Fields
 // ------------------
 
-const fields = {
+export const fields = {
 
     'artworks': [
         'id',
@@ -42,6 +42,40 @@ const fields = {
         'reference',
         'note',
         'additional_images.directus_files_id'
+    ],
+
+    'publications': [
+        'id',
+        'title',
+        'year',
+        'text',
+        'reference',
+        'image.id',
+        'image.width',
+        'image.height'
+    ],
+
+    essays: [
+        'id',
+        'title'
+    ],
+
+    poems: [
+        'id',
+        'title'
+    ],
+
+    artists: [
+        'id',
+        'name'
+    ],
+
+    room: [
+        'id',
+        'title',
+        'image.id',
+        'image.width',
+        'image.height'
     ]
 
 }
@@ -116,7 +150,7 @@ export default {
         }
     },
 
-    'artworks' ({ a1, a2, a3, sort, offset, limit }) {
+    'artworks' ({ a1, a2, a3, sort, offset, limit } = {}) {
         return {
             url: '/items/artworks',
             params: {
@@ -151,12 +185,12 @@ export default {
         }
     },
 
-    'publications' ({ type, offset, limit }) {
+    'publications' ({ p1, offset, limit } = {}) {
         return {
             url: '/items/publications',
             params: {
-                fields: '*,image.id,image.width,image.height',
-                'filter[types][publication_types_id][_in]': $.filter(type),
+                fields: fields.publications.join(','),
+                'filter[types][publication_types_id][_in]': csv(p1),
                 limit, offset
             }
         }
@@ -166,7 +200,7 @@ export default {
         return {
             url: '/items/essays',
             params: {
-                fields: 'id,title',
+                fields: fields.essays.join(','),
                 limit: -1
             }
         }
@@ -183,7 +217,7 @@ export default {
         return {
             url: '/items/poems',
             params: {
-                fields: 'id,title',
+                fields: fields.poems.join(','),
                 limit: -1
             }
         }

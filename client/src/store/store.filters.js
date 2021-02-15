@@ -69,14 +69,14 @@ export default () => ({
         'filter/search' (state, getters) {
             const count = getters['api/search/count'];
             return {
-                id: 's1',
+                id: 's',
                 mode: 'params',
                 items: [{
                     id: 'artworks',
                     title: 'Artwork',
                     total: count.artworks || 0
                 }, {
-                    id: 'rooms',
+                    id: 'viewing_room',
                     title: 'Viewing room',
                     total: count.rooms || 0
                 }, {
