@@ -23,17 +23,14 @@ module.exports = function (router, { services }) {
     // -------------------
 
     router.get('/', (req, res, next) => {
-
-        const { limit, offset, text, options } = req.query;
-
-        const requests = options.map(async option => {
+        const requests = req.query.options.map(async option => {
             const { collection, fields, searchIn } = JSON.parse(option);
             const service = new ItemsService(collection, { schema: req.schema });
             const data = await service.readByQuery({
-                limit,
-                offset,
+                limit: req.sanitizedQuery.limit,
+                offset: req.sanitizedQuery.offset,
                 fields: fields.split(','),
-                filter: filter(searchIn, text)
+                filter: filter(searchIn, req.query.text)
             })
             return {
                 collection,
