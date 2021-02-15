@@ -109,7 +109,7 @@
                         this.$store.getters['filter/biographies']
                     ],
                     breadcrumbs: [
-                        { title: 'Writings', path: '/writings' }
+                        { title: 'Writings' }
                     ]
                 }
             }

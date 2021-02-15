@@ -126,7 +126,7 @@
                         { title: 'Year', value: '-year'}
                     ],
                     breadcrumbs: [
-                        { title: 'Artwork', path: '/artwork' }
+                        { title: 'Artwork' }
                     ]
                 }
             },

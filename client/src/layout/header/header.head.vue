@@ -111,7 +111,7 @@
 
                 <router-link
                     v-text="item.title"
-                    :to="item.path"
+                    :to="item.path || ''"
                     :class="breadcrumbClass(index)"
                 />
 

@@ -85,7 +85,7 @@
                     ],
                     breadcrumbs: [
                         { title: 'Writings', path: '/writings' },
-                        { title: 'Essays', path: '/writings/essays' },
+                        { title: 'Essays' }
                     ]
                 }
             },

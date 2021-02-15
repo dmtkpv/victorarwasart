@@ -137,7 +137,7 @@
                     mode: 'none',
                     filters: [],
                     breadcrumbs: [
-                        { title: 'Exhibitions', path: '/exhibitions' }
+                        { title: 'Exhibitions' }
                     ]
                 }
             },

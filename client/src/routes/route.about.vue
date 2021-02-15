@@ -219,7 +219,7 @@
                     mode: 'none',
                     filters: [],
                     breadcrumbs: [
-                        { title: 'About us', path: '/about-us' }
+                        { title: 'About us' }
                     ]
                 }
             },
