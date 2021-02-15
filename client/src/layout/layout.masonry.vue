@@ -28,7 +28,10 @@
         align-content: flex-start;
         overflow: hidden;
 
-        & > * { order: 99999; }
+        & > * {
+            order: 99999;
+            padding-bottom: 120px !important;
+        }
 
         &[col="1"] > * { width: 100% };
         &[col="2"] > * { width: 50% };
