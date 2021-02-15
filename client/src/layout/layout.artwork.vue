@@ -244,6 +244,7 @@
         computed: {
 
             images () {
+                if (!this.image) return [];
                 const images = [this.image.id];
                 if (!this.additional_images) return images;
                 return images.concat(this.additional_images.map(image => image.directus_files_id));
