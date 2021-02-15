@@ -11,7 +11,7 @@ import essay from '$routes/route.writings.essay'
 import poem from '$routes/route.writings.poem'
 import biography from '$routes/route.writings.biography'
 // import search from '$routes/search'
-// import exhibitions from '@/components/routes/exhibitions/route.exhibitions.vue'
+import exhibitions from '$routes/route.exhibitions'
 import about from '$routes/route.about'
 // import search from '@/components/routes/search/route.search.vue'
 
@@ -71,10 +71,13 @@ export default [
             footer: true
         }
     },
-    // // {
-    // //     path: '/exhibitions',
-    // //     component: { }
-    // // },
+    {
+        path: '/exhibitions',
+        component: exhibitions,
+        meta: {
+            footer: true
+        }
+    },
     {
         path: '/about-us',
         component: about

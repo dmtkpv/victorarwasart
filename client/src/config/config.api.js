@@ -201,6 +201,16 @@ export default {
             url: '/items/artists/' + id,
             params: {
                 fields: 'id,name,biography'
+            },
+            default: {}
+        }
+    },
+
+    'exhibitions' () {
+        return {
+            url: '/items/exhibitions',
+            params: {
+                limit: -1
             }
         }
     },

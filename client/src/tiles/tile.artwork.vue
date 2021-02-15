@@ -8,7 +8,6 @@
 
         .image {
             position: relative;
-            background: #F00;
             img {
                 @extend %u-stretch;
                 position: absolute;
