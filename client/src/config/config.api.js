@@ -70,7 +70,7 @@ export const fields = {
         'name'
     ],
 
-    room: [
+    rooms: [
         'id',
         'title',
         'image.id',
@@ -175,7 +175,11 @@ export default {
 
     'rooms' () {
         return {
-            url: '/items/viewing_room'
+            url: '/items/viewing_room',
+            params: {
+                fields: fields.rooms.join(','),
+                limit: -1
+            }
         }
     },
 

@@ -115,7 +115,7 @@
         },
         {
             collection: 'viewing_room',
-            fields: fields.room.join(','),
+            fields: fields.rooms.join(','),
             searchIn: 'title'
         },
         {

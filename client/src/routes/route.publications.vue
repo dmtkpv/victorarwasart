@@ -199,11 +199,6 @@
 
         data () {
             return {
-                grid: {
-                    xl: 2,
-                    lg: 2,
-                    md: 1
-                },
                 active: 0
             }
         },

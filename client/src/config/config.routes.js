@@ -4,7 +4,7 @@
 
 import home from '$routes/route.home'
 import artworks from '$routes/route.artworks'
-// import room from '@/components/routes/room/route.room.vue'
+import rooms from '$routes/route.rooms'
 import publications from '$routes/route.publications'
 import writings from '$routes/route.writings'
 import essay from '$routes/route.writings.essay'
@@ -13,8 +13,6 @@ import biography from '$routes/route.writings.biography'
 import exhibitions from '$routes/route.exhibitions'
 import about from '$routes/route.about'
 import search from '$routes/route.search'
-
-
 
 
 
@@ -37,10 +35,13 @@ export default [
             footer: true
         }
     },
-    // // {
-    // //     path: '/viewing-room',
-    // //     component: { }
-    // // },
+    {
+        path: '/viewing-room',
+        component: rooms,
+        meta: {
+            footer: true
+        }
+    },
     {
         path: '/publications',
         component: publications,
