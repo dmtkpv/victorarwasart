@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 export default () => ({
 
     namespaced: true,
@@ -5,8 +7,8 @@ export default () => ({
 
     mutations: {
 
-        set (state, data) {
-            Object.assign(state, data);
+        set (state, [key, value]) {
+            Vue.set(state, key, value);
         }
 
     }

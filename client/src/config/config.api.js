@@ -316,6 +316,14 @@ export default {
         }
     },
 
+    'email' (data) {
+        return {
+            method: 'POST',
+            url: '/custom/email',
+            data
+        }
+    },
+
     'timeout' () {
         return {
             url: '/custom/timeout',

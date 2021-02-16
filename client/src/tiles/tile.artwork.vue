@@ -53,7 +53,7 @@
             <p>{{ technique }}</p>
             <p>{{ dimensions }}</p>
             <p>{{ note }}</p>
-            <p>Reference No. {{ reference }} | <a>Inquire</a></p>
+            <p>Reference No. {{ reference }} | <a @click="inquire">Inquire</a></p>
         </div>
 
     </div>
@@ -88,6 +88,13 @@
             modal () {
                 this.$store.commit('storage/set', { artwork: this.$props });
                 this.$router.push({ query: { ...this.$route.query, modal_artwork: this.id } })
+            },
+
+            inquire () {
+                const { artist, title, year, technique, dimensions, note, reference } = this;
+                let inquire = `${title}, ${year}\n${technique} | ${dimensions} | ${note}\nReference No. ${reference}`
+                if (artist) inquire = `${artist.name}, ${artist.lifetime}\n${inquire}`;
+                this.$store.commit('storage/set', ['inquire', inquire]);
             }
 
         }

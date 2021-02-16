@@ -20,7 +20,7 @@
     <aside class="l-modal">
         <modal-room v-if="modal.room" />
         <modal-artwork v-if="modal.artwork" :id="modal.artwork" />
-        <modal-inquire v-if="modal.inquire" />
+        <modal-inquire v-if="modal.inquire" :subject="modal.inquire" />
     </aside>
 </template>
 
@@ -50,7 +50,7 @@
                 return {
                     artwork: +this.$route.query.modal_artwork,
                     room: false,
-                    inquire: false
+                    inquire: this.$store.state.storage.inquire
                 }
             }
 

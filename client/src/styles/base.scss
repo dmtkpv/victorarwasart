@@ -35,7 +35,8 @@ svg {
     display: block;
     fill: currentColor;
 }
-input {
+input,
+textarea {
     display: block;
     padding: 0;
     margin: 0;
@@ -47,13 +48,18 @@ input {
     line-height: inherit;
     color: inherit;
 }
-input:focus {
-    outline: navajowhite;
+input:focus,
+textarea:focus {
+    outline: none;
 }
+textarea,
 input[type=text] {
     width: 100%;
 }
 input[type=submit] {
     cursor: pointer;
+}
+textarea {
+    resize: vertical;
 }
 

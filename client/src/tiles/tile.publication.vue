@@ -49,7 +49,7 @@
         <div class="text">
             <p>{{ title }}, {{ year }}</p>
             <p>{{ text }}</p>
-            <p>Publication ID: {{ reference }} | <a>Inquire</a></p>
+            <p>Publication ID: {{ reference }} | <a @click="inquire">Inquire</a></p>
         </div>
 
     </div>
@@ -74,7 +74,17 @@
             'year',
             'text',
             'reference'
-        ]
+        ],
+
+        methods: {
+
+            inquire () {
+                const { title, year, text, reference } = this;
+                let inquire = `${title}, ${year}\n${text}\nReference No. ${reference}`
+                this.$store.commit('storage/set', ['inquire', inquire]);
+            }
+
+        }
 
     }
 
