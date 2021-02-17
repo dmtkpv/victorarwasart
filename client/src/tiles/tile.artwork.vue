@@ -8,6 +8,7 @@
 
         .image {
             position: relative;
+            cursor: crosshair;
             img {
                 @extend %u-stretch;
                 position: absolute;
