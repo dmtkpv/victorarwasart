@@ -177,9 +177,13 @@
         ]
     }
 
-    function getParams (filters, query) {
+    function getQuery (filters, query) {
+        return $.filters(filters, query)
+    }
+
+    function getParams (query) {
         return {
-            ...$.filters(filters, query),
+            ...query,
             limit: 20,
             offset: 0
         }
@@ -215,12 +219,20 @@
                 }
             },
 
+            publications () {
+                return this.$store.getters['api/publications'];
+            },
+
             filters () {
                 return getFilters(this);
             },
 
-            publications () {
-                return this.$store.getters['api/publications'];
+            query () {
+                return getQuery(this.filters, this.$route.query);
+            },
+
+            queryString () {
+                return JSON.stringify(this.query);
             }
 
         },
@@ -228,7 +240,7 @@
         methods: {
 
             update () {
-                this.params = getParams(this.filters, this.$route.query);
+                this.params = getParams(this.query);
                 this.$store.commit('cancel', 'publications');
                 this.$store.dispatch('request', ['publications', this.params]);
             },
@@ -246,7 +258,7 @@
 
         watch: {
 
-            $route () {
+            queryString () {
                 this.update();
             }
 
@@ -256,13 +268,14 @@
             if ($.dehydrated) this.$store.commit('cancel', 'publications');
             await this.$store.dispatch('request', 'filter/publications');
             const filters = getFilters(this);
-            const params = getParams(filters, to.query)
+            const query = getQuery(filters, to.query);
+            const params = getParams(query);
             await this.$store.dispatch('request', ['publications', params]);
             next();
         },
 
         created () {
-            this.params = getParams(this.filters, this.$route.query);
+            this.params = getParams(this.query);
             this.$on('more', this.more);
         }
 
