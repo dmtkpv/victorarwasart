@@ -78,7 +78,7 @@ export default () => ({
                 }, {
                     id: 'viewing_room',
                     title: 'Viewing room',
-                    total: count.rooms || 0
+                    total: count.viewing_room || 0
                 }, {
                     id: 'publications',
                     title: 'Publications',
