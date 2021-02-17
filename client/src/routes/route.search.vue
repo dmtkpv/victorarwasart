@@ -140,23 +140,34 @@
         }
     ]
 
-    function countParams ({ text }) {
-        return { options: Config, text}
-    }
-
     function getFilter (ctx) {
         return ctx.$store.getters['filter/search'];
     }
 
-    function searchParams (filter, query) {
-        let types = $.filter(filter, query);
+    function getQuery (filter, query) {
+        return {
+            s: $.filter(filter, query),
+            text: query.text,
+        }
+    }
+
+    function searchParams ({ s, text }) {
+        let types = [...s];
         if (!types.length) types = Config.map(option => option.collection);
         let writings = types.indexOf('writings');
         if (writings > -1) types.splice(writings, 1, 'essays', 'poems', 'artists');
         return {
-            offset: 0, limit: 20,
-            text: query.text,
+            text,
+            offset: 0,
+            limit: 20,
             options: Config.filter(option => types.includes(option.collection))
+        }
+    }
+
+    function countParams ({ text }) {
+        return {
+            text,
+            options: Config
         }
     }
 
@@ -227,7 +238,11 @@
             },
 
             query () {
-                return this.$route.query.text + '|' + this.$route.query.s;
+                return getQuery(this.filter, this.$route.query);
+            },
+
+            queryString () {
+                return JSON.stringify(this.query);
             },
 
             textRegExp () {
@@ -239,11 +254,11 @@
         methods: {
 
             update () {
-                this.params = searchParams(this.filter, this.$route.query);
+                this.params = searchParams(this.query);
                 this.$store.commit('cancel', 'search');
                 this.$store.commit('cancel', 'search/count');
                 this.$store.dispatch('request', ['search', this.params]);
-                this.$store.dispatch('request', ['search/count', countParams(this.$route.query)]);
+                this.$store.dispatch('request', ['search/count', countParams(this.query)]);
             },
 
             more () {
@@ -280,7 +295,7 @@
 
         watch: {
 
-            query () {
+            queryString () {
                 this.update();
             },
 
@@ -307,8 +322,9 @@
                 this.$store.commit('cancel', 'search/count');
             }
             const filter = getFilter(this);
-            const search = searchParams(filter, to.query);
-            const count = countParams(to.query);
+            const query = getQuery(filter, to.query);
+            const search = searchParams(query);
+            const count = countParams(query);
             await Promise.all([
                 this.$store.dispatch('request', ['search', search]),
                 this.$store.dispatch('request', ['search/count', count])
@@ -317,7 +333,7 @@
         },
 
         created () {
-            this.params = searchParams(this.filter, this.$route.query);
+            this.params = searchParams(this.query);
         }
 
 
