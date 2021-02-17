@@ -84,10 +84,16 @@
         ]
     }
 
-    function getParams (filters, query) {
+    function getQuery (filters, query) {
         return {
             ...$.filters(filters, query),
-            sort: query.sort,
+            sort: query.sort
+        }
+    }
+
+    function getParams (query) {
+        return {
+            ...query,
             limit: 50,
             offset: 0
         }
@@ -131,12 +137,20 @@
                 }
             },
 
+            artworks () {
+                return this.$store.state.api.response['artworks'];
+            },
+
             filters () {
                 return getFilters(this);
             },
 
-            artworks () {
-                return this.$store.state.api.response['artworks'];
+            query () {
+                return getQuery(this.filters, this.$route.query);
+            },
+
+            queryString () {
+                return JSON.stringify(this.query);
             }
 
         },
@@ -144,7 +158,7 @@
         methods: {
 
             update () {
-                this.params = getParams(this.filters, this.$route.query);
+                this.params = getParams(this.query);
                 this.$store.commit('cancel', 'artworks');
                 this.$store.dispatch('request', ['artworks', this.params]);
             },
@@ -157,7 +171,7 @@
 
         watch: {
 
-            $route () {
+            queryString () {
                 this.update();
             }
 
@@ -171,13 +185,14 @@
                 this.$store.dispatch('request', 'filter/artists')
             ]);
             const filters = getFilters(this);
-            const params = getParams(filters, to.query)
+            const query = getQuery(filters, to.query);
+            const params = getParams(query)
             await this.$store.dispatch('request', ['artworks', params]);
             next();
         },
 
         created () {
-            this.params = getParams(this.filters, this.$route.query);
+            this.params = getParams(this.query);
         }
 
     }
