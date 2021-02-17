@@ -116,6 +116,7 @@
             @extend %u-row;
             justify-content: center;
             a { margin: 0 4px; }
+            &.hidden { visibility: hidden }
         }
 
         @include sm {
@@ -185,7 +186,7 @@
 
         <div class="l-artwork-text" :class="{ active: details }">
 
-            <div class="nav" v-if="images.length > 1">
+            <div class="nav" :class="{ hidden: images.length === 1 }">
                 <a v-for="(image, index) in images"
                    :class="{ active: index === slide }"
                    @click="slide = index"
