@@ -64,9 +64,11 @@
         &.active {
             .l-nav-link { @extend %link-active }
         }
-        &.active.filtered {
-            .l-nav-link .total { display: none };
-            .l-nav-link .clear { display: block };
+        @include md-xl {
+            &.active.filtered {
+                .l-nav-link .total { display: none };
+                .l-nav-link .clear { display: block };
+            }
         }
         @include sm {
             .l-filter { display: none }

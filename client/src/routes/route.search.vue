@@ -147,7 +147,7 @@
     function getQuery (filter, query) {
         return {
             s: $.filter(filter, query),
-            text: query.text,
+            text: query.text
         }
     }
 
