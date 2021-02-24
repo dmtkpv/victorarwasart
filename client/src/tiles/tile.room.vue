@@ -38,7 +38,7 @@
 -->
 
 <template>
-    <router-link :to="`/viewing-room/${id}`" class="t-room">
+    <a class="t-room" @click="open">
 
         <div class="image" :style="{paddingTop: image.height / image.width * 100 + '%'}">
             <img class="u-stretch" :src="`${baseURL}/assets/${image.id}`">
@@ -46,7 +46,7 @@
 
         <p class="text">{{ title }}</p>
 
-    </router-link>
+    </a>
 </template>
 
 
@@ -63,7 +63,16 @@
             'id',
             'title',
             'image'
-        ]
+        ],
+
+        methods: {
+
+            open () {
+                this.$store.commit('storage/set', ['room-from', this.$route.fullPath ]);
+                this.$router.push(`/viewing-room/${this.id}`);
+            }
+
+        }
 
     }
 

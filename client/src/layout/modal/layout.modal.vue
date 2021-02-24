@@ -49,7 +49,7 @@
             modal () {
                 return {
                     artwork: +this.$route.query.modal_artwork,
-                    room: false,
+                    room: this.$route.name === 'room' && !this.$route.params.thumbnails,
                     inquire: this.$store.state.storage.inquire
                 }
             }

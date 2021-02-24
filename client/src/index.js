@@ -20,6 +20,7 @@ import Index from './index.vue'
 // ------------------
 
 const baseURL = 'http://93.188.166.42:49012'
+// const baseURL = 'http://localhost:49012'
 
 
 

@@ -44,7 +44,8 @@ export default [
         }
     },
     {
-        path: '/viewing-room/:id',
+        name: 'room',
+        path: '/viewing-room/:id/:thumbnails?',
         component: room,
         meta: {
             footer: true

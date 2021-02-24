@@ -21,6 +21,14 @@
             white-space: pre-line;
         }
 
+        .toggle {
+            @extend %u-row;
+            @extend %padding;
+            justify-content: flex-start;
+            text-transform: uppercase;
+            span:last-child { color: $red }
+        }
+
     }
 
 
@@ -55,6 +63,11 @@
     <layout-section>
         <layout-header v-bind="header" />
         <div class="column">
+            <div class="toggle">
+                <a @click="gallery">Gallery view</a>
+                <span>&nbsp;/&nbsp;</span>
+                <span>Thumbnail view</span>
+            </div>
             <div class="note">{{ room.note }}</div>
         </div>
         <layout-masonry :grid="grid">
@@ -112,6 +125,14 @@
 
             room () {
                 return this.$store.getters['api/rooms/item'];
+            }
+
+        },
+
+        methods: {
+
+            gallery () {
+                this.$router.push({ params: { ...this.$route.params, thumbnails: undefined } });
             }
 
         },

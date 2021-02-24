@@ -76,6 +76,15 @@ export const fields = {
         'image.id',
         'image.width',
         'image.height'
+    ],
+
+    screen: [
+        'id',
+        'images.directus_files_id',
+        'align',
+        'height',
+        'container',
+        'text'
     ]
 
 }
@@ -187,7 +196,12 @@ export default {
         return {
             url: '/items/viewing_room/' + id,
             params: {
-                fields: ['title', 'note', ...fields.artworks.map(field => `artworks.artworks_id.${field}`)].join(',')
+                fields: [
+                    'title',
+                    'note',
+                    ...fields.artworks.map(field => `artworks.artworks_id.${field}`),
+                    ...fields.screen.map(field => `gallery.screens_id.${field}`),
+                ].join(',')
             },
             default: {}
         }
