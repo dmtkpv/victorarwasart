@@ -25,6 +25,7 @@
             this.$style = document.createElement('style');
             this.$style.appendChild($text);
             document.head.appendChild(this.$style);
+            this.$el.parentNode.parentNode.style.display = 'none';
         },
 
         destroyed () {
