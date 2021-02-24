@@ -3,7 +3,7 @@
 -->
 
 <template>
-    <v-textarea :value="value" @input="$emit('input', $event)"/>
+    <v-textarea disabled :value="styles" @input="$emit('input', $event)"/>
 </template>
 
 
@@ -17,11 +17,11 @@
     export default {
 
         props: [
-            'value'
+            'styles'
         ],
 
         mounted () {
-            const $text = document.createTextNode(this.value);
+            const $text = document.createTextNode(this.styles);
             this.$style = document.createElement('style');
             this.$style.appendChild($text);
             document.head.appendChild(this.$style);
