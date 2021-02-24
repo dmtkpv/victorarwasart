@@ -51,6 +51,19 @@
             vertical-align: top;
         }
 
+        a {
+            @extend %u-row;
+            svg {
+                width: 12px;
+                margin-left: 8px;
+                flex-shrink: 0;
+            }
+            @include lg-xl {
+                justify-content: flex-start;
+                &:not(:hover) svg { opacity: 0 }
+            }
+        }
+
         @include lg-xl {
             .country { width: $column-width; }
             .city { width: $column-width; }
@@ -97,10 +110,18 @@
                 <tbody>
                     <template v-for="(cities, country) in countries">
                         <template v-for="(establishments, city, cityIndex) in cities">
-                            <tr v-for="(establishment, index) in establishments">
+                            <tr v-for="(item, index) in establishments">
+
                                 <td class="country" v-if="cityIndex === 0 && index === 0" :rowspan="Object.values(cities).flat().length">{{ country }}</td>
                                 <td class="city" :class="{ hidden: index }" :rowspan="establishments.length">{{ city }}</td>
-                                <td class="establishment">{{ establishment }}</td>
+
+                                <td class="establishment">
+                                    <a :href="item.link" target="_blank">
+                                        <span v-text="item.establishment" />
+                                        <svg-open />
+                                    </a>
+                                </td>
+
                             </tr>
                         </template>
                     </template>
@@ -122,12 +143,14 @@
 
     import layoutSection from '$layout/layout.section'
     import layoutHeader from '$layout/header/layout.header'
+    import svgOpen from '$svg/open'
 
     export default {
 
         components: {
             layoutHeader,
-            layoutSection
+            layoutSection,
+            svgOpen
         },
 
         computed: {
@@ -148,10 +171,10 @@
 
             countries () {
                 return this.exhibitions.reduce((countries, exhibition) => {
-                    const { country, city, establishment } = exhibition;
+                    const { country, city, establishment, link } = exhibition;
                     if (!countries[country]) countries[country] = {};
                     if (!countries[country][city]) countries[country][city] = [];
-                    countries[country][city].push(establishment);
+                    countries[country][city].push({ establishment, link });
                     return countries;
                 }, {});
             }
