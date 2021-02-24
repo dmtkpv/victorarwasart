@@ -1,10 +1,10 @@
-import InterfaceComponent from './interface.vue';
+import component from './article.vue';
 
 export default {
+    component,
     id: 'article',
     name: 'Article',
     description: 'A custom text editor with references',
     icon: 'subject',
-    component: InterfaceComponent,
     types: ['text']
 };

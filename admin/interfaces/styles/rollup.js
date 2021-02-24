@@ -16,7 +16,7 @@ import styles from "rollup-plugin-styles";
 // ----------------------
 
 function rootPath (value) {
-    return path.join(__dirname, '../', value);
+    return path.join(__dirname, '../../', value);
 }
 
 
@@ -26,10 +26,10 @@ function rootPath (value) {
 // ----------------------
 
 export default {
-    input: rootPath('article/index.js'),
+    input: rootPath('interfaces/styles/index.js'),
     output: {
         format: 'es',
-        file: rootPath('extensions/interfaces/article/index.js'),
+        file: rootPath('extensions/interfaces/styles/index.js'),
     },
     plugins: [
         terser(),
