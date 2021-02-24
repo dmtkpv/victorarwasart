@@ -46,6 +46,7 @@
             @include stretch;
             position: fixed;
             background: $black;
+            overflow: auto;
         }
 
     }
