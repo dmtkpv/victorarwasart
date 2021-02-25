@@ -60,7 +60,7 @@
             }
 
             @include md-xl {
-                margin-bottom: 56px;
+                margin-bottom: calc(#{$indent-y} * 2);
                 span:first-child { display: none }
             }
 
