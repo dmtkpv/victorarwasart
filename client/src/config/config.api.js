@@ -154,7 +154,12 @@ export default {
                 fields: fields['artworks/item'].map(field => `artworks.artworks_id.${field}`).join(',')
             },
             transform (response) {
-                return response.artworks.map(item => item.artworks_id);
+                const items = response.artworks.map(item => item.artworks_id);
+                const index = Math.floor(Math.random() * items.length);
+                const item = items[index];
+                items.splice(index, 1);
+                items.unshift(item);
+                return items;
             }
         }
     },

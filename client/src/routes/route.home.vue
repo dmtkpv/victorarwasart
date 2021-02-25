@@ -39,6 +39,7 @@
 
 <script>
 
+    import $ from '$services/utils'
     import layoutSection from '$layout/layout.section'
     import layoutArtwork from '$layout/layout.artwork'
 
@@ -49,20 +50,24 @@
             layoutArtwork
         },
 
+        data () {
+            return {
+                index: 0
+            }
+        },
+
         computed: {
 
-            artworks () {
-                return this.$store.getters['api/home'];
-            },
-
             artwork () {
-                return this.artworks[Math.floor(Math.random() * this.artworks.length)];
+                return this.$store.getters['api/home'][this.index];
             }
 
         },
 
-        beforeRouteEnter (to, from, next) {
-            this.$store.dispatch('request', 'home').then(next);
+        async beforeRouteEnter (to, from, next) {
+            await this.$store.dispatch('request', 'home').then(next);
+            if ($.dehydrated) next(vm =>  vm.index = Math.floor(Math.random() * this.$store.getters['api/home'].length));
+            else next();
         }
 
     }
