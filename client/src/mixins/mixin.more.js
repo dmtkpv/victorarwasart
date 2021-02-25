@@ -6,7 +6,7 @@ export default {
             const wh = window.innerHeight;
             const sh = document.documentElement.scrollHeight;
             const st = document.documentElement.scrollTop;
-            if (st > sh - wh * 2) this.$emit('more');
+            if (st > sh - wh * 3) this.$emit('more');
         }
 
     },

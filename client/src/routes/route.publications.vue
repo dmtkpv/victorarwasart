@@ -133,6 +133,16 @@
 
 
 
+    // --------------------
+    // Footer
+    // --------------------
+
+    .l-section:not(.loaded) ~ ::v-deep .l-footer {
+        display: none;
+    }
+
+
+
 </style>
 
 
@@ -142,7 +152,7 @@
 -->
 
 <template>
-    <layout-section>
+    <layout-section :class="{ loaded }">
         <layout-header v-bind="header" />
         <div class="grid">
             <tile-publications
@@ -219,6 +229,10 @@
                 }
             },
 
+            loaded () {
+                return this.$store.state.api.loaded['publications'];
+            },
+
             publications () {
                 return this.$store.getters['api/publications'];
             },
@@ -260,6 +274,13 @@
 
             queryString () {
                 this.update();
+            },
+
+            publications: {
+                immediate: true,
+                handler () {
+                    !NODE && this.$nextTick(this.scrollMore);
+                }
             }
 
         },

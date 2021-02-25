@@ -51,6 +51,16 @@
 
 
 
+    // --------------------
+    // Footer
+    // --------------------
+
+    .l-section:not(.loaded) ~ ::v-deep .l-footer {
+        display: none;
+    }
+
+
+
 </style>
 
 
@@ -60,7 +70,7 @@
 -->
 
 <template>
-    <layout-section>
+    <layout-section :class="{ loaded }">
         <layout-header v-bind="header" />
         <layout-masonry :grid="grid" @more="more">
             <template v-for="result in results">
@@ -227,6 +237,10 @@
                         { title: this.$route.query.text || 'All' }
                     ]
                 }
+            },
+
+            loaded () {
+                return this.$store.state.api.loaded['search'];
             },
 
             results () {

@@ -45,6 +45,16 @@
 
 
 
+    // --------------------
+    // Footer
+    // --------------------
+
+    .l-section:not(.loaded) ~ ::v-deep .l-footer {
+        display: none;
+    }
+
+
+
 </style>
 
 
@@ -54,7 +64,7 @@
 -->
 
 <template>
-    <layout-section>
+    <layout-section :class="{ loaded }">
         <layout-header v-bind="header" />
         <layout-masonry :grid="grid" @more="more">
             <tile-artwork v-for="item in artworks" v-bind="item" :key="item.id" />
@@ -135,6 +145,10 @@
                         { title: 'Artwork' }
                     ]
                 }
+            },
+
+            loaded () {
+                return this.$store.state.api.loaded['artworks'];
             },
 
             artworks () {
