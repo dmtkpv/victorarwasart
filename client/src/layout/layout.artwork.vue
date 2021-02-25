@@ -106,17 +106,26 @@
         text-align: center;
         padding: $indent-y $indent-x 64px $indent-x;
 
-        a {
-            display: inline-block;
-            &:hover { color: $red; }
-            &.active { color: $red }
+        .inquire {
+            @extend %ui-link;
         }
 
         .nav {
             @extend %u-row;
             justify-content: center;
-            a { margin: 0 4px; }
+            margin-bottom: 12px;
             &.hidden { visibility: hidden }
+            a {
+                @extend %u-row;
+                justify-content: center;
+                width: 24px;
+                height: 24px;
+                border-radius: 12px;
+                margin: 0 2px;
+                line-height: 0.8;
+                border: 1px solid transparent;
+                &.active { border-color: $white; }
+            }
         }
 
         @include sm {
@@ -197,7 +206,7 @@
             <p v-if="artist">{{ artist.name }}, {{ artist.lifetime }}</p>
             <p>{{ title }}, {{ year }}</p>
             <p>{{ technique }} | {{ dimensions }} | {{ note }}</p>
-            <p>Reference No. {{ reference }} | <a>Inquire</a> </p>
+            <p>Reference No. {{ reference }} | <a class="inquire" @click="inquire">Inquire</a> </p>
 
         </div>
 
@@ -257,6 +266,17 @@
                     if (index === this.slide - 1) return 'prev';
                     if (index === this.slide) return 'current';
                 }
+            }
+
+        },
+
+        methods: {
+
+            inquire () {
+                const { artist, title, year, technique, dimensions, note, reference } = this;
+                let inquire = `${title}, ${year}\n${technique} | ${dimensions} | ${note}\nReference No. ${reference}`
+                if (artist) inquire = `${artist.name}, ${artist.lifetime}\n${inquire}`;
+                this.$store.commit('storage/set', ['inquire', inquire]);
             }
 
         }
