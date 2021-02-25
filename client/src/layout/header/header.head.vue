@@ -60,7 +60,7 @@
             }
 
             @include md-xl {
-                margin-bottom: 48px;
+                margin-bottom: 56px;
                 span:first-child { display: none }
             }
 

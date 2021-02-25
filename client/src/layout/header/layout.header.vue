@@ -101,7 +101,6 @@
     import svgRight from '$svg/right'
     import layoutFilter from '$layout/filter/layout.filter'
     import headerHead from './header.head'
-    import headerSort from './header.sort'
     import headerFilters from './header.filters'
 
     export default {
@@ -110,7 +109,6 @@
             svgRight,
             layoutFilter,
             headerHead,
-            headerSort,
             headerFilters
         },
 
