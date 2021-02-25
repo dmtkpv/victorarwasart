@@ -47,6 +47,7 @@
 
         .slide {
             @extend %u-row;
+            position: relative;
             align-items: center;
             justify-content: center;
             flex: 0 0 100%;
@@ -145,21 +146,42 @@
 
 
     // --------------------
+    // Magnifier
+    // --------------------
+
+    .l-artwork-magnifier {
+
+        position: fixed;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        overflow: hidden;
+        pointer-events: none;
+        box-shadow: 0 0 0 1px rgba(0,0,0,0.3);
+
+        img {
+            position: absolute;
+            left: 0;
+            top: 0;
+            @include sm { object-fit: cover }
+        }
+
+    }
+
+
+
+    // --------------------
     // Details
     // --------------------
 
-    .l-slider-details {
-
-        @include md-xl {
-            display: none;
-        }
-
-        @include sm {
-            position: absolute;
-            left: $indent-x;
-            bottom: $indent-y;
-        }
-
+    .l-artwork-controls {
+        @extend %u-row;
+        @extend %padding;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        @include md-xl { display: none }
     }
 
 </style>
@@ -182,7 +204,14 @@
 
             <div class="holder" :style="{ transform: `translateX(-${slide * 100}%)` }">
                 <div class="slide" v-for="(image, index) in images" :key="index" :class="slideClass(index)">
-                    <img class="u-stretch" :src="`${baseURL}/assets/${image}`">
+                    <img
+                        class="u-stretch"
+                        ref="image"
+                        :src="`${baseURL}/assets/${image}`"
+                        @mouseenter="toggleMagnifier(true)"
+                        @mouseleave="toggleMagnifier(false)"
+                        @touchstart.prevent
+                    >
                 </div>
             </div>
 
@@ -211,9 +240,19 @@
         </div>
 
 
+        <!-- zoom -->
+
+        <div class="l-artwork-magnifier" ref="magnifier" v-show="magnifier">
+            <img :src="`${baseURL}/assets/${images[slide]}`">
+        </div>
+
+
         <!-- details -->
 
-        <a class="l-slider-details" @click="details = !details">{{ details ? 'Close' : 'Details' }}</a>
+        <div class="l-artwork-controls">
+            <a @click="toggleDetails(!details)">{{ details ? 'Close' : 'Details' }}</a>
+            <a @click="toggleMagnifier(!magnifier)">{{ magnifier ? 'Clear' : 'Magnifier' }}</a>
+        </div>
 
 
     </div>
@@ -247,7 +286,8 @@
         data () {
             return {
                 slide: 0,
-                details: false
+                details: false,
+                magnifier: false
             }
         },
 
@@ -272,6 +312,63 @@
 
         methods: {
 
+            toggleDetails (value) {
+                this.details = value;
+                this.details && this.toggleMagnifier(false);
+            },
+
+            toggleMagnifier (value) {
+                this.magnifier = value;
+                if (!value) return;
+                const $src = this.$refs.image[this.slide];
+                const rect = $src.getBoundingClientRect();
+                const pageX = rect.left + rect.width / 2;
+                const pageY = rect.top + rect.height / 2;
+                this.magnifier && this.moveMagnifier({ pageX, pageY });
+            },
+
+            moveMagnifier (e) {
+
+                if (!this.magnifier) return;
+
+                // console.log('moveMagnifier')
+
+                const $node = this.$refs.magnifier;
+                const $src = this.$refs.image[this.slide];
+                const $dst = $node.firstElementChild;
+
+
+                const event = (e.touches && e.touches[0] || e.changedTouches && e.changedTouches[0] || e);
+                const node = $node.getBoundingClientRect();
+                const src = $src.getBoundingClientRect();
+
+                // console.log(src)
+
+                const nodeX = event.pageX - node.width / 2;
+                const nodeY = event.pageY - node.height / 2;
+
+
+                const dstX = src.left - nodeX;
+                const dstY = src.top - nodeY;
+                const oX = event.pageX - src.left;
+                const oY = event.pageY - src.top;
+
+
+
+                $dst.style.width = src.width + 'px';
+                $dst.style.height = src.height + 'px';
+                $dst.style.transformOrigin = `${oX}px ${oY}px`
+                $dst.style.transform = `translate(${dstX}px, ${dstY}px) scale(2)`
+
+
+
+                $node.style.left = nodeX + 'px';
+                $node.style.top = nodeY + 'px';
+
+
+
+            },
+
             inquire () {
                 const { artist, title, year, technique, dimensions, note, reference } = this;
                 let inquire = `${title}, ${year}\n${technique} | ${dimensions} | ${note}\nReference No. ${reference}`
@@ -279,6 +376,16 @@
                 this.$store.commit('storage/set', ['inquire', inquire]);
             }
 
+        },
+
+        mounted () {
+            document.addEventListener('mousemove', this.moveMagnifier);
+            document.addEventListener('touchmove', this.moveMagnifier);
+        },
+
+        destroyed () {
+            document.removeEventListener('mousemove', this.moveMagnifier);
+            document.removeEventListener('touchmove', this.moveMagnifier);
         }
 
     }
