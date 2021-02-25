@@ -9,7 +9,7 @@ module.exports = function () {
         let data = {};
         if (context.event === 'items.create.before') data = input[0];
         if (context.event === 'items.update.before') data = input;
-        if (!data.biography) return input;
+        if (data.biography === undefined) return input;
         data.note = htmlToText(data.biography, { wordwrap: false });
         if (data.note.length > max) data.note = data.note.slice(0, max) + '...';
         return input;
