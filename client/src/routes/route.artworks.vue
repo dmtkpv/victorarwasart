@@ -67,7 +67,7 @@
     <layout-section :class="{ loaded }">
         <layout-header v-bind="header" />
         <layout-masonry :grid="grid" @more="more">
-            <tile-artwork v-for="item in artworks" v-bind="item" :key="item.id" />
+            <tile-artwork v-for="item in artworks" v-bind="item" :key="item.id" @click="modal" />
         </layout-masonry>
     </layout-section>
 </template>
@@ -152,7 +152,7 @@
             },
 
             artworks () {
-                return this.$store.state.api.response['artworks'];
+                return this.$store.getters['api/artworks'];
             },
 
             filters () {
@@ -179,7 +179,12 @@
 
             more () {
                 this.$store.dispatch('append', ['artworks', this.params]);
-            }
+            },
+
+            modal (id) {
+                this.$store.commit('storage/set', ['artwork', { listGetter: 'api/artworks', more: this.more }]);
+                this.$router.push({ query: { ...this.$route.query, modal_artwork: id } })
+            },
 
         },
 

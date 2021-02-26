@@ -68,7 +68,8 @@
             @extend %u-row;
             justify-content: center;
             margin-bottom: 12px;
-            &.hidden { visibility: hidden }
+            transition: opacity .3s;
+            &.hidden { opacity: 0 }
             a {
                 @extend %u-row;
                 justify-content: center;
