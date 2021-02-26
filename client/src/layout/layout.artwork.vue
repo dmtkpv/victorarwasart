@@ -27,7 +27,7 @@
 
         @extend %u-row;
         flex: 1;
-        padding: 64px 64px 0 64px;
+        padding-top: 64px;
         justify-content: center;
         overflow: hidden;
 
@@ -38,7 +38,7 @@
         }
 
         @include sm {
-            padding: 0;
+            padding-top: 0;
             img {
                 width: 100%;
                 height: 100%;
@@ -57,7 +57,8 @@
     .l-artwork-text {
 
         text-align: center;
-        padding: $indent-y $indent-x 64px $indent-x;
+        padding-bottom: 64px;
+        padding-top: $indent-y;
 
         .inquire {
             @extend %ui-link;
@@ -88,8 +89,10 @@
             flex-flow: column nowrap;
             align-items: flex-start;
             justify-content: flex-end;
+            padding-left: $indent-x;
+            padding-right: $indent-x;
             background: rgba($black, .8);
-            /*.nav { display: none }*/
+            z-index: 1;
             &:not(.active) { display: none }
         }
 
@@ -126,14 +129,24 @@
     // Details
     // --------------------
 
-    .l-artwork-controls {
-        @extend %u-row;
-        @extend %padding;
+    .l-artwork-control {
+
         position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        @include md-xl { display: none }
+        bottom: $indent-y;
+
+        &.details {
+            left: $indent-x;
+            z-index: 1;
+        }
+
+        &.magnifier {
+            right: $indent-y;
+        }
+
+        @include md-xl {
+            display: none;
+        }
+
     }
 
 
@@ -193,12 +206,10 @@
         </div>
 
 
-        <!-- details -->
+        <!-- controls -->
 
-        <div class="l-artwork-controls">
-            <a @click="toggleDetails(!details)">{{ details ? 'Close' : 'Details' }}</a>
-            <a @click="toggleMagnifier(!magnifier)">{{ magnifier ? 'Clear' : 'Magnifier' }}</a>
-        </div>
+        <a class="l-artwork-control details" @click="toggleDetails(!details)">{{ details ? 'Close' : 'Details' }}</a>
+        <a class="l-artwork-control magnifier" @click="toggleMagnifier(!magnifier)">{{ magnifier ? 'Clear' : 'Magnifier' }}</a>
 
 
     </div>

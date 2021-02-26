@@ -17,6 +17,13 @@
 
     }
 
+    .l-artwork {
+        @include md-xl {
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+    }
+
 </style>
 
 
