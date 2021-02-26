@@ -181,7 +181,7 @@
             },
 
             list () {
-                return this.storage.listGetter ? this.$store.getters[this.storage.listGetter] : [{ id: this.id }];
+                return this.storage.list ? this.storage.list() : [{ id: this.id }];
             },
 
             slides () {

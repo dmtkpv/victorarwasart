@@ -79,6 +79,7 @@
                     v-bind="item"
                     :is="tiles[result.collection]"
                     :key="result.collection + item.id"
+                    @click="modal(result.collection, item)"
                 />
             </template>
         </layout-masonry>
@@ -303,7 +304,13 @@
                         return found;
                     })
                 })
-            }
+            },
+
+            modal (collection, item) {
+                if (collection !== 'artworks') return;
+                this.$store.commit('storage/set', ['artwork', { list: () => [item] }]);
+                this.$router.push({ query: { ...this.$route.query, modal_artwork: item.id } })
+            },
 
         },
 

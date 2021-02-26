@@ -182,7 +182,10 @@
             },
 
             modal (id) {
-                this.$store.commit('storage/set', ['artwork', { listGetter: 'api/artworks', more: this.more }]);
+                this.$store.commit('storage/set', ['artwork', {
+                    list: () => this.artworks,
+                    more: this.more
+                }]);
                 this.$router.push({ query: { ...this.$route.query, modal_artwork: id } })
             },
 

@@ -71,7 +71,7 @@
             <div class="note">{{ room.note }}</div>
         </div>
         <layout-masonry :grid="grid">
-            <tile-artwork v-for="item in room.artworks" v-bind="item.artworks_id" :key="item.id" />
+            <tile-artwork v-for="item in room.artworks" v-bind="item" :key="item.id" @click="modal" />
         </layout-masonry>
     </layout-section>
 </template>
@@ -124,7 +124,9 @@
             },
 
             room () {
-                return this.$store.getters['api/rooms/item'];
+                let room = { ...this.$store.getters['api/rooms/item'] };
+                if (room.artworks) room.artworks = room.artworks.map(artwork => artwork.artworks_id);
+                return room;
             }
 
         },
@@ -133,7 +135,14 @@
 
             gallery () {
                 this.$router.push({ params: { ...this.$route.params, thumbnails: undefined } });
-            }
+            },
+
+            modal (id) {
+                this.$store.commit('storage/set', ['artwork', {
+                    list: () => this.room.artworks
+                }]);
+                this.$router.push({ query: { ...this.$route.query, modal_artwork: id } })
+            },
 
         },
 
