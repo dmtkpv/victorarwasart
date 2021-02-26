@@ -107,7 +107,7 @@
 
     .l-artwork-magnifier {
 
-        position: fixed;
+        position: absolute;
         width: 200px;
         height: 200px;
         border-radius: 50%;
@@ -291,14 +291,15 @@
                 const $src = this.$refs.image[this.index];
                 const $dst = $node.firstElementChild;
                 const event = (e.touches && e.touches[0] || e.changedTouches && e.changedTouches[0] || e);
+                const root = this.$el.getBoundingClientRect();
                 const node = $node.getBoundingClientRect();
                 const src = $src.getBoundingClientRect();
-                const nodeX = event.pageX - node.width / 2;
-                const nodeY = event.pageY - node.height / 2;
-                const dstX = src.left - nodeX;
-                const dstY = src.top - nodeY;
-                const oX = event.pageX - src.left;
-                const oY = event.pageY - src.top;
+                const nodeX = event.pageX - root.left - node.width / 2;
+                const nodeY = event.pageY - root.top - node.height / 2;
+                const dstX = src.left - root.left - nodeX;
+                const dstY = src.top - root.top - nodeY;
+                const oX = -dstX + node.width / 2;
+                const oY = -dstY + node.height / 2;
                 $dst.style.width = src.width + 'px';
                 $dst.style.height = src.height + 'px';
                 $dst.style.transformOrigin = `${oX}px ${oY}px`
