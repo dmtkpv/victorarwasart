@@ -38,15 +38,14 @@
 
     .l-nav-menu {
 
-        @include md-xl {
-            display: block !important;
-        }
-
         @include sm {
             @include stretch;
             position: fixed;
             background: $black;
             overflow: auto;
+            transform: translateX(100%);
+            transition: transform .3s;
+            &.opened { transform: translateX(0) }
         }
 
     }
@@ -65,7 +64,7 @@
 
         <nav-head primary @toggle="toggle(true)" />
 
-        <div class="l-nav-menu" v-show="opened">
+        <div class="l-nav-menu" :class="{ opened }">
             <nav-head @toggle="toggle(false)" />
             <nav-item v-for="(link, i) in nav" v-bind="link" :key="i" />
             <nav-search />
