@@ -25,7 +25,7 @@ module.exports = function (router, { database, exceptions }) {
                 count('artists'),
                 count('artworks'),
                 count('essays'),
-                // count('exhibitions'),
+                count('exhibitions'),
                 count('poems'),
                 count('publications'),
                 count('viewing_room')
@@ -35,7 +35,7 @@ module.exports = function (router, { database, exceptions }) {
                     artists: count[0],
                     artworks: count[1],
                     essays: count[2],
-                    // exhibitions: count[3],
+                    exhibitions: count[3],
                     poems: count[4],
                     publications: count[5],
                     viewing_room: count[6]
