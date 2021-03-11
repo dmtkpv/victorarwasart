@@ -305,11 +305,10 @@ export default {
 
     'contacts' () {
         return {
-            url: '/items/about_us',
+            url: '/items/contacts',
             params: {
-                fields: 'contacts'
-            },
-            default: {}
+                fields: 'id,title,link'
+            }
         }
     },
 

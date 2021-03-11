@@ -107,13 +107,25 @@
 
 <template>
     <footer class="l-footer">
+
         <div class="l-footer-item">
             <svg-logo />
         </div>
+
         <div class="l-footer-item"></div>
-        <div class="l-footer-item" v-html="data.contacts" />
-        <div class="l-footer-item">© Victor Arwas Gallery</div>
-        <div class="l-footer-item">Site by Gymnasium</div>
+
+        <div class="l-footer-item">
+            <ui-link v-for="item in contacts" :key="item.id" :href="item.link">{{ item.title }}</ui-link>
+        </div>
+
+        <div class="l-footer-item">
+            © Victor Arwas Gallery
+        </div>
+
+        <div class="l-footer-item">
+            <ui-link href="/">Site by Gymnasium</ui-link>
+        </div>
+
     </footer>
 </template>
 
@@ -125,17 +137,19 @@
 
 <script>
 
+    import uiLink from '$ui/link'
     import svgLogo from '$svg/logo'
 
     export default {
 
         components: {
+            uiLink,
             svgLogo
         },
 
         computed: {
 
-            data () {
+            contacts () {
                 return this.$store.getters['api/contacts'];
             }
 

@@ -51,19 +51,6 @@
             vertical-align: top;
         }
 
-        a {
-            @extend %u-row;
-            svg {
-                width: 12px;
-                margin-left: 8px;
-                flex-shrink: 0;
-            }
-            @include lg-xl {
-                justify-content: flex-start;
-                &:not(:hover) svg { opacity: 0 }
-            }
-        }
-
         @include lg-xl {
             .country { width: $column-width; }
             .city { width: $column-width; }
@@ -116,10 +103,7 @@
                                 <td class="city" :class="{ hidden: index }" :rowspan="establishments.length">{{ city }}</td>
 
                                 <td class="establishment">
-                                    <a :href="item.link" target="_blank">
-                                        <span v-text="item.establishment" />
-                                        <svg-open />
-                                    </a>
+                                    <ui-link :href="item.link">{{ item.establishment }}</ui-link>
                                 </td>
 
                             </tr>
@@ -143,14 +127,14 @@
 
     import layoutSection from '$layout/layout.section'
     import layoutHeader from '$layout/header/layout.header'
-    import svgOpen from '$svg/open'
+    import uiLink from '$ui/link'
 
     export default {
 
         components: {
             layoutHeader,
             layoutSection,
-            svgOpen
+            uiLink
         },
 
         computed: {
