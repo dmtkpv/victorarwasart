@@ -75,7 +75,7 @@
         <div class="cut" v-show="cut">&nbsp;</div>
         <a v-show="!menu" @click="$emit('update:menu', true)">Refine</a>
         <a v-show="menu && !apply" @click="clear()">Clear</a>
-        <a v-show="menu && apply" @click="$emit('update:menu', false)">Apply</a>
+        <a v-show="menu && apply" @click="$emit('update:menu', false)">APPLY</a>
     </div>
 </template>
 
