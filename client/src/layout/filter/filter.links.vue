@@ -74,16 +74,13 @@
                 return ('0' + (index + 1)).slice(-2);
             },
 
-            link (item) {
-                return this.options.path + item.id;
-            },
-
             active (item) {
-                return decodeURI(this.$route.fullPath) === this.link(item);
+                return decodeURI(this.$route.fullPath) === this.options.path + item.id;
             },
 
             open (item) {
-                this.$router.push(this.link(item));
+                const link = this.active(item) ? this.options.back : this.options.path + item.id;
+                this.$router.push(link);
             }
 
         }

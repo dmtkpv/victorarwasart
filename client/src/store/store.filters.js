@@ -104,6 +104,7 @@ export default () => ({
                 items: getters['api/filter/artists'].filter(item => item.note).map(({ id, title }) => ({ id, title })),
                 options: {
                     alphabetic: true,
+                    back: '/writings',
                     path: '/writings/biography/',
                 },
                 head: {
@@ -119,6 +120,7 @@ export default () => ({
                 mode: 'links',
                 items: getters['api/essays'],
                 options: {
+                    back: '/writings',
                     path: '/writings/essay/',
                 },
                 head: {
@@ -134,6 +136,7 @@ export default () => ({
                 mode: 'links',
                 items: getters['api/poems'],
                 options: {
+                    back: '/writings',
                     path: '/writings/poem/',
                 },
                 head: {
