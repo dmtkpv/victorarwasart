@@ -10,9 +10,17 @@ module.exports = function (router, { services }) {
 
     function filter (fields, _contains) {
         return {
-            _or: fields.split(',').map(field => ({
-                [field]: { _contains }
-            }))
+            _or: fields.split(',').map(field => {
+                const fields = field.split('.');
+                let result = {};
+                let current = result;
+                fields.forEach(field => {
+                    current[field] = {};
+                    current = current[field];
+                })
+                current._contains = _contains;
+                return result;
+            })
         }
     }
 
