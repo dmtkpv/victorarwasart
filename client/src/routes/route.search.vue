@@ -122,7 +122,7 @@
         {
             collection: 'artworks',
             fields: fields.artworks.join(','),
-            searchIn: 'title,year,technique,dimensions,reference,note',
+            searchIn: 'title,artist.name,artist.lifetime,year,technique,dimensions,reference,note',
         },
         {
             collection: 'viewing_room',
