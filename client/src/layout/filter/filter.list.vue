@@ -133,7 +133,11 @@
             <!-- item -->
 
             <div class="l-filter-item">
-                <slot v-bind="{ item, index }"/>
+                <a :class="{ active: active(item) }" @click="$emit('click', item)">
+                    <svg-close class="hidden" />
+                    <p class="title">{{ item.title }}</p>
+                    <p class="total">{{ item.total }}</p>
+                </a>
                 <div class="note" v-if="item.note">{{ item.note }}</div>
             </div>
 
@@ -150,11 +154,18 @@
 
 <script>
 
+    import svgClose from '$svg/close'
+
     export default {
+
+        components: {
+            svgClose
+        },
 
         props: [
             'items',
-            'options'
+            'options',
+            'active'
         ],
 
         computed: {

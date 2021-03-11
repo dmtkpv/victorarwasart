@@ -49,15 +49,12 @@
 
         <!-- list -->
 
-        <filter-list :items="items" :options="options" v-slot="{ item, index }">
-
-            <a :class="{ active: selected.includes(item.id) }" @click="select(item.id)">
-                <svg-close class="hidden" />
-                <p class="title">{{ item.title }}</p>
-                <p class="total">{{ item.total }}</p>
-            </a>
-
-        </filter-list>
+        <filter-list
+            :items="items"
+            :options="options"
+            :active="active"
+            @click="select($event.id)"
+        />
 
 
     </div>
@@ -108,6 +105,10 @@
         },
 
         methods: {
+
+            active (item) {
+                return this.selected.includes(item.id);
+            },
 
             clear () {
                 this.selected = [];
