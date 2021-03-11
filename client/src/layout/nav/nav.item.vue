@@ -86,7 +86,7 @@
 -->
 
 <template>
-    <div class="l-nav-item" :class="{ active: $route.path === path, filtered }">
+    <div class="l-nav-item" :class="{ active: $route.path.startsWith(path), filtered }">
 
         <div class="l-nav-link">
             <router-link :to="path" class="title">{{ title }}</router-link>
