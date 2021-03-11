@@ -86,7 +86,8 @@ const Common = {
             $store: absPath('src/store'),
             $styles: absPath('src/styles'),
             $svg: absPath('src/svg'),
-            $tiles: absPath('src/tiles')
+            $tiles: absPath('src/tiles'),
+            $ui: absPath('src/ui')
         }
     },
 

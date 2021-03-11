@@ -101,8 +101,7 @@
     // Note
     // --------------------
 
-    .l-filter-item .note {
-        display: none;
+    .l-filter-note {
         color: $red;
         @extend %padding-ver;
     }
@@ -138,7 +137,9 @@
                     <p class="title">{{ item.title }}</p>
                     <p class="total">{{ item.total }}</p>
                 </a>
-                <div class="note" v-if="item.note">{{ item.note }}</div>
+                <ui-accordion v-if="item.note" v-show="active(item)">
+                    <div class="l-filter-note">{{ item.note }}</div>
+                </ui-accordion>
             </div>
 
 
@@ -155,11 +156,13 @@
 <script>
 
     import svgClose from '$svg/close'
+    import uiAccordion from '$ui/accordion'
 
     export default {
 
         components: {
-            svgClose
+            svgClose,
+            uiAccordion
         },
 
         props: [
