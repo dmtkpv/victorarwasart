@@ -48,7 +48,10 @@
                 position: relative;
                 width: 60px;
                 z-index: 2;
+                background: rgba($black, .5);
+                transition: background .3s;
                 &.disabled { pointer-events: none; }
+                &:hover { background: rgba($black, 0) }
             }
 
             .holder {
