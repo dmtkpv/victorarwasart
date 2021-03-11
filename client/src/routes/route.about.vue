@@ -113,6 +113,7 @@
         @extend %line;
         &:before { margin-left: 0 }
         p { @extend %padding; }
+        .ui-link { @extend %padding; }
 
         @include md-xl {
             display: flex;
@@ -120,7 +121,7 @@
             height: 100%;
             .slide { margin-bottom: 120px }
             .slide img { width: 100% }
-            .copy { margin-top: auto }
+            .ui-link { margin-top: auto }
         }
 
         @include lg-xl {
@@ -140,7 +141,7 @@
             .slide { height: 100% }
             .slide img { height: 100% }
             .slide p { display: none }
-            .copy { display: none }
+            .ui-link { display: none }
         }
 
     }
@@ -169,7 +170,9 @@
                 </div>
 
                 <div class="contacts">
-                    <div class="item" v-html="about.contacts" />
+                    <div class="item">
+                        <ui-link v-for="item in contacts" :key="item.id" :href="item.link">{{ item.title }}</ui-link>
+                    </div>
                     <div class="item" v-html="about.mailing_address" />
                     <p class="copy">© Victor Arwas Gallery</p>
                 </div>
@@ -184,7 +187,7 @@
                     <img :src="`${baseURL}/assets/${slide.directus_files_id.id}`">
                     <p>{{ slide.directus_files_id.title }}</p>
                 </div>
-                <p class="copy">Site by Gymnasium</p>
+                <ui-link href="/">Site by Gymnasium</ui-link>
             </div>
 
 
@@ -203,13 +206,15 @@
     import svgLogo from '$svg/logo'
     import layoutSection from '$layout/layout.section'
     import layoutHeader from '$layout/header/layout.header'
+    import uiLink from '$ui/link'
 
     export default {
 
         components: {
             svgLogo,
             layoutHeader,
-            layoutSection
+            layoutSection,
+            uiLink
         },
 
         computed: {
@@ -226,6 +231,10 @@
 
             about () {
                 return this.$store.getters['api/about'];
+            },
+
+            contacts () {
+                return this.$store.getters['api/contacts'];
             }
 
         },
