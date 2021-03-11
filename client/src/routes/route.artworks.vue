@@ -16,9 +16,24 @@
         @extend %line;
 
         @include md-xl {
+
             left: $column-width;
             padding: $indent-y $indent-x;
-            ::v-deep .l-filter:not(:last-child) { display: none }
+
+            ::v-deep .l-filter:not(:last-child) {
+                display: none;
+            }
+
+            ::v-deep .l-filter-head .total {
+                display: block;
+                opacity: 0;
+            }
+
+            &:hover ::v-deep .l-filter-head:not(.filtered) {
+                color: $red;
+                .total { opacity: 1 }
+            }
+
         }
 
     }
