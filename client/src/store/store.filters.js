@@ -119,7 +119,6 @@ export default () => ({
                 mode: 'links',
                 items: getters['api/essays'],
                 options: {
-                    numeric: true,
                     path: '/writings/essay/',
                 },
                 head: {
@@ -135,7 +134,6 @@ export default () => ({
                 mode: 'links',
                 items: getters['api/poems'],
                 options: {
-                    numeric: true,
                     path: '/writings/poem/',
                 },
                 head: {

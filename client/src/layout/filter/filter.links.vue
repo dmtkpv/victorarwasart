@@ -7,10 +7,7 @@
     .l-filter--links {
 
         @include md-xl {
-            .numeric .l-filter-item {
-                a { align-items: flex-start }
-                &:not(:last-child) a { margin-bottom: $indent-x }
-            }
+
         }
     }
 
@@ -33,10 +30,9 @@
 
         <!-- list -->
 
-        <filter-list :class="{ numeric: options.numeric }" :items="items" :options="options" v-slot="{ item, index }">
+        <filter-list :items="items" :options="options" v-slot="{ item, index }">
 
             <a :class="{ active: active(item) }" @click="open(item)">
-                <p class="hidden" v-if="options.numeric">{{ number(index) }}</p>
                 <p class="title">{{ item.title }}</p>
                 <p class="total" v-if="item.total">{{ item.total }}</p>
             </a>
