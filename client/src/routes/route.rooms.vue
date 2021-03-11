@@ -73,6 +73,10 @@
             img { object-fit: cover }
         }
 
+        @include md-xl {
+            &:hover ::v-deep .text { color: $red; }
+        }
+
         @include lg-xl {
             flex-basis: 50%;
         }
