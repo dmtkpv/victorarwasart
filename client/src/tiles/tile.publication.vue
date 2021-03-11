@@ -10,6 +10,7 @@
             img {
                 @extend %u-stretch;
                 position: absolute;
+                cursor: crosshair;
             }
         }
 
