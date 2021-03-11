@@ -33,6 +33,7 @@
         <filter-list :items="items" :options="options" v-slot="{ item, index }">
 
             <a :class="{ active: active(item) }" @click="open(item)">
+                <svg-close class="hidden" />
                 <p class="title">{{ item.title }}</p>
                 <p class="total" v-if="item.total">{{ item.total }}</p>
             </a>
@@ -51,14 +52,14 @@
 
 <script>
 
-    import svgDown from '$svg/down'
+    import svgClose from '$svg/close'
     import filterList from './filter.list'
     import filterHead from './filter.head'
 
     export default {
 
         components: {
-            svgDown,
+            svgClose,
             filterList,
             filterHead
         },

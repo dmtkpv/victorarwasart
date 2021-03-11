@@ -74,7 +74,6 @@
         }
 
         @mixin active {
-            .hidden { opacity: 1 }
             .total { opacity: 1; }
             .title { transform: translateX(32px); }
         }
@@ -82,6 +81,7 @@
         &.active {
             color: $red;
             @include active;
+            .hidden { opacity: 1 }
         }
 
         @include md-xl {
