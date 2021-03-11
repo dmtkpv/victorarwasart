@@ -10,6 +10,10 @@
     // Filters
     // --------------------
 
+    ::v-deep .l-filter:hover .l-filter-head {
+        color: $red;
+    }
+
     ::v-deep .filter-wrapper {
         @include md {
             left: $column-width;
