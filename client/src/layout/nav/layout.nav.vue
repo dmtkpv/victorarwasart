@@ -41,12 +41,27 @@
         @include sm {
             @include stretch;
             position: fixed;
+            display: flex;
+            flex-flow: column nowrap;
             background: $black;
-            overflow: auto;
             transform: translateX(100%);
             transition: transform .3s;
             &.opened { transform: translateX(0) }
         }
+
+        .l-nav-head {
+            position: relative;
+            background: $black;
+            z-index: 1;
+        }
+
+        .l-nav-items {
+            flex: 1;
+            overflow: auto;
+            transition: transform .3s;
+            &.searching { transform: translateY(-360px) }
+        }
+
 
     }
 
@@ -68,8 +83,10 @@
 
         <div class="l-nav-menu" :class="{ opened }">
             <nav-head @toggle="toggle(false)" />
-            <nav-item v-for="(link, i) in nav" v-bind="link" :key="i" />
-            <nav-search />
+            <div class="l-nav-items" :class="{ searching }">
+                <nav-item v-for="(link, i) in nav" v-bind="link" :key="i" />
+                <nav-search @focus="searching = $event" />
+            </div>
         </div>
 
     </nav>
@@ -107,7 +124,8 @@
 
         data () {
             return {
-                opened: false
+                opened: false,
+                searching: false
             }
         },
 

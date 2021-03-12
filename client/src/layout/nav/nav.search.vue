@@ -77,7 +77,7 @@
     <div class="l-nav-search" :class="{ routed }">
 
         <form :class="{ disabled: !active }" @submit.prevent="start">
-            <input type="text" v-model="text" ref="input" @blur="toggle(false)" @focus="toggle(true)">
+            <input type="text" v-model="text" ref="input" @blur="focus(false)" @focus="focus(true)">
             <input type="submit" value="Search" @mousedown.prevent>
         </form>
 
@@ -131,8 +131,9 @@
 
         methods: {
 
-            toggle (value) {
+            focus (value) {
                 this.active = value;
+                this.$emit('focus', value);
             },
 
             start () {
