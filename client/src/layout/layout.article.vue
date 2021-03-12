@@ -29,15 +29,6 @@
     .l-article-content {
 
 
-        // line
-
-        @extend %line;
-        &:before {
-            right: $column-width;
-            @include md {  display: none }
-        }
-
-
         // text
 
         @extend %padding;
@@ -75,19 +66,52 @@
 
 
     // --------------------
+    // Notes
+    // --------------------
+
+    .l-article-notes {
+
+        @extend %line;
+        @extend %padding;
+
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: $column-width;
+        height: 100%;
+        overflow: auto;
+        background: $black;
+        z-index: 10;
+
+        @include sm-md {
+            width: 100%;
+            max-width: 300px;
+            border-left: 1px solid $white-transparent;
+            transform: translateX(100%);
+            transition: transform .3s;
+            &.opened { transform: translateX(0) }
+        }
+
+
+    }
+
+
+
+    // --------------------
     // Note
     // --------------------
 
     .l-article-note {
 
-        @extend %padding;
+        &:not(:last-child) {
+            margin-bottom: $indent-y;
+        }
 
         span {
             display: block;
             font-size: 10px;
             margin-bottom: 6px;
             color: $red;
-            @include sm-md { display: none }
         }
 
         img {
@@ -96,30 +120,19 @@
         }
 
         @include lg-xl {
-            position: absolute;
-            right: 0;
-            width: $column-width;
-            padding-top: 0;
-            padding-bottom: 0;
-            margin-top: -18px;
-
+            &.hidden {
+                display: none;
+            }
         }
 
         @include sm-md {
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 100%;
-            max-width: 300px;
-            overflow: auto;
-            background: $black;
-            border-left: 1px solid $white-transparent;
-            z-index: 10;
-            &:not(.active) { display: none; }
+            &:not(.active) {
+                display: none;
+            }
         }
 
     }
+    
 
 
 </style>
@@ -132,7 +145,8 @@
 
 <template>
     <article class="l-article">
-        <div class="l-article-content" v-html="content" ref="content" />
+        <div class="l-article-content" ref="content" v-html="content"/>
+        <div class="l-article-notes" ref="notes"></div>
     </article>
 </template>
 
@@ -168,23 +182,47 @@
 
         data () {
             return {
+                refs: [],
                 notes: []
             }
         },
 
         methods: {
 
+            showNote (index) {
+                this.notes.forEach(($note, i) => $note.classList.toggle('active', i === index));
+                this.$refs.notes.classList.add('opened');
+            },
+
+            hideNote (event) {
+                let parent = event.target;
+                while (parent) {
+                    if (parent === this.$refs.notes) return;
+                    parent = parent.parentNode;
+                }
+                this.$refs.notes.classList.remove('opened');
+            },
+
             setNotes () {
-                const $refs = this.$refs.content.querySelectorAll('[data-reference]');
-                $refs.forEach(($ref, i) => {
+                this.notes = [];
+                this.refs = this.$refs.content.querySelectorAll('[data-reference]');
+                this.refs.forEach(($ref, i) => {
                     let text = $ref.getAttribute('data-text');
                     let image = $ref.getAttribute('data-image');
                     if (image) image = `${this.baseURL}/assets/${image}`;
                     const $note = createNote(text, image, i);
-                    $ref.onclick = () => $note.classList.add('active');
-                    $note.onclick = () => $note.classList.remove('active');
-                    $ref.parentNode.insertBefore($note, $ref);
+                    this.notes.push($note);
+                    this.$refs.notes.appendChild($note);
+                    $ref.onclick = () => this.showNote(i);
                 });
+            },
+
+            scroll () {
+                this.refs.forEach(($ref, i) => {
+                    const rect = $ref.getBoundingClientRect();
+                    const hidden = rect.bottom < 0 || rect.top > window.innerHeight;
+                    this.$refs.notes.children[i].classList.toggle('hidden', hidden);
+                })
             }
 
         },
@@ -199,7 +237,16 @@
 
         mounted () {
             this.setNotes();
+            this.scroll();
+            window.addEventListener('scroll', this.scroll);
+            document.addEventListener('click', this.hideNote, true);
+        },
+
+        destroyed () {
+            window.removeEventListener('scroll', this.scroll);
+            document.removeEventListener('click', this.hideNote, true);
         }
+
 
     }
 
