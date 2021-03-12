@@ -108,6 +108,12 @@
     .l-filter-note {
         color: $red;
         @extend %padding-ver;
+
+        @include sm {
+            padding-left: $indent-x;
+            padding-right: $indent-x;
+        }
+
     }
 
 
