@@ -17,19 +17,24 @@
             position: absolute;
             top: 60px;
             width: 100%;
-            display: flex;
-            flex-flow: column nowrap;
 
             .l-header-menu {
-                flex: 1;
+                position: fixed;
+                top: 120px;
+                left: 0;
+                bottom: 0;
+                width: 100%;
                 overflow: auto;
                 background: $black;
                 transform: translateX(100%);
                 transition: transform .3s;
             }
 
+            &.filtered {
+                .l-header-menu { top: 180px }
+            }
+
             &.opened {
-                height: calc(var(--windowHeight) - 60px);
                 .l-header-menu { transform: translateX(0) }
             }
 
