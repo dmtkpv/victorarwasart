@@ -15,6 +15,7 @@
         position: relative;
         display: flex;
         flex-flow: column nowrap;
+        overflow: hidden;
     }
 
 
@@ -118,7 +119,6 @@
         height: 200px;
         border-radius: 50%;
         overflow: hidden;
-        pointer-events: none;
         box-shadow: 0 0 0 1px rgba(0,0,0,0.3);
 
         img {
@@ -126,6 +126,14 @@
             left: 0;
             top: 0;
             @include sm { object-fit: cover }
+        }
+
+        &:not(.touch) {
+            pointer-events: none;
+        }
+
+        &.touch {
+            transition: top .3s, left.3s;
         }
 
     }
@@ -178,9 +186,10 @@
                 ref="image"
                 v-show="i === index"
                 :src="`${baseURL}/assets/${image}`"
-                 @mouseenter="toggleMagnifier(true)"
-                 @mouseleave="toggleMagnifier(false)"
-                 @touchstart.prevent
+                 @mouseenter="mouseEnter"
+                 @mouseleave="mouseLeave"
+                 @mousemove="mouseMove"
+                 @touchstart="touchStart"
             >
         </div>
 
@@ -210,7 +219,7 @@
 
         <!-- magnifier -->
 
-        <div class="l-artwork-magnifier" ref="magnifier" v-show="magnifier">
+        <div class="l-artwork-magnifier" ref="magnifier" v-show="magnifier" :class="{ touch }" @touchstart="toggleMagnifier">
             <img :src="`${baseURL}/assets/${images[index]}`">
         </div>
 
@@ -218,7 +227,7 @@
         <!-- controls -->
 
         <a class="l-artwork-control details" @click="toggleDetails(!details)">{{ details ? 'Close' : 'Details' }}</a>
-        <a class="l-artwork-control magnifier" @click="toggleMagnifier(!magnifier)">{{ magnifier ? 'Clear' : 'Magnifier' }}</a>
+        <a class="l-artwork-control magnifier" @click="toggleMagnifier">{{ magnifier ? 'Clear' : 'Magnifier' }}</a>
 
 
     </div>
@@ -253,7 +262,8 @@
             return {
                 index: 0,
                 details: false,
-                magnifier: false
+                magnifier: false,
+                touch: !NODE && 'ontouchstart' in window
             }
         },
 
@@ -278,27 +288,40 @@
 
         methods: {
 
-            hideDetails (event) {
-                if (event.currentTarget === event.target) this.toggleDetails(false);
+            mouseMove (event) {
+                if (this.touch) return;
+                if (!this.magnifier) return;
+                this.moveMagnifier(event);
             },
 
-            toggleDetails (value) {
-                this.details = value;
-                this.details && this.toggleMagnifier(false);
+            mouseEnter () {
+                if (this.touch) return;
+                this.magnifier = true;
             },
 
-            toggleMagnifier (value) {
-                this.magnifier = value;
-                if (!value) return;
+            mouseLeave () {
+                if (this.touch) return;
+                this.magnifier = false;
+            },
+
+            async touchStart (event) {
+                this.magnifier = true;
+                await this.$nextTick();
+                this.moveMagnifier(event);
+            },
+
+            async toggleMagnifier () {
+                this.magnifier = !this.magnifier;
+                if (!this.magnifier) return;
+                await this.$nextTick();
                 const $src = this.$refs.image[this.index];
                 const rect = $src.getBoundingClientRect();
                 const pageX = rect.left + rect.width / 2;
                 const pageY = rect.top + rect.height / 2;
-                this.magnifier && this.moveMagnifier({ pageX, pageY });
+                this.moveMagnifier({ pageX, pageY });
             },
 
             moveMagnifier (e) {
-                if (!this.magnifier) return;
                 const $node = this.$refs.magnifier;
                 const $src = this.$refs.image[this.index];
                 const $dst = $node.firstElementChild;
@@ -320,6 +343,15 @@
                 $node.style.top = nodeY + 'px';
             },
 
+            hideDetails (event) {
+                if (event.currentTarget === event.target) this.toggleDetails(false);
+            },
+
+            toggleDetails (value) {
+                this.details = value;
+                this.details && this.toggleMagnifier(false);
+            },
+
             inquire () {
                 const { artist, title, year, technique, dimensions, note, reference } = this;
                 let inquire = `${title}, ${year}\n${technique} | ${dimensions} | ${note}\nReference No. ${reference}`
@@ -327,16 +359,6 @@
                 this.$store.commit('storage/set', ['inquire', inquire]);
             }
 
-        },
-
-        mounted () {
-            document.addEventListener('mousemove', this.moveMagnifier);
-            document.addEventListener('touchmove', this.moveMagnifier);
-        },
-
-        destroyed () {
-            document.removeEventListener('mousemove', this.moveMagnifier);
-            document.removeEventListener('touchmove', this.moveMagnifier);
         }
 
     }
