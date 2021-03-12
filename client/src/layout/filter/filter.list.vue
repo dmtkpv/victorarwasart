@@ -36,6 +36,10 @@
 
         @include sm {
             margin-top: 48px;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            background: $black;
         }
 
     }
