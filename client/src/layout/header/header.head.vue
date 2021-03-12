@@ -6,6 +6,7 @@
     .l-header-head {
 
         @extend %row;
+        .ui-cut { flex: 1 }
 
 
 
@@ -107,40 +108,46 @@
 <template>
     <div class="l-header-head">
 
-
-        <!-- breadcrumbs -->
-
-        <div class="breadcrumbs">
-            <template v-for="(item, index) in breadcrumbs">
-
-                <router-link
-                    v-text="item.title"
-                    :to="item.path || ''"
-                    :class="breadcrumbClass(index)"
-                />
-
-                <svg-right
-                    :class="breadcrumbClass(index)"
-                />
-
-            </template>
-        </div>
+        <ui-cut>
 
 
-        <!-- sort -->
+            <!-- breadcrumbs -->
 
-        <div class="sort" v-if="sort" v-show="!menu">
-            <template v-for="item in sort">
+            <div class="breadcrumbs">
+                <template v-for="(item, index) in breadcrumbs">
 
-                <span />
+                    <router-link
+                        v-text="item.title"
+                        :to="item.path || ''"
+                        :class="breadcrumbClass(index)"
+                    />
 
-                <a v-text="item.title"
-                   @click="sortExec(item.value)"
-                   :class="sortClass(item.value)"
-                />
+                    <svg-right
+                        :class="breadcrumbClass(index)"
+                    />
 
-            </template>
-        </div>
+                </template>
+            </div>
+
+
+
+            <!-- sort -->
+
+            <div class="sort" v-if="sort" v-show="!menu">
+                <template v-for="item in sort">
+
+                    <span />
+
+                    <a v-text="item.title"
+                       @click="sortExec(item.value)"
+                       :class="sortClass(item.value)"
+                    />
+
+                </template>
+            </div>
+
+
+        </ui-cut>
 
 
         <!-- actions -->
@@ -165,11 +172,13 @@
 <script>
 
     import $ from '$services/utils'
+    import uiCut from '$ui/cut'
     import svgRight from '$svg/right'
 
     export default {
 
         components: {
+            uiCut,
             svgRight
         },
 

@@ -22,10 +22,21 @@
     // --------------------
 
     .ui-cut-content {
+
+        @extend %u-row;
+        flex: 1;
         white-space: nowrap;
         overflow-x: scroll;
-        padding-right: $indent-x;
-        &::-webkit-scrollbar { display: none }
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        &:after {
+            content: '\00a0';
+            flex-basis: $indent-x;
+            flex-shrink: 0;
+        }
     }
 
 
