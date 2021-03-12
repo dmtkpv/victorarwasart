@@ -28,38 +28,68 @@
 
     .l-article-content {
 
-
-        // text
-
+        $large: 22px;
         @extend %padding;
 
-        h2 {
-            color: $red;
-            margin-bottom: $indent-y;
-        }
-        p {
-            margin-top: $indent-y;
-        }
 
+        // heading
 
-        // reference
+        .heading {
 
-        counter-reset: note;
+            @extend %u-row;
+            align-items: baseline;
 
-        [data-reference] {
+            h1 {
+                flex: 1;
+                color: $red;
+                margin-bottom: 1em;
+            }
 
-            color: $red;
-            cursor: pointer;
-
-            &:after {
-                counter-increment: note;
-                content: counter(note);
-                margin-left: 2px;
-                font-size: 10px;
-                vertical-align: super;
+            a {
+                margin-left: 4px;
+                &.active { color: $red; }
+                &:last-child { font-size: $large }
+                @include md-lg { display: none }
             }
 
         }
+
+
+        // text
+
+        .text {
+
+            counter-reset: note;
+
+            p {
+                margin-top: 1em;
+            }
+
+            [data-reference] {
+                color: $red;
+                cursor: pointer;
+                &:after {
+                    counter-increment: note;
+                    content: counter(note);
+                    margin-left: 2px;
+                    font-size: 10px;
+                    vertical-align: super;
+                }
+
+            }
+
+        }
+
+
+        // larger
+
+        @include sm {
+            &.larger {
+                .heading h1 { font-size: $large }
+                .text { font-size: $large }
+            }
+        }
+
 
     }
 
@@ -132,7 +162,7 @@
         }
 
     }
-    
+
 
 
 </style>
@@ -145,8 +175,18 @@
 
 <template>
     <article class="l-article">
-        <div class="l-article-content" ref="content" v-html="content"/>
+
+        <div class="l-article-content" :class="{ larger }">
+            <div class="heading">
+                <h1>{{ title }}</h1>
+                <a :class="{ active: !larger }" @click="larger = false">A</a>
+                <a :class="{ active: larger }" @click="larger = true">A</a>
+            </div>
+            <div class="text" ref="text" v-html="text" />
+        </div>
+
         <div class="l-article-notes" ref="notes"></div>
+
     </article>
 </template>
 
@@ -177,13 +217,15 @@
     export default {
 
         props: [
-            'content'
+            'title',
+            'text'
         ],
 
         data () {
             return {
                 refs: [],
-                notes: []
+                notes: [],
+                larger: false
             }
         },
 
@@ -205,7 +247,7 @@
 
             setNotes () {
                 this.notes = [];
-                this.refs = this.$refs.content.querySelectorAll('[data-reference]');
+                this.refs = this.$refs.text.querySelectorAll('[data-reference]');
                 this.refs.forEach(($ref, i) => {
                     let text = $ref.getAttribute('data-text');
                     let image = $ref.getAttribute('data-image');
@@ -229,7 +271,7 @@
 
         watch: {
 
-            content () {
+            text () {
                 this.$nextTick(this.setNotes);
             }
 
