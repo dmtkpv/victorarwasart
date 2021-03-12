@@ -54,11 +54,12 @@
     // Text
     // --------------------
 
-    .l-artwork-text {
+    .l-artwork-details {
 
-        text-align: center;
-        padding-bottom: 64px;
-        padding-top: $indent-y;
+        .wrap {
+            padding-bottom: 64px;
+            padding-top: $indent-y;
+        }
 
         .inquire {
             @extend %ui-link;
@@ -66,7 +67,6 @@
 
         .nav {
             @extend %u-row;
-            justify-content: center;
             margin-bottom: 12px;
             transition: opacity .3s;
             &.hidden { opacity: 0 }
@@ -83,6 +83,11 @@
             }
         }
 
+        @include md-xl {
+            text-align: center;
+            .nav { justify-content: center; }
+        }
+
         @include sm {
             @include stretch;
             position: absolute;
@@ -94,6 +99,7 @@
             padding-right: $indent-x;
             background: rgba($black, .8);
             z-index: 1;
+            .nav { justify-content: flex-start; }
             &:not(.active) { display: none }
         }
 
@@ -182,21 +188,23 @@
 
         <!-- text -->
 
-        <div class="l-artwork-text" :class="{ active: details }">
+        <div class="l-artwork-details" :class="{ active: details }" @click="hideDetails">
+            <div class="wrap">
 
-            <div class="nav" :class="{ hidden: images.length === 1 }">
-                <a v-for="(image, i) in images"
-                   :class="{ active: i === index }"
-                   @click="index = i"
-                   v-text="i + 1"
-                />
+                <div class="nav" :class="{ hidden: images.length === 1 }">
+                    <a v-for="(image, i) in images"
+                       :class="{ active: i === index }"
+                       @click="index = i"
+                       v-text="i + 1"
+                    />
+                </div>
+
+                <p v-if="artist">{{ artist.name }}, {{ artist.lifetime }}</p>
+                <p>{{ title }}, {{ year }}</p>
+                <p>{{ technique }} | {{ dimensions }} | {{ note }}</p>
+                <p>Reference No. {{ reference }} | <a class="inquire" @click="inquire">Inquire</a> </p>
+
             </div>
-
-            <p v-if="artist">{{ artist.name }}, {{ artist.lifetime }}</p>
-            <p>{{ title }}, {{ year }}</p>
-            <p>{{ technique }} | {{ dimensions }} | {{ note }}</p>
-            <p>Reference No. {{ reference }} | <a class="inquire" @click="inquire">Inquire</a> </p>
-
         </div>
 
 
@@ -269,6 +277,10 @@
         },
 
         methods: {
+
+            hideDetails (event) {
+                if (event.currentTarget === event.target) this.toggleDetails(false);
+            },
 
             toggleDetails (value) {
                 this.details = value;
