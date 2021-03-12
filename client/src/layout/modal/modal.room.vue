@@ -198,6 +198,7 @@
 <script>
 
     import WheelIndicator from 'wheel-indicator'
+    import vars from 'unitless!$styles/abstract/vars'
 
     export default {
 
@@ -259,6 +260,7 @@
         },
 
         mounted () {
+            if (window.innerWidth < vars.mdMin) return this.thumbnails();
             this.indicator = new WheelIndicator({
                 elem: this.$el,
                 callback: this.wheel
@@ -266,7 +268,7 @@
         },
 
         destroyed () {
-            this.indicator.destroy()
+            this.indicator && this.indicator.destroy()
         }
 
 
