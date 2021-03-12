@@ -45,11 +45,24 @@
         // --------------------
 
         .l-nav-link {
-            @extend %row;
-            .title { text-transform: uppercase; }
+
+            @extend %u-row;
+
+            .title {
+                @extend %row;
+                text-transform: uppercase;
+            }
             .total { display: none; }
             .clear { display: none; }
-            &:hover { @extend %link-active }
+
+            &:hover {
+                @extend %link-active;
+            }
+
+            @include sm {
+                display: block;
+            }
+
         }
 
 
@@ -89,7 +102,7 @@
     <div class="l-nav-item" :class="{ active: $route.path.startsWith(path), filtered }">
 
         <div class="l-nav-link">
-            <router-link :to="path" class="title">{{ title }}</router-link>
+            <router-link class="title" :to="path">{{ title }}</router-link>
             <p class="total">{{ total }}</p>
             <a class="clear" @click="clear">Clear</a>
         </div>
