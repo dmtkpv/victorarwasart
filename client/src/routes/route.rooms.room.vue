@@ -27,6 +27,7 @@
             justify-content: flex-start;
             text-transform: uppercase;
             span:last-child { color: $red }
+            @include sm { display: none }
         }
 
     }
