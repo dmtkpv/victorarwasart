@@ -50,6 +50,8 @@
 
     }
 
+    .data-server-rendered .l-nav-menu { transition: none !important }
+
 
 </style>
 

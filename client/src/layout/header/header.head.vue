@@ -89,6 +89,10 @@
             .refine { display: none }
         }
 
+        @include sm {
+            background: $black;
+        }
+
 
 
     }

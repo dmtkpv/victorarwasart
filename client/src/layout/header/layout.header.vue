@@ -17,19 +17,20 @@
             position: absolute;
             top: 60px;
             width: 100%;
-            background: $black;
+            display: flex;
+            flex-flow: column nowrap;
 
             .l-header-menu {
-                display: none;
                 flex: 1;
                 overflow: auto;
+                background: $black;
+                transform: translateX(100%);
+                transition: transform .3s;
             }
 
             &.opened {
                 height: calc(var(--windowHeight) - 60px);
-                display: flex;
-                flex-flow: column nowrap;
-                .l-header-menu { display: block }
+                .l-header-menu { transform: translateX(0) }
             }
 
             & + * { padding-top: 60px; }
@@ -37,6 +38,8 @@
 
         }
     }
+
+    .data-server-rendered .l-header-menu { transition: none !important }
 
 
 
