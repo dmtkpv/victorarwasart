@@ -20,6 +20,12 @@
             padding: $indent-y $indent-x;
         }
 
+        @include sm {
+            ::v-deep .l-header-menu {
+                display: none;
+            }
+        }
+
     }
 
 
@@ -29,9 +35,6 @@
     // --------------------
 
     .l-article {
-
-
-
         @include md-xl {
             padding-left: calc(#{$column-width} * 2);
         }
@@ -50,7 +53,7 @@
 <template>
     <layout-section>
         <layout-header v-bind="header" />
-        <layout-article :content="content" />
+        <layout-article v-bind="article" />
     </layout-section>
 </template>
 
@@ -90,9 +93,12 @@
                 }
             },
 
-            content () {
+            article () {
                 const article = this.$store.getters['api/artists/item'];
-                return `<h2>${article.name}</h2>${article.biography}`;
+                return {
+                    title: article.name,
+                    text: article.biography
+                }
             }
 
         },

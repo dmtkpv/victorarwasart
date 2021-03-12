@@ -20,6 +20,12 @@
             padding: $indent-y $indent-x;
         }
 
+        @include sm {
+            ::v-deep .l-header-menu {
+                display: none;
+            }
+        }
+
     }
 
 
@@ -47,7 +53,7 @@
 <template>
     <layout-section>
         <layout-header v-bind="header" />
-        <layout-article :content="content" />
+        <layout-article v-bind="article" />
     </layout-section>
 </template>
 
@@ -87,9 +93,8 @@
                 }
             },
 
-            content () {
-                const article = this.$store.getters['api/poems/item'];
-                return `<h2>${article.title}</h2>${article.text}`;
+            article () {
+                return this.$store.getters['api/poems/item'];
             }
 
         },
