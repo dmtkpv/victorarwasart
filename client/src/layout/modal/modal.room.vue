@@ -93,6 +93,7 @@
                 min-height: 0;
                 object-fit: contain;
                 padding: $indent-y calc(#{$indent-x} / 2);
+                cursor: crosshair;
             }
 
         }
@@ -172,7 +173,7 @@
         <div class="gallery" :style="{ transform }">
             <div class="screen" v-for="screen in gallery" :class="classes(screen)">
                 <div class="images" v-if="screen.artworks" :style="styles(screen)">
-                    <img v-for="artwork in screen.artworks" :src="`${baseURL}/assets/${artwork.artworks_id.image.id}`">
+                    <img v-for="artwork in screen.artworks" :src="`${baseURL}/assets/${artwork.artworks_id.image.id}`" @click="modal(artwork.artworks_id.id)">
                 </div>
                 <div class="text" v-if="screen.text" v-text="screen.text" />
             </div>
@@ -218,6 +219,15 @@
 
             transform () {
                 return `translateY(-${this.index * 100}%)`;
+            },
+
+            artworks () {
+                if (!this.gallery) return [];
+                return this.gallery
+                    .map(screen => screen.artworks)
+                    .flat()
+                    .filter(artwork => artwork)
+                    .map(artwork => artwork.artworks_id);
             }
 
         },
@@ -255,6 +265,13 @@
                 this.index += delta;
                 this.index = Math.max(this.index, 0);
                 this.index = Math.min(this.index, this.gallery.length - 1);
+            },
+
+            modal (id) {
+                this.$store.commit('storage/set', ['artwork', {
+                    list: () => this.artworks
+                }]);
+                this.$router.push({ query: { ...this.$route.query, modal_artwork: id } })
             }
 
         },
