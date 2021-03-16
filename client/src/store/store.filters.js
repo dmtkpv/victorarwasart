@@ -8,40 +8,55 @@ export default () => ({
         // ------------------
 
         'filter/movements' (state, getters) {
+            const items = getters['api/filter/movements'];
+            const enabled = getters['api/artworks/enabled'].movements;
             return {
                 id: 'a1',
                 mode: 'params',
-                items: getters['api/filter/movements'],
+                items: items.map(item => ({
+                    ...item,
+                    disabled: !enabled.find(id => item.id === id)
+                })),
                 head: {
                     title: 'Movements',
-                    total: getters['api/filter/movements'].length
+                    total: items.length
                 }
             }
         },
 
         'filter/types' (state, getters) {
+            const items = getters['api/filter/types'];
+            const enabled = getters['api/artworks/enabled'].types;
             return {
                 id: 'a2',
                 mode: 'params',
-                items: getters['api/filter/types'],
+                items: items.map(item => ({
+                    ...item,
+                    disabled: !enabled.find(id => item.id === id)
+                })),
                 head: {
                     title: 'Type',
-                    total: getters['api/filter/types'].length
+                    total: items.length
                 }
             }
         },
 
         'filter/artists' (state, getters) {
+            const items = getters['api/filter/artists'];
+            const enabled = getters['api/artworks/enabled'].artists;
             return {
                 id: 'a3',
                 mode: 'params',
-                items: getters['api/filter/artists'].filter(item => item.total),
+                items: items.filter(item => item.total).map(item => ({
+                    ...item,
+                    disabled: !enabled.find(id => item.id === id)
+                })),
                 options: {
                     alphabetic: true
                 },
                 head: {
                     title: 'Artists',
-                    total: getters['api/filter/artists'].length
+                    total: items.length
                 }
             }
         },

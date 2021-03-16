@@ -177,6 +177,22 @@ export default {
         }
     },
 
+    'artworks/enabled' ({ a1, a2, a3 } = {}) {
+        return {
+            url: '/custom/enabled-filters',
+            params: {
+                'filter[movements][artwork_movements_id][_in]': csv(a1),
+                'filter[types][artwork_types_id][_in]': csv(a2),
+                'filter[artist][id][_in]': csv(a3),
+            },
+            default: {
+                movements: [],
+                types: [],
+                artists: []
+            }
+        }
+    },
+
     'artworks/item' (id) {
         return {
             url: '/items/artworks/' + id,

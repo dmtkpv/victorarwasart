@@ -88,6 +88,10 @@
             .hidden { opacity: 1 }
         }
 
+        &.disabled {
+            opacity: 0.5;
+        }
+
         @include md-xl {
             &:hover { @include active }
             &.active + .note { display: block }
@@ -142,7 +146,7 @@
             <!-- item -->
 
             <div class="l-filter-item">
-                <a :class="{ active: active(item) }" @click="$emit('click', item)">
+                <a :class="{ active: active(item), disabled: item.disabled }" @click="$emit('click', item)">
                     <svg-close class="hidden" />
                     <p class="title">{{ item.title }}</p>
                     <p class="total">{{ item.total }}</p>

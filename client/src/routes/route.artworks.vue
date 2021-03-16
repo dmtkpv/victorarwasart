@@ -189,7 +189,9 @@
             update () {
                 this.params = getParams(this.query);
                 this.$store.commit('cancel', 'artworks');
+                this.$store.commit('cancel', 'artworks/enabled');
                 this.$store.dispatch('request', ['artworks', this.params]);
+                this.$store.dispatch('request', ['artworks/enabled', this.params]);
             },
 
             more () {
@@ -215,7 +217,10 @@
         },
 
         async beforeRouteEnter (to, from, next) {
-            if ($.dehydrated) this.$store.commit('cancel', 'artworks');
+            if ($.dehydrated) {
+                this.$store.commit('cancel', 'artworks');
+                this.$store.commit('cancel', 'artworks/enabled');
+            }
             await Promise.all([
                 this.$store.dispatch('request', 'filter/movements'),
                 this.$store.dispatch('request', 'filter/types'),
@@ -223,8 +228,11 @@
             ]);
             const filters = getFilters(this);
             const query = getQuery(filters, to.query);
-            const params = getParams(query)
-            await this.$store.dispatch('request', ['artworks', params]);
+            const params = getParams(query);
+            await Promise.all([
+                this.$store.dispatch('request', ['artworks', params]),
+                this.$store.dispatch('request', ['artworks/enabled', params]),
+            ]);
             next();
         },
 
