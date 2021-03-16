@@ -5,12 +5,24 @@
 <style lang="scss" scoped>
 
 
+    // --------------------
+    // Header
+    // --------------------
+
+    .l-header {
+        @include md-xl {
+            display: none;
+        }
+    }
+
+
 
     // --------------------
     // Column
     // --------------------
 
     .column {
+
         @extend %col;
         @extend %line;
         left: $column-width;
@@ -72,7 +84,7 @@
             <div class="note">{{ room.note }}</div>
         </div>
         <layout-masonry :grid="grid">
-            <tile-artwork v-for="item in room.artworks" v-bind="item" :key="item.id" @click="modal" />
+            <tile-artwork v-for="item in artworks" v-bind="item" :key="item.id" @click="modal" />
         </layout-masonry>
     </layout-section>
 </template>
@@ -125,9 +137,17 @@
             },
 
             room () {
-                let room = { ...this.$store.getters['api/rooms/item'] };
-                if (room.artworks) room.artworks = room.artworks.map(artwork => artwork.artworks_id);
-                return room;
+                return this.$store.getters['api/rooms/item'];
+            },
+
+            artworks () {
+                if (!this.room.gallery) return [];
+                return this.room.gallery
+                    .map(screen => screen.screens_id.artworks)
+                    .flat()
+                    .filter(artwork => artwork)
+                    .map(artwork => artwork.artworks_id);
+
             }
 
         },
@@ -140,7 +160,7 @@
 
             modal (id) {
                 this.$store.commit('storage/set', ['artwork', {
-                    list: () => this.room.artworks
+                    list: () => this.artworks
                 }]);
                 this.$router.push({ query: { ...this.$route.query, modal_artwork: id } })
             },

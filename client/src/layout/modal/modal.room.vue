@@ -171,8 +171,8 @@
 
         <div class="gallery" :style="{ transform }">
             <div class="screen" v-for="screen in gallery" :class="classes(screen)">
-                <div class="images" v-if="screen.images" :style="styles(screen)">
-                    <img v-for="image in screen.images" :src="`${baseURL}/assets/${image.directus_files_id}`">
+                <div class="images" v-if="screen.artworks" :style="styles(screen)">
+                    <img v-for="artwork in screen.artworks" :src="`${baseURL}/assets/${artwork.artworks_id.image.id}`">
                 </div>
                 <div class="text" v-if="screen.text" v-text="screen.text" />
             </div>

@@ -80,7 +80,6 @@ export const fields = {
 
     screen: [
         'id',
-        'images.directus_files_id',
         'align',
         'height',
         'container',
@@ -220,8 +219,8 @@ export default {
                 fields: [
                     'title',
                     'note',
-                    ...fields.artworks.map(field => `artworks.artworks_id.${field}`),
                     ...fields.screen.map(field => `gallery.screens_id.${field}`),
+                    ...fields.artworks.map(field => `gallery.screens_id.artworks.artworks_id.${field}`),
                 ].join(',')
             },
             default: {}
