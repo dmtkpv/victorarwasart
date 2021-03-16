@@ -88,8 +88,9 @@
             .hidden { opacity: 1 }
         }
 
-        &.disabled {
+        &.disabled:not(.active) {
             opacity: 0.5;
+            pointer-events: none;
         }
 
         @include md-xl {
