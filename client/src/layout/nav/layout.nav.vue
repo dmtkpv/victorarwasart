@@ -47,6 +47,14 @@
             transform: translateX(100%);
             transition: transform .3s;
             &.opened { transform: translateX(0) }
+
+            .l-nav-items {
+                flex: 1;
+                overflow: auto;
+                transition: transform .3s;
+                &.searching { transform: translateY(-360px) }
+            }
+
         }
 
         .l-nav-head {
@@ -55,12 +63,7 @@
             z-index: 1;
         }
 
-        .l-nav-items {
-            flex: 1;
-            overflow: auto;
-            transition: transform .3s;
-            &.searching { transform: translateY(-360px) }
-        }
+
 
 
     }
