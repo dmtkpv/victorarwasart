@@ -26,6 +26,8 @@ export default function ({ minTop, maxTop }) {
 
             setScroll () {
                 this.scrollY = window.scrollY;
+                this.scrollY = Math.max(this.scrollY, 0)
+                this.scrollY = Math.min(this.scrollY, document.documentElement.scrollHeight - window.innerHeight);
             },
 
             fixNormalize () {
