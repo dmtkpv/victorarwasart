@@ -111,7 +111,6 @@
         height: 100%;
         overflow: auto;
         background: $black;
-        z-index: 10;
 
         @include sm-md {
             width: 100%;
@@ -120,6 +119,10 @@
             transform: translateX(100%);
             transition: transform .3s;
             &.opened { transform: translateX(0) }
+        }
+
+        @include sm {
+            z-index: 4;
         }
 
 
