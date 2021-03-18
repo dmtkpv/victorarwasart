@@ -71,9 +71,6 @@
         // Modifiers
         // --------------------
 
-        &:not(.active) {
-            .l-filter { display: none }
-        }
         &.active {
             .l-nav-link { @extend %link-active }
         }
@@ -99,7 +96,7 @@
 -->
 
 <template>
-    <div class="l-nav-item" :class="{ active: $route.path.startsWith(path), filtered }">
+    <div class="l-nav-item" :class="{ active, filtered }">
 
         <div class="l-nav-link">
             <router-link class="title" :to="path">{{ title }}</router-link>
@@ -107,7 +104,9 @@
             <a class="clear" @click="clear">Clear</a>
         </div>
 
-        <layout-filter v-for="filter in filters" v-bind="filter" :key="filter.id" />
+        <ui-accordion v-show="active">
+            <layout-filter v-for="filter in filters" v-bind="filter" :key="filter.id" />
+        </ui-accordion>
 
     </div>
 </template>
@@ -122,11 +121,13 @@
 
     import $ from '$services/utils'
     import layoutFilter from '$layout/filter/layout.filter'
+    import uiAccordion from '$ui/accordion'
 
     export default {
 
         components: {
-            layoutFilter
+            layoutFilter,
+            uiAccordion
         },
 
         props: [
@@ -140,6 +141,10 @@
 
             filtered () {
                 return Object.values($.filters(this.filters, this.$route.query)).flat().length;
+            },
+
+            active () {
+                return this.$route.path.startsWith(this.path)
             }
 
         },
