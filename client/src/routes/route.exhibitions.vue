@@ -7,6 +7,18 @@
 
 
     // --------------------
+    // Header
+    // --------------------
+
+    .l-header {
+        @include md-xl {
+            display: none;
+        }
+    }
+
+
+
+    // --------------------
     // Article
     // --------------------
 
@@ -51,6 +63,14 @@
             vertical-align: top;
         }
 
+        th {
+            text-align: left;
+            text-transform: uppercase;
+            font-weight: inherit;
+            padding: 0 $indent-x 44px $indent-x;
+            border-bottom: 1px solid $white-transparent;
+        }
+
         @include lg-xl {
             .country { width: $column-width; }
             .city { width: $column-width; }
@@ -59,12 +79,14 @@
 
         @include sm-md {
             &, tbody, td, tr { display: block }
+            th { display: none }
             .country { margin-top: 64px }
             .city { border-bottom: none; padding-bottom: 0; }
             .establishment { padding-top: 0; }
         }
 
         @include sm {
+
             .country { border-bottom-color: rgba($white, .5); }
         }
 
@@ -95,6 +117,11 @@
 
             <table>
                 <tbody>
+                    <tr>
+                        <th>Country</th>
+                        <th>City</th>
+                        <th>Establishment</th>
+                    </tr>
                     <template v-for="(cities, country) in countries">
                         <template v-for="(establishments, city, cityIndex) in cities">
                             <tr v-for="(item, index) in establishments">
