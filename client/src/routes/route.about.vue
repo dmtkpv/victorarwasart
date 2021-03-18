@@ -141,7 +141,8 @@
         @include sm {
             order: -1;
             display: flex;
-            overflow: auto;
+            overflow-y: hidden;
+            overflow-x: auto;
             height: 235px;
             max-height: var(--windowHeight);
             .slide { height: 100% }
