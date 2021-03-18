@@ -49,7 +49,7 @@
                 margin-left: 4px;
                 &.active { color: $red; }
                 &:last-child { font-size: $large }
-                @include md-lg { display: none }
+                @include md-xl { display: none }
             }
 
         }
@@ -231,9 +231,17 @@
 
         methods: {
 
+            showRef (index) {
+                const $ref = this.refs[index];
+                const top = $ref.getBoundingClientRect().top;
+                window.scrollTo(0, top + window.scrollY);
+            },
+
             showNote (index) {
+                const $note = this.notes[index];
                 this.notes.forEach(($note, i) => $note.classList.toggle('active', i === index));
                 this.$refs.notes.classList.add('opened');
+                this.$refs.notes.scrollTop = $note.offsetTop;
             },
 
             hideNote (event) {
@@ -255,16 +263,9 @@
                     const $note = createNote(text, image, i);
                     this.notes.push($note);
                     this.$refs.notes.appendChild($note);
+                    $note.onclick = () => this.showRef(i);
                     $ref.onclick = () => this.showNote(i);
                 });
-            },
-
-            scroll () {
-                this.refs.forEach(($ref, i) => {
-                    const rect = $ref.getBoundingClientRect();
-                    const hidden = rect.bottom < 0 || rect.top > window.innerHeight;
-                    this.$refs.notes.children[i].classList.toggle('hidden', hidden);
-                })
             }
 
         },
@@ -279,13 +280,10 @@
 
         mounted () {
             this.setNotes();
-            this.scroll();
-            window.addEventListener('scroll', this.scroll);
             document.addEventListener('click', this.hideNote, true);
         },
 
         destroyed () {
-            window.removeEventListener('scroll', this.scroll);
             document.removeEventListener('click', this.hideNote, true);
         }
 

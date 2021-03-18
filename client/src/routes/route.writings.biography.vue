@@ -18,6 +18,7 @@
         @include md-xl {
             left: $column-width;
             padding: $indent-y $indent-x;
+            ::v-deep .l-header-head { display: none }
         }
 
         @include sm {
