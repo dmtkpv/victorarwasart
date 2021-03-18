@@ -147,15 +147,16 @@
     .l-artwork-control {
 
         position: absolute;
-        bottom: $indent-y;
+        bottom: 0;
+        @extend %padding;
 
         &.details {
-            left: $indent-x;
+            left: 0;
             z-index: 1;
         }
 
         &.magnifier {
-            right: $indent-y;
+            right: 0;
         }
 
         @include md-xl {
