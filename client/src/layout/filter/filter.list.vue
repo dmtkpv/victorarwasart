@@ -68,7 +68,6 @@
         }
 
         .title {
-            flex: 1;
             transition: transform .3s;
         }
 
