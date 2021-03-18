@@ -294,9 +294,11 @@
                 this.moveMagnifier(event);
             },
 
-            mouseEnter () {
+            async mouseEnter (event) {
                 if (this.touch) return;
                 this.magnifier = true;
+                await this.$nextTick();
+                this.moveMagnifier(event);
             },
 
             mouseLeave () {
