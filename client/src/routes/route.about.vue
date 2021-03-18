@@ -71,6 +71,12 @@
             padding-top: 0;
         }
 
+        @include sm {
+            margin-top: 24px;
+            .item {margin-bottom: 48px;}
+        }
+
+
     }
 
 
