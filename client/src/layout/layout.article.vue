@@ -42,7 +42,7 @@
             h1 {
                 flex: 1;
                 color: $red;
-                margin-bottom: 1em;
+                margin-bottom: calc(#{$indent-y} * 2);
             }
 
             a {
@@ -61,7 +61,7 @@
 
             counter-reset: note;
 
-            p {
+            p:not(:first-child) {
                 margin-top: 1em;
             }
 
@@ -88,6 +88,9 @@
                 .heading h1 { font-size: $large }
                 .text { font-size: $large }
             }
+            .heading h1 {
+                margin-bottom: 1em;
+            }
         }
 
 
@@ -112,6 +115,10 @@
         overflow: auto;
         background: $black;
 
+        h2 {
+            margin-bottom: calc(#{$indent-y} * 2);
+        }
+
         @include sm-md {
             width: 100%;
             max-width: 300px;
@@ -119,6 +126,7 @@
             transform: translateX(100%);
             transition: transform .3s;
             &.opened { transform: translateX(0) }
+            h2 { display: none; }
         }
 
         @include sm {
@@ -136,12 +144,14 @@
 
     .l-article-note {
 
+        position: relative;
+
         &:not(:last-child) {
-            margin-bottom: $indent-y;
+            margin-bottom: calc(#{$indent-y} * 2);
         }
 
-        span {
-            display: block;
+        a {
+
             font-size: 10px;
             margin-bottom: 6px;
             color: $red;
@@ -188,7 +198,9 @@
             <div class="text" ref="text" v-html="text" />
         </div>
 
-        <div class="l-article-notes" ref="notes"></div>
+        <div class="l-article-notes" ref="notes">
+            <h2>NOTE</h2>
+        </div>
 
     </article>
 </template>
@@ -210,7 +222,7 @@
     function createNote (text, image, index) {
         return createNode(`
             <div class="l-article-note">
-                <span>${index + 1}</span>
+                <a>${index + 1}</a>
                 ${image ? `<img src="${image}">` : ''}
                 ${text}
             </div>
@@ -266,7 +278,7 @@
                     const $note = createNote(text, image, i);
                     this.notes.push($note);
                     this.$refs.notes.appendChild($note);
-                    $note.onclick = () => this.showRef(i);
+                    $note.querySelector('a').onclick = () => this.showRef(i);
                     $ref.onclick = () => this.showNote(i);
                 });
             }

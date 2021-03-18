@@ -27,7 +27,8 @@
         .l-filter {
 
             .l-filter-head {
-                margin-top: 42px;
+                margin-top: calc(#{$indent-y} * 2);
+                margin-bottom: $indent-y;
                 .clear { display: none }
                 &.filtered { color: $white; }
             }

@@ -29,6 +29,7 @@
 
         @include md-xl {
             .toggle { pointer-events: none }
+            margin-bottom: calc(#{$indent-y} * 2);
         }
 
         @include sm {
