@@ -72,21 +72,21 @@
                 &.prev {
                     transform: translateX(50%);
                     .l-artwork-images img { transform: translateX(-50%); }
-                    .l-artwork-text { opacity: 0 }
+                    .l-artwork-details { opacity: 0 }
 
                 }
 
                 &.next {
                     transform: translateX(-50%);
                     .l-artwork-images img { transform: translateX(50%); }
-                    .l-artwork-text { opacity: 0 }
+                    .l-artwork-details { opacity: 0 }
                 }
 
             }
 
             .holder, .slide,
             .slide .l-artwork-images img { transition: transform .7s; }
-            .slide .l-artwork-text { transition: opacity .3s; }
+            .slide .l-artwork-details { transition: opacity .3s; }
 
             @include sm {
                 .area { display: none }
