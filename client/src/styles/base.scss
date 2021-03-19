@@ -65,4 +65,7 @@ input[type=submit] {
 textarea {
     resize: vertical;
 }
-
+::selection {
+    background: $red;
+    color: $black;
+}
