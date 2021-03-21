@@ -36,6 +36,7 @@
     // --------------------
 
     .l-article {
+        margin-bottom: $indent-bottom;
         @include md-xl {
             padding-left: calc(#{$column-width} * 2);
         }

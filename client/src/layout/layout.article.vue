@@ -146,9 +146,8 @@
 
         position: relative;
 
-        &:not(:last-child) {
-            margin-bottom: calc(#{$indent-y} * 2);
-        }
+
+
 
         a {
 
@@ -163,12 +162,14 @@
         }
 
         @include lg-xl {
+            margin-bottom: calc(var(--windowHeight) * 0.6);
             &.hidden {
                 display: none;
             }
         }
 
         @include sm-md {
+            margin-bottom: $indent-bottom;
             &:not(.active) {
                 display: none;
             }
