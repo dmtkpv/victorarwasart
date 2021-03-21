@@ -41,6 +41,7 @@ export const fields = {
         'dimensions',
         'reference',
         'note',
+        'contain',
         'additional_images.directus_files_id'
     ],
 
