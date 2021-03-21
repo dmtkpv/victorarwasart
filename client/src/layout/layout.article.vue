@@ -250,14 +250,15 @@
             showRef (index) {
                 const $ref = this.refs[index];
                 const top = $ref.getBoundingClientRect().top;
-                window.scrollTo(0, top + window.scrollY);
+                window.scrollTo(0, top + window.scrollY - this.$refs.text.offsetTop);
             },
 
             showNote (index) {
+                const $first = this.notes[0];
                 const $note = this.notes[index];
                 this.notes.forEach(($note, i) => $note.classList.toggle('active', i === index));
                 this.$refs.notes.classList.add('opened');
-                this.$refs.notes.scrollTop = $note.offsetTop;
+                this.$refs.notes.scrollTop = $note.offsetTop - $first.offsetTop;
             },
 
             hideNote (event) {
