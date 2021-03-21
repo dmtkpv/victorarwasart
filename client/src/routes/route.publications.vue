@@ -48,6 +48,7 @@
         @extend %line;
         display: flex;
         flex-wrap: wrap;
+        margin-bottom: $indent-bottom;
         &:before { margin-left: 0 }
 
         @include md-xl {
