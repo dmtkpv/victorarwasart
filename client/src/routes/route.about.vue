@@ -65,7 +65,7 @@
             left: calc(#{$column-width} * 2);
             &:before { @include line; }
             .copy { margin-top: auto; }
-            margin-top: calc(13px + #{$indent-y} * 2);
+            padding-top: calc(13px + #{$indent-y} * 2);
         }
 
         @include md {
@@ -104,7 +104,7 @@
         }
 
         @include md-xl {
-            margin-top: calc(13px + #{$indent-y} * 2);
+            padding-top: calc(13px + #{$indent-y} * 2);
         }
 
         @include sm {
