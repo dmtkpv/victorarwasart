@@ -36,6 +36,10 @@
 
         }
 
+        ::v-deep .l-filter:last-child .l-filter-list {
+            margin-bottom: $indent-bottom;
+        }
+
     }
 
 
@@ -45,6 +49,8 @@
     // --------------------
 
     .l-masonry {
+
+        margin-bottom: $indent-bottom;
 
         ::v-deep .l-masonry-line {
             &:nth-child(1):before { left: calc(#{$column-width} * 2); }
