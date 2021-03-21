@@ -41,6 +41,7 @@
     ::v-deep .filter-direct {
         @extend %col;
         @extend %line;
+        .l-filter-list { margin-bottom: $indent-bottom }
         @include lg-xl { left: calc(#{$column-width} * 3) }
         @include md { left: calc(#{$column-width} * 2) }
         @include md-xl { padding: $indent-y $indent-x }
