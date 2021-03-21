@@ -28,9 +28,13 @@
 // --------------------
 
 :root {
+
+    --indent-bottom: 200px;
+
     @include md-xl {
         --indent-x: 21px;
         --indent-y: 29px;
+
     }
     @include sm {
         --indent-x: 12px;
