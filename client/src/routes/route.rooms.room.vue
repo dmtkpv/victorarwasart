@@ -52,6 +52,8 @@
 
     .l-masonry {
 
+        margin-bottom: $indent-bottom;
+
         ::v-deep .l-masonry-line {
             &:nth-child(1):before { left: calc(#{$column-width} * 2); }
             &:nth-child(2):before { left: calc(#{$column-width} * 3); }
