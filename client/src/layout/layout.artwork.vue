@@ -43,10 +43,9 @@
             img {
                 width: 100%;
                 height: 100%;
-                object-fit: cover;
             }
-            &.contain img {
-                object-fit: contain;
+            &.cover img {
+                object-fit: cover;
             }
         }
 
@@ -132,7 +131,8 @@
         }
 
         @include sm {
-            &.contain img { object-fit: contain; }
+            img { object-fit: contain; }
+            &.cover img { object-fit: cover; }
         }
 
         &:not(.touch) {
@@ -188,7 +188,7 @@
 
         <!-- slider -->
 
-        <div class="l-artwork-images" :class="{ contain }">
+        <div class="l-artwork-images" :class="{ cover }">
             <img v-for="(image, i) in images"
                 class="u-stretch"
                 ref="image"
@@ -227,7 +227,7 @@
 
         <!-- magnifier -->
 
-        <div class="l-artwork-magnifier" ref="magnifier" v-show="magnifier" :class="{ touch, contain }" @touchstart="toggleMagnifier">
+        <div class="l-artwork-magnifier" ref="magnifier" v-show="magnifier" :class="{ touch, cover }" @touchstart="toggleMagnifier">
             <img :src="`${baseURL}/assets/${images[index]}`">
         </div>
 
@@ -263,7 +263,7 @@
             'dimensions',
             'reference',
             'note',
-            'contain',
+            'cover',
             'additional_images'
         ],
 
