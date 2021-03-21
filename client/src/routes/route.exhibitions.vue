@@ -24,6 +24,7 @@
 
     article {
         @extend %line;
+        padding-bottom: $indent-bottom;
         &:before { margin-left: 0 }
         @include md-xl {
             padding-left: $column-width;
@@ -86,7 +87,6 @@
         }
 
         @include sm {
-
             .country { border-bottom-color: rgba($white, .5); }
         }
 
