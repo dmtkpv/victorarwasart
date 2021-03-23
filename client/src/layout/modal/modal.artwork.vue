@@ -44,18 +44,9 @@
             align-items: stretch;
             height: 100%;
 
-            .area {
-                position: relative;
-                width: 60px;
-                z-index: 2;
-                background: rgba($black, .5);
-                transition: background .3s;
-                &.disabled { pointer-events: none; }
-                &:hover { background: rgba($black, 0) }
-            }
-
             .holder {
                 @extend %u-row;
+                margin-left: 60px;
                 width: calc(100% - 120px);
             }
 
@@ -69,27 +60,30 @@
                     z-index: 1;
                 }
 
+                &.prev, &.next {
+                    .l-artwork-details { opacity: 0 }
+                    .l-artwork-images { opacity: 0.5; pointer-events: none; }
+                    &:hover .l-artwork-images { opacity: 1 }
+                }
+
                 &.prev {
                     transform: translateX(50%);
                     .l-artwork-images img { transform: translateX(-50%); }
-                    .l-artwork-details { opacity: 0 }
-
                 }
 
                 &.next {
                     transform: translateX(-50%);
                     .l-artwork-images img { transform: translateX(50%); }
-                    .l-artwork-details { opacity: 0 }
                 }
 
             }
 
             .holder, .slide,
             .slide .l-artwork-images img { transition: transform .7s; }
+            .slide .l-artwork-images,
             .slide .l-artwork-details { transition: opacity .3s; }
 
             @include sm {
-                .area { display: none }
                 .holder { width: 100% }
                 .slide {
                     padding-left: 0;
@@ -111,18 +105,6 @@
 <template>
     <div class="l-modal-artwork">
         <div class="l-modal-slider">
-
-
-            <!-- prev -->
-
-            <a class="area"
-               :class="{ disabled: !index }"
-               @click="open(list[index - 1].id)"
-            />
-
-
-            <!-- holder -->
-
             <div class="holder" :style="{ transform: `translateX(-${index * 100}%)` }">
                 <layout-artwork
                     class="slide"
@@ -130,18 +112,9 @@
                     :key="artwork.id"
                     :class="slideClass(i)"
                     v-bind="artwork"
+                    @click.native="open(artwork.id)"
                 />
             </div>
-
-
-            <!-- next -->
-
-            <a class="area prev"
-               :class="{ disabled: index === list.length - 1 }"
-               @click="open(list[index + 1].id)"
-            />
-
-
         </div>
         <a class="l-modal-close" @click="open(undefined)">Close</a>
     </div>
