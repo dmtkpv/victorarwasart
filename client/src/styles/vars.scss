@@ -6,18 +6,19 @@
 
     --windowWidth: 100vw;
     --windowHeight: 100vh;
+    --documentWidth: 100vw;
 
     @include xl {
-        --column-width: calc(var(--windowWidth) / 5);
+        --column-width: calc(var(--documentWidth) / 5);
     }
     @include lg {
-        --column-width: calc(var(--windowWidth) / 4);
+        --column-width: calc(var(--documentWidth) / 4);
     }
     @include md {
-        --column-width: calc(var(--windowWidth) / 3);
+        --column-width: calc(var(--documentWidth) / 3);
     }
     @include sm {
-        --column-width: var(--windowWidth);
+        --column-width: var(--documentWidth);
     }
 }
 
