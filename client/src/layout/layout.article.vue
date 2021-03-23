@@ -47,8 +47,8 @@
 
             a {
                 margin-left: 4px;
-                &.active { color: $red; }
-                &:last-child { font-size: $large }
+                span.active { color: $red; }
+                span:last-child { font-size: $large }
                 @include md-xl { display: none }
             }
 
@@ -146,9 +146,6 @@
 
         position: relative;
 
-
-
-
         a {
 
             font-size: 10px;
@@ -193,8 +190,10 @@
         <div class="l-article-content" :class="{ larger }">
             <div class="heading">
                 <h1>{{ title }}</h1>
-                <a :class="{ active: !larger }" @click="larger = false">A</a>
-                <a :class="{ active: larger }" @click="larger = true">A</a>
+                <a @click="larger = !larger">
+                    <span :class="{ active: !larger }">A</span>
+                    <span :class="{ active: larger }">A</span>
+                </a>
             </div>
             <div class="text" ref="text" v-html="text" />
         </div>
