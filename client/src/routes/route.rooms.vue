@@ -75,6 +75,7 @@
         }
 
         @include md-xl {
+            ::v-deep .text { padding-top: 16px }
             &:hover ::v-deep .text { color: $red; }
         }
 
