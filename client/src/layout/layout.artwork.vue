@@ -117,8 +117,8 @@
     .l-artwork-magnifier {
 
         position: absolute;
-        width: 200px;
-        height: 200px;
+        width: 330px;
+        height: 330px;
         border-radius: 50%;
         overflow: hidden;
         box-shadow: 0 0 0 1px rgba(0,0,0,0.3);
