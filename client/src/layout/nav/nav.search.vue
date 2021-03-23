@@ -139,8 +139,10 @@
             start () {
                 if (!this.active) return this.$refs.input.focus();
                 if (!this.text) return;
+                this.$refs.input.blur();
                 this.back = this.$route.fullPath;
                 this.$router.push(`/search?text=${this.text}`);
+                this.$emit('search')
             },
 
             end () {

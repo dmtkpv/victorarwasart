@@ -88,7 +88,7 @@
             <nav-head @toggle="toggle(false)" />
             <div class="l-nav-items" :class="{ searching }">
                 <nav-item v-for="(link, i) in nav" v-bind="link" :key="i" @click.native="toggle(false)" />
-                <nav-search @focus="searching = $event" />
+                <nav-search @focus="searching = $event" @search="toggle(false)" />
             </div>
         </div>
 
