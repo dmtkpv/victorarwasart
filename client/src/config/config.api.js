@@ -288,7 +288,8 @@ export default {
         return {
             url: '/items/exhibitions',
             params: {
-                limit: -1
+                limit: -1,
+                sort: 'sort'
             }
         }
     },
