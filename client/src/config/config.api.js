@@ -208,7 +208,8 @@ export default {
             url: '/items/viewing_room',
             params: {
                 fields: fields.rooms.join(','),
-                limit: -1
+                limit: -1,
+                sort: 'sort'
             }
         }
     },
