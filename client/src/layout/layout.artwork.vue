@@ -360,7 +360,6 @@
 
             toggleDetails (value) {
                 this.details = value;
-                this.details && this.toggleMagnifier(false);
             },
 
             inquire () {
