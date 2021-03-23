@@ -45,7 +45,7 @@
             flex-flow: column nowrap;
             background: $black;
             transform: translateX(100%);
-            transition: transform .3s;
+            transition: transform .4s ease-in-out;
             &.opened { transform: translateX(0) }
 
             .l-nav-items {
