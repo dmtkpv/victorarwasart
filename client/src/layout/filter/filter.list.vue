@@ -88,7 +88,7 @@
         }
 
         &.disabled:not(.active) {
-            opacity: 0.5;
+            color: #7E7E7C;
             pointer-events: none;
         }
 
