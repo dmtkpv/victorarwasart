@@ -69,17 +69,18 @@
                     z-index: 1;
                 }
 
+                &.next, &.prev {
+                    .l-artwork-details { opacity: 0 }
+                }
+
                 &.prev {
                     transform: translateX(50%);
                     .l-artwork-images img { transform: translateX(-50%); }
-                    .l-artwork-details { opacity: 0 }
-
                 }
 
                 &.next {
                     transform: translateX(-50%);
                     .l-artwork-images img { transform: translateX(50%); }
-                    .l-artwork-details { opacity: 0 }
                 }
 
             }
@@ -94,6 +95,9 @@
                 .slide {
                     padding-left: 0;
                     padding-right: 0;
+                    &.next { display: none }
+                    &.prev { display: none }
+
                 }
             }
 
