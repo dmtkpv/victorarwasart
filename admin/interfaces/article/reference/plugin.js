@@ -81,7 +81,7 @@ tinymce.PluginManager.add('reference', function (editor) {
 
     editor.ui.registry.addToggleButton('reference', {
 
-        text: 'Reference',
+        text: 'Note',
 
         onAction: function () {
             let reference = {};
