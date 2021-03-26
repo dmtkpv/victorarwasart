@@ -81,10 +81,7 @@
         position: relative;
         height: calc(var(--windowHeight) * 0.7);
         min-height: 300px;
-        &:not(:last-child) {
-            border-bottom: 1px solid $white-transparent;
-        }
-
+        border-bottom: 1px solid $white-transparent;
 
 
         // image
