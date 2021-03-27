@@ -18,6 +18,12 @@
             top: 60px;
             width: 100%;
 
+            .l-header-head,
+            .l-header-filters {
+                position: relative;
+                z-index: 1;
+            }
+
             .l-header-menu {
                 position: fixed;
                 top: 120px;
@@ -26,8 +32,9 @@
                 width: 100%;
                 overflow: auto;
                 background: $black;
-                transform: translateX(100%);
-                transition: transform .3s;
+                visibility: hidden;
+                transform: translateY(-100%);
+                transition: transform .3s, visibility .3s 0s;
             }
 
             &.filtered {
@@ -35,7 +42,11 @@
             }
 
             &.opened {
-                .l-header-menu { transform: translateX(0) }
+                .l-header-menu {
+                    visibility: visible;
+                    transform: translateY(0);
+                    transition: transform .3s, visibility 0s;
+                }
             }
 
             & + * { padding-top: 60px; }
