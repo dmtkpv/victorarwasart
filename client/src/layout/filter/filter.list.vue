@@ -69,6 +69,7 @@
 
         .title {
             transition: transform .3s;
+            padding-right: 24px; // as transition
         }
 
         .total {
@@ -78,7 +79,7 @@
 
         @mixin active {
             .total { opacity: 1; }
-            .title { transform: translateX(32px); }
+            .title { transform: translateX(24px); }
         }
 
         &.active {
