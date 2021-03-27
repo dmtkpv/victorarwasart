@@ -165,14 +165,15 @@ export default {
     },
 
     'artworks' ({ a1, a2, a3, sort, offset, limit } = {}) {
+        let filter = { _and: [] };
+        if (a1) filter._and.push({ _or: a1.map(_contains => ({ in_movements: { _contains } })) })
+        if (a2) filter._and.push({ _or: a2.map(_contains => ({ in_types: { _contains } })) })
+        if (a3) filter._and.push({ artist: { _in:  csv(a3) } })
         return {
             url: '/items/artworks',
             params: {
                 fields: csv(fields['artworks']),
-                'filter[movements][artwork_movements_id][_in]': csv(a1),
-                'filter[types][artwork_types_id][_in]': csv(a2),
-                'filter[artist][id][_in]': csv(a3),
-                offset, limit, sort
+                filter, offset, limit, sort
             }
         }
     },
