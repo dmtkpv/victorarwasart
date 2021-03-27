@@ -188,7 +188,7 @@
 
         <!-- slider -->
 
-        <div class="l-artwork-images" :class="{ cover }">
+        <div class="l-artwork-images" :class="{ cover: homepage_cover }">
             <img v-for="(image, i) in images"
                 class="u-stretch"
                 ref="image"
@@ -227,7 +227,7 @@
 
         <!-- magnifier -->
 
-        <div class="l-artwork-magnifier" ref="magnifier" v-show="magnifier" :class="{ touch, cover }" @touchstart="toggleMagnifier">
+        <div class="l-artwork-magnifier" ref="magnifier" v-show="magnifier" :class="{ touch, cover: homepage_cover }" @touchstart="toggleMagnifier">
             <img :src="`${baseURL}/assets/${images[index]}`">
         </div>
 
@@ -263,7 +263,7 @@
             'dimensions',
             'reference',
             'note',
-            'cover',
+            'homepage_cover',
             'additional_images'
         ],
 

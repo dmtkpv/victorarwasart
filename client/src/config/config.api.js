@@ -41,7 +41,6 @@ export const fields = {
         'dimensions',
         'reference',
         'note',
-        'cover',
         'additional_images.directus_files_id'
     ],
 
@@ -151,7 +150,7 @@ export default {
         return {
             url: '/items/home',
             params: {
-                fields: fields['artworks/item'].map(field => `artworks.artworks_id.${field}`).join(',')
+                fields: [...fields['artworks/item'], 'homepage_cover'].map(field => `artworks.artworks_id.${field}`).join(',')
             },
             transform (response) {
                 const items = response.artworks.map(item => item.artworks_id);
