@@ -6,14 +6,29 @@ module.exports = function (router, { database, exceptions }) {
     // Helpers
     // -------------------
 
-    function select ({ table, table_title, tableCount, tableCount_field, tableCount_link, tableCheck }) {
+    function choices2Table (choices) {
+        const first = `SELECT '${choices[0].value}' as id, '${choices[0].text}' as title `;
+        const other = choices.slice(1).map(item => `UNION ALL SELECT '${item.value}', '${item.text}'`).join(' ');
+        return first + other;
+    }
+
+    function count (table, column, choices) {
         return database.raw(`
-            SELECT ${tableCount}.${tableCount_link} as id, ${table}.${table_title}, COUNT(${tableCount_field}) as total
-            FROM  ${tableCount}
-            INNER JOIN ${table} ON ${tableCount}.${tableCount_link} = ${table}.id
-            where exists (select id from ${tableCheck} where id = ${tableCount}.${tableCount_field})
-            GROUP BY ${table}.id;
-        `);
+            SELECT choices.id, ANY_VALUE(choices.title) as title, COUNT(choices.id) as total FROM (${choices2Table(choices)}) as choices
+            INNER JOIN ${table}
+            ON find_in_set(choices.id, ${table}.${column})
+            GROUP BY choices.id;
+        `).then(data => {
+            return data[0]
+        })
+    }
+
+    function getChoices (id) {
+        return database.raw(`
+            SELECT options FROM directus_fields WHERE id = ${id} 
+        `).then(data => {
+            return JSON.parse(data[0][0].options).choices;
+        })
     }
 
 
@@ -23,16 +38,14 @@ module.exports = function (router, { database, exceptions }) {
     // -------------------
 
     router.get('/artwork_movements', (req, res, next) => {
-        select({
-            table: 'artwork_movements',
-            table_title: 'title',
-            tableCount: 'artworks_movements',
-            tableCount_field: 'artworks_id',
-            tableCount_link: 'artwork_movements_id',
-            tableCheck: 'artworks'
-        }).then(records => {
-            res.send({ data: records[0] });
-        }).catch(next);
+        getChoices(172)
+            .then(choices => {
+                return count('artworks', 'in_movements', choices);
+            })
+            .then(records => {
+                res.send({ data: records });
+            })
+            .catch(next);
     });
 
 
@@ -42,16 +55,14 @@ module.exports = function (router, { database, exceptions }) {
     // -------------------
 
     router.get('/artwork_types', (req, res, next) => {
-        select({
-            table: 'artwork_types',
-            table_title: 'title',
-            tableCount: 'artworks_types',
-            tableCount_field: 'artworks_id',
-            tableCount_link: 'artwork_types_id',
-            tableCheck: 'artworks'
-        }).then(records => {
-            res.send({ data: records[0] });
-        }).catch(next);
+        getChoices(171)
+            .then(choices => {
+                return count('artworks', 'in_types', choices);
+            })
+            .then(records => {
+                res.send({ data: records });
+            })
+            .catch(next);
     });
 
 
@@ -61,16 +72,14 @@ module.exports = function (router, { database, exceptions }) {
     // -------------------
 
     router.get('/publication_types', (req, res, next) => {
-        select({
-            table: 'publication_types',
-            table_title: 'title',
-            tableCount: 'publications_types',
-            tableCount_field: 'publications_id',
-            tableCount_link: 'publication_types_id',
-            tableCheck: 'publications'
-        }).then(records => {
-            res.send({ data: records[0] });
-        }).catch(next);
+        getChoices(173)
+            .then(choices => {
+                return count('publications', 'in_types', choices);
+            })
+            .then(records => {
+                res.send({ data: records });
+            })
+            .catch(next);
     });
 
 
