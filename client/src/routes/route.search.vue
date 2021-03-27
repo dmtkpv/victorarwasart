@@ -133,7 +133,7 @@
         },
         {
             collection: 'publications',
-            fields: fields.publications.join(','),
+            fields: fields.publications.filter(field => field !== 'size').join(','),
             searchIn: 'title,year,text'
         },
         {

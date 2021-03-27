@@ -50,6 +50,7 @@ export const fields = {
         'year',
         'text',
         'reference',
+        'size',
         'image.id',
         'image.width',
         'image.height'

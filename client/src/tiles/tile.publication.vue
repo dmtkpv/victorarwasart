@@ -43,7 +43,7 @@
 <template>
     <div class="t-publication">
 
-        <div class="image" :style="{paddingTop: image.height / image.width * 100 + '%'}">
+        <div class="image" :style="{ paddingTop, transform }">
             <img class="u-stretch" :src="`${baseURL}/assets/${image.id}`">
         </div>
 
@@ -74,8 +74,21 @@
             'title',
             'year',
             'text',
-            'reference'
+            'reference',
+            'size'
         ],
+
+        computed: {
+
+            paddingTop () {
+                return this.size ? '' : this.image.height / this.image.width * 100 + '%'
+            },
+
+            transform () {
+                return this.size ? `scale(${this.size / 100})` : ''
+            }
+
+        },
 
         methods: {
 

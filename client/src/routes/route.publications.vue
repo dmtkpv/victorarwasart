@@ -90,7 +90,6 @@
 
             @extend %flex;
             height: 100%;
-            padding: 10% !important;
 
             img {
                 position: relative;
