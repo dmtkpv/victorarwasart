@@ -54,7 +54,7 @@
             <p>{{ technique }}</p>
             <p>{{ dimensions }}</p>
             <p>{{ note }}</p>
-            <p>Reference No. {{ reference }} | <a @click="inquire">Inquire</a></p>
+            <p>Reference No. {{ id }} | <a @click="inquire">Inquire</a></p>
         </div>
 
     </div>
@@ -80,15 +80,14 @@
             'year',
             'technique',
             'dimensions',
-            'reference',
             'note'
         ],
 
         methods: {
 
             inquire () {
-                const { artist, title, year, technique, dimensions, note, reference } = this;
-                let inquire = `${title}, ${year}\n${technique} | ${dimensions} | ${note}\nReference No. ${reference}`
+                const { id, artist, title, year, technique, dimensions, note } = this;
+                let inquire = `${title}, ${year}\n${technique} | ${dimensions} | ${note}\nReference No. ${id}`
                 if (artist) inquire = `${artist.name}, ${artist.lifetime}\n${inquire}`;
                 this.$store.commit('storage/set', ['inquire', inquire]);
             }

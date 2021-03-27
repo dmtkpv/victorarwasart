@@ -26,7 +26,6 @@ export const fields = {
         'year',
         'technique',
         'dimensions',
-        'reference',
         'note'
     ],
 
@@ -39,7 +38,6 @@ export const fields = {
         'year',
         'technique',
         'dimensions',
-        'reference',
         'note',
         'additional_images.directus_files_id'
     ],
@@ -49,7 +47,6 @@ export const fields = {
         'title',
         'year',
         'text',
-        'reference',
         'size',
         'image.id',
         'image.width',

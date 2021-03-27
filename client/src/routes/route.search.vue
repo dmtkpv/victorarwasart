@@ -124,7 +124,7 @@
         {
             collection: 'artworks',
             fields: fields.artworks.join(','),
-            searchIn: 'title,artist.name,artist.lifetime,year,technique,dimensions,reference,note',
+            searchIn: 'id,title,artist.name,artist.lifetime,year,technique,dimensions,note',
         },
         {
             collection: 'viewing_room',
@@ -134,7 +134,7 @@
         {
             collection: 'publications',
             fields: fields.publications.filter(field => field !== 'size').join(','),
-            searchIn: 'title,year,text'
+            searchIn: 'id,title,year,text'
         },
         {
             collection: 'essays',
