@@ -168,6 +168,7 @@ export default {
         if (a1) filter._and.push({ _or: a1.map(_contains => ({ in_movements: { _contains } })) })
         if (a2) filter._and.push({ _or: a2.map(_contains => ({ in_types: { _contains } })) })
         if (a3) filter._and.push({ artist: { _in:  csv(a3) } })
+        filter._and.push({ hidden_in_artworks: { _eq: false } });
         return {
             url: '/items/artworks',
             params: {

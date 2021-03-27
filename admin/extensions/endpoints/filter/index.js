@@ -12,11 +12,12 @@ module.exports = function (router, { database, exceptions }) {
         return first + other;
     }
 
-    function count (table, column, choices) {
+    function count (table, column, choices, filter = '') {
         return database.raw(`
             SELECT choices.id, ANY_VALUE(choices.title) as title, COUNT(choices.id) as total FROM (${choices2Table(choices)}) as choices
             INNER JOIN ${table}
-            ON find_in_set(choices.id, ${table}.${column})
+            ON find_in_set(choices.id, ${table}.${column}) 
+            ${filter}
             GROUP BY choices.id;
         `).then(data => {
             return data[0]
@@ -40,7 +41,7 @@ module.exports = function (router, { database, exceptions }) {
     router.get('/artwork_movements', (req, res, next) => {
         getChoices(172)
             .then(choices => {
-                return count('artworks', 'in_movements', choices);
+                return count('artworks', 'in_movements', choices, 'WHERE artworks.hidden_in_artworks = 0');
             })
             .then(records => {
                 res.send({ data: records });
@@ -57,7 +58,7 @@ module.exports = function (router, { database, exceptions }) {
     router.get('/artwork_types', (req, res, next) => {
         getChoices(171)
             .then(choices => {
-                return count('artworks', 'in_types', choices);
+                return count('artworks', 'in_types', choices, 'WHERE artworks.hidden_in_artworks = 0');
             })
             .then(records => {
                 res.send({ data: records });
