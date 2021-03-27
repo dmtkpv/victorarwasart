@@ -9,7 +9,7 @@ export default () => ({
 
         'filter/movements' (state, getters) {
             const items = getters['api/filter/movements'];
-            const enabled = getters['api/artworks/enabled'].movements;
+            const enabled = getters['api/artworks/enabled'].in_movements;
             return {
                 id: 'a1',
                 mode: 'params',
@@ -26,7 +26,7 @@ export default () => ({
 
         'filter/types' (state, getters) {
             const items = getters['api/filter/types'];
-            const enabled = getters['api/artworks/enabled'].types;
+            const enabled = getters['api/artworks/enabled'].in_types;
             return {
                 id: 'a2',
                 mode: 'params',
@@ -43,7 +43,7 @@ export default () => ({
 
         'filter/artists' (state, getters) {
             const items = getters['api/filter/artists'];
-            const enabled = getters['api/artworks/enabled'].artists;
+            const enabled = getters['api/artworks/enabled'].artist;
             return {
                 id: 'a3',
                 mode: 'params',

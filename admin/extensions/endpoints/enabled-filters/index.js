@@ -1,26 +1,25 @@
-module.exports = function (router, { database, services }) {
+module.exports = function (router, { services }) {
+
+
+
+    // -------------------
+    // Helpers
+    // -------------------
 
     const { ItemsService } = services;
 
-
-
-    // -------------------
-    // Movements
-    // -------------------
-
-    function getMovements (service, _filter) {
-        const { movements, ...filter } = _filter;
+    function find (service, field, _query, callback) {
+        let query = { ..._query };
+        delete query[field];
+        const _and = Object.values(query).map(value => JSON.parse(value));
         return service.readByQuery({
-            filter,
+            filter: { _and },
             limit: -1,
-            fields: ['movements.artwork_movements_id']
+            fields: [field]
         }).then(data => {
             return data.reduce((result, item) => {
-                if (!item.movements) return result;
-                item.movements.forEach(movement => {
-                    const value = movement && movement.artwork_movements_id;
-                    if (value && !result.includes(value)) result.push(value);
-                })
+                if (!item[field]) return result;
+                callback(result, item[field]);
                 return result;
             }, [])
         })
@@ -29,69 +28,29 @@ module.exports = function (router, { database, services }) {
 
 
     // -------------------
-    // Types
-    // -------------------
-
-    function getTypes (service, _filter) {
-        const { types, ...filter } = _filter;
-        return service.readByQuery({
-            filter,
-            limit: -1,
-            fields: ['types.artwork_types_id']
-        }).then(data => {
-            return data.reduce((result, item) => {
-                if (!item.types) return result;
-                item.types.forEach(type => {
-                    const value = type && type.artwork_types_id;
-                    if (value && !result.includes(value)) result.push(value);
-                })
-                return result;
-            }, [])
-        })
-    }
-
-
-
-    // -------------------
-    // Artists
-    // -------------------
-
-    function getArtists (service, _filter) {
-        const { artist, ...filter } = _filter;
-        return service.readByQuery({
-            filter,
-            limit: -1,
-            fields: ['artist']
-        }).then(data => {
-            return data.reduce((result, item) => {
-                const value = item.artist;
-                if (value && !result.includes(value)) result.push(value);
-                return result;
-            }, [])
-        })
-    }
-
-
-
-    // -------------------
-    // Search
+    // Route
     // -------------------
 
     router.get('/', async (req, res, next) => {
 
         const service = new ItemsService('artworks', { schema: req.schema });
-        const filter = req.sanitizedQuery.filter || {};
 
         Promise.all([
-            getMovements(service, filter),
-            getTypes(service, filter),
-            getArtists(service, filter)
+            find(service, 'in_movements', req.query, (result, movements) => {
+                movements.forEach(movement => !result.includes(movement) && result.push(movement));
+            }),
+            find(service, 'in_types', req.query, (result, types) => {
+                types.forEach(type => !result.includes(type) && result.push(type));
+            }),
+            find(service, 'artist', req.query, (result, artist) => {
+                !result.includes(artist) && result.push(artist);
+            })
         ]).then(data => {
             res.send({
                 data: {
-                    movements: data[0],
-                    types: data[1],
-                    artists: data[2]
+                    in_movements: data[0],
+                    in_types: data[1],
+                    artist: data[2]
                 }
             })
         }).catch(next);

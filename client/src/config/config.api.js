@@ -179,17 +179,17 @@ export default {
     },
 
     'artworks/enabled' ({ a1, a2, a3 } = {}) {
+        let params = {};
+        if (a1) params.in_movements = { _or: a1.map(_contains => ({ in_movements: { _contains } })) }
+        if (a2) params.in_types = { _or: a2.map(_contains => ({ in_types: { _contains } })) }
+        if (a3) params.artist = { artist: { _in:  csv(a3) } }
         return {
             url: '/custom/enabled-filters',
-            params: {
-                'filter[movements][artwork_movements_id][_in]': csv(a1),
-                'filter[types][artwork_types_id][_in]': csv(a2),
-                'filter[artist][id][_in]': csv(a3),
-            },
+            params,
             default: {
-                movements: [],
-                types: [],
-                artists: []
+                in_movements: [],
+                in_types: [],
+                artist: []
             }
         }
     },
