@@ -147,7 +147,6 @@
         position: relative;
 
         a {
-
             font-size: 10px;
             margin-bottom: 6px;
             color: $red;
@@ -160,16 +159,10 @@
 
         @include lg-xl {
             margin-bottom: calc(var(--windowHeight) * 0.6);
-            &.hidden {
-                display: none;
-            }
         }
 
         @include sm-md {
-            margin-bottom: $indent-bottom;
-            &:not(.active) {
-                display: none;
-            }
+            &:not(.active) { display: none }
         }
 
     }
@@ -198,8 +191,13 @@
             <div class="text" ref="text" v-html="text" />
         </div>
 
-        <div class="l-article-notes" ref="notes">
+        <div class="l-article-notes" ref="notes" :class="{ opened }">
             <h2>NOTE</h2>
+            <div class="l-article-note" ref="note" v-for="(note, index) in notes" :key="index" :class="{ active: active === index }">
+                <a @click="showRef(index)">{{ index + 1 }}</a>
+                <img :src="note.image" v-if="note.image">
+                <p>{{ note.text }}</p>
+            </div>
         </div>
 
     </article>
@@ -213,21 +211,8 @@
 
 <script>
 
-    function createNode (html) {
-        let $div = document.createElement('div');
-        $div.innerHTML = html;
-        return $div.firstElementChild;
-    }
-
-    function createNote (text, image, index) {
-        return createNode(`
-            <div class="l-article-note">
-                <a>${index + 1}</a>
-                ${image ? `<img src="${image}">` : ''}
-                ${text}
-            </div>
-        `);
-    }
+    import Animation from '$services/animation'
+    import vars from 'unitless!$styles/abstract/vars'
 
     export default {
 
@@ -240,24 +225,44 @@
             return {
                 refs: [],
                 notes: [],
-                larger: false
+                larger: false,
+                opened: false,
+                scrollNote: new Animation({
+                    update: value => this.$refs.notes.scrollTop = value
+                }),
+                scrollText: new Animation({
+                    update: value => window.scrollTo(0, value)
+                })
             }
         },
 
         methods: {
 
             showRef (index) {
-                const $ref = this.refs[index];
-                const top = $ref.getBoundingClientRect().top;
-                window.scrollTo(0, top + window.scrollY - this.$refs.text.offsetTop);
+                if (window.innerWidth < vars.lgMin) {
+                    // ???
+                }
+                else {
+                    const $ref = this.refs[index];
+                    const $note = this.$refs.note[index];
+                    const rt = $ref.getBoundingClientRect().top;
+                    const nt = $note.getBoundingClientRect().top;
+                    this.scrollText.from(window.scrollY).to(window.scrollY + rt - nt).play();
+                }
             },
 
             showNote (index) {
-                const $first = this.notes[0];
-                const $note = this.notes[index];
-                this.notes.forEach(($note, i) => $note.classList.toggle('active', i === index));
-                this.$refs.notes.classList.add('opened');
-                this.$refs.notes.scrollTop = $note.offsetTop - $first.offsetTop;
+                if (window.innerWidth < vars.lgMin) {
+                    this.opened = true;
+                    this.active = index;
+                }
+                else {
+                    const $ref = this.refs[index];
+                    const $note = this.$refs.note[index];
+                    const from = this.$refs.notes.scrollTop;
+                    const to = $note.offsetTop - $ref.getBoundingClientRect().top;
+                    this.scrollNote.from(from).to(to).play();
+                }
             },
 
             hideNote (event) {
@@ -266,22 +271,18 @@
                     if (parent === this.$refs.notes) return;
                     parent = parent.parentNode;
                 }
-                this.$refs.notes.classList.remove('opened');
+                this.opened = false;
             },
 
             setNotes () {
-                this.notes = [];
-                this.refs = this.$refs.text.querySelectorAll('[data-reference]');
-                this.refs.forEach(($ref, i) => {
+                this.refs = Array.from(this.$refs.text.querySelectorAll('[data-reference]'));
+                this.notes = this.refs.map(($ref, index) => {
+                    $ref.onclick = () => this.showNote(index);
                     let text = $ref.getAttribute('data-text');
                     let image = $ref.getAttribute('data-image');
                     if (image) image = `${this.baseURL}/assets/${image}`;
-                    const $note = createNote(text, image, i);
-                    this.notes.push($note);
-                    this.$refs.notes.appendChild($note);
-                    $note.querySelector('a').onclick = () => this.showRef(i);
-                    $ref.onclick = () => this.showNote(i);
-                });
+                    return { text, image }
+                })
             }
 
         },
