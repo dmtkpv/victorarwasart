@@ -10,6 +10,7 @@
 
         svg {
             width: 12px;
+            margin-bottom: -3px;
             margin-left: 8px;
             flex-shrink: 0;
         }
