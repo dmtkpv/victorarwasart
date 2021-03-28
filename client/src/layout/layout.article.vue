@@ -158,7 +158,8 @@
         }
 
         @include lg-xl {
-            margin-bottom: calc(var(--windowHeight) * 0.6);
+            margin-bottom: calc(var(--indent-y) * 2);
+            &:last-child { margin-bottom: calc(var(--windowHeight) * 0.6) }
         }
 
         @include sm-md {
