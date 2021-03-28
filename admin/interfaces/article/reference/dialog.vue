@@ -18,7 +18,7 @@
     <v-dialog :active="reference" @toggle="set(false)" @esc="set(false)">
         <v-card>
 
-            <v-card-title>Reference</v-card-title>
+            <v-card-title>Note</v-card-title>
 
             <v-card-text>
                 <v-input v-model="reference.name" placeholder="Text" />
