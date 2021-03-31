@@ -6,6 +6,14 @@ module.exports = function (router, { database, exceptions }) {
     // Helpers
     // -------------------
 
+    function sortRecords (records, choices) {
+        return records.sort((a, b) => {
+            const ai = choices.findIndex(choice => choice.value === a.id);
+            const bi = choices.findIndex(choice => choice.value === b.id);
+            return ai - bi;
+        })
+    }
+
     function choices2Table (choices) {
         const first = `SELECT '${choices[0].value}' as id, '${choices[0].text}' as title `;
         const other = choices.slice(1).map(item => `UNION ALL SELECT '${item.value}', '${item.text}'`).join(' ');
@@ -20,7 +28,7 @@ module.exports = function (router, { database, exceptions }) {
             ${filter}
             GROUP BY choices.id;
         `).then(data => {
-            return data[0]
+            return sortRecords(data[0], choices)
         })
     }
 
