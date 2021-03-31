@@ -74,15 +74,9 @@
             transition: opacity .3s;
             &.hidden { opacity: 0 }
             a {
-                @extend %u-row;
-                justify-content: center;
-                width: 24px;
-                height: 24px;
-                border-radius: 12px;
-                margin: 0 2px;
-                line-height: 0.8;
-                border: 1px solid transparent;
-                &.active { border-color: $white; }
+                margin: 0 6px;
+                &:hover { color: $red }
+                &.active { color: $red }
             }
         }
 
