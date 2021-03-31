@@ -38,6 +38,7 @@
             &:not(.active) .total { display: block }
             &:not(.active) + .l-filter-list { display: none }
             &.active .close { display: block }
+            &.active + .l-filter-list { padding-bottom: 30px }
         }
 
     }
