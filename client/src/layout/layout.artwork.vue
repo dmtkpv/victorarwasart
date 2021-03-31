@@ -212,7 +212,7 @@
 
                 <p v-if="artist">{{ artist.name }}, {{ artist.lifetime }}</p>
                 <p>{{ title }}, {{ year }}</p>
-                <p>{{ technique }} {{ dimensions }} {{ note }}</p>
+                <p>{{ technique }}, {{ dimensions }}, {{ note }}</p>
                 <p>Reference No. {{ id }} | <a class="inquire" @click="inquire">Inquire</a> </p>
 
             </div>
@@ -357,7 +357,7 @@
 
             inquire () {
                 const { id, artist, title, year, technique, dimensions, note } = this;
-                let inquire = `${title}, ${year}\n${technique} | ${dimensions} | ${note}\nReference No. ${id}`
+                let inquire = `${title}, ${year}\n${technique}, ${dimensions}, ${note}\nReference No. ${id}`
                 if (artist) inquire = `${artist.name}, ${artist.lifetime}\n${inquire}`;
                 this.$store.commit('storage/set', ['inquire', inquire]);
             }
