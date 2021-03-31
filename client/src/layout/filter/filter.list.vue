@@ -47,10 +47,10 @@
 
 
     // --------------------
-    // Anchor
+    // Link
     // --------------------
 
-    .l-filter-item a {
+    .l-filter-item-link {
 
         @extend %row;
         position: relative;
@@ -106,23 +106,6 @@
 
 
 
-    // --------------------
-    // Note
-    // --------------------
-
-    .l-filter-note {
-        color: $red;
-        @extend %padding-ver;
-
-        @include sm {
-            padding-left: $indent-x;
-            padding-right: $indent-x;
-        }
-
-    }
-
-
-
 </style>
 
 
@@ -147,13 +130,13 @@
             <!-- item -->
 
             <div class="l-filter-item">
-                <a :class="{ active: active(item), disabled: item.disabled }" @click="$emit('click', item)">
+                <a class="l-filter-item-link" :class="{ active: active(item), disabled: item.disabled }" @click="$emit('click', item)">
                     <svg-close class="hidden" />
                     <p class="title">{{ item.title }}</p>
                     <p class="total">{{ item.total }}</p>
                 </a>
-                <ui-accordion v-if="item.note" v-show="active(item)">
-                    <div class="l-filter-note">{{ item.note }}</div>
+                <ui-accordion v-if="item.biography" v-show="active(item)">
+                    <filter-biography :short="item.biography" :id="item.id" />
                 </ui-accordion>
             </div>
 
@@ -172,12 +155,14 @@
 
     import svgClose from '$svg/close'
     import uiAccordion from '$ui/accordion'
+    import filterBiography from './filter.biography'
 
     export default {
 
         components: {
             svgClose,
-            uiAccordion
+            uiAccordion,
+            filterBiography
         },
 
         props: [

@@ -61,6 +61,16 @@ export default () => ({
 
     actions: {
 
+        load ({ state }, options) {
+            const [ key, params ] = $.array(options);
+            const config = Object.assign({}, defaults, APIs[key](params));
+            return this.axios(config).then(response => {
+                if (response.error) response = config.default;
+                else response = config.transform(response);
+                return response;
+            });
+        },
+
         request ({ state }, options) {
 
             const [ key, params ] = $.array(options);

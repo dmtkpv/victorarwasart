@@ -131,9 +131,18 @@ export default {
                         id: item.id,
                         title: item.name,
                         total: item.artworks && item.artworks.length,
-                        note: item.note
+                        biography: item.note
                     }
                 })
+            }
+        }
+    },
+
+    'filter/biography' (id) {
+        return {
+            url: '/items/artists/' + id,
+            params: {
+                fields: 'biography'
             }
         }
     },

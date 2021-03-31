@@ -49,7 +49,7 @@
 -->
 
 <template>
-    <transition name="ui-accordion" @enter="enter" @before-leave="beforeLeave" @after-leave="afterLeave">
+    <transition name="ui-accordion" @enter="enter" @after-enter="afterEnter" @before-leave="beforeLeave" @after-leave="afterLeave">
         <div class="ui-accordion">
             <slot />
         </div>
@@ -72,8 +72,12 @@
                 $node.style.height = $node.scrollHeight + 'px'
             },
 
+            afterEnter ($node) {
+                $node.style.height = '';
+            },
+
             beforeLeave ($node) {
-                if (!$node.style.height) $node.style.height = $node.scrollHeight + 'px'
+                $node.style.height = $node.scrollHeight + 'px'
             },
 
             afterLeave ($node) {
