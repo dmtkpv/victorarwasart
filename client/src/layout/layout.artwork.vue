@@ -111,8 +111,6 @@
     .l-artwork-magnifier {
 
         position: absolute;
-        width: 330px;
-        height: 330px;
         border-radius: 50%;
         overflow: hidden;
         box-shadow: 0 0 0 1px rgba(0,0,0,0.6);
@@ -124,7 +122,14 @@
             @include sm { object-fit: cover }
         }
 
+        @include md-xl {
+            width: 330px;
+            height: 330px;
+        }
+
         @include sm {
+            width: 165px;
+            height: 165px;
             img { object-fit: contain; }
             &.cover img { object-fit: cover; }
         }
