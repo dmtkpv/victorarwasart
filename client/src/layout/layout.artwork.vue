@@ -28,7 +28,7 @@
 
         @extend %u-row;
         flex: 1;
-        padding-top: 64px;
+        padding-top: 100px;
         justify-content: center;
         overflow: hidden;
 
