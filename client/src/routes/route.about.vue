@@ -199,7 +199,7 @@
                     <img :src="`${baseURL}/assets/${slide.directus_files_id.id}`">
                     <p>{{ slide.directus_files_id.title }}</p>
                 </div>
-                <ui-link href="/">Site by Gymnasium</ui-link>
+                <ui-link href="https://www.gymnasiumdesignoffice.com">Site by Gymnasium</ui-link>
             </div>
 
 

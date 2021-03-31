@@ -123,7 +123,7 @@
         </div>
 
         <div class="l-footer-item">
-            <ui-link href="/">Site by Gymnasium</ui-link>
+            <ui-link href="https://www.gymnasiumdesignoffice.com">Site by Gymnasium</ui-link>
         </div>
 
     </footer>
