@@ -42,12 +42,13 @@ export default () => ({
         },
 
         'filter/artists' (state, getters) {
-            const items = getters['api/filter/artists'];
+            const data = getters['api/filter/artists'];
             const enabled = getters['api/artworks/enabled'].artist;
+            const items = data.filter(item => item.total);
             return {
                 id: 'a3',
                 mode: 'params',
-                items: items.filter(item => item.total).map(item => ({
+                items: items.map(item => ({
                     ...item,
                     disabled: !enabled.find(id => item.id === id)
                 })),
