@@ -5,14 +5,12 @@
 <style lang="scss">
     .ui-link {
 
-        @extend %u-row;
-        justify-content: flex-start;
-
         svg {
             width: 12px;
-            margin-bottom: -3px;
-            margin-left: 8px;
-            flex-shrink: 0;
+            height: 12px;
+            margin-left: 2px;
+            display: inline-block;
+            vertical-align: middle;
         }
 
         &.disabled {
