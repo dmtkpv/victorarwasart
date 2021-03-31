@@ -146,12 +146,14 @@ export default {
 
     'home' () {
         return {
-            url: '/items/home',
+            url: '/items/home_artworks',
             params: {
-                fields: [...fields['artworks/item'], 'homepage_cover'].map(field => `artworks.artworks_id.${field}`).join(',')
+                fields: [...fields['artworks/item'], 'homepage_cover'].map(field => `artworks_id.${field}`).join(','),
+                'filter[artworks_id][id][_nnull]': true,
+                'filter[home_id][_nnull]': true
             },
             transform (response) {
-                const items = response.artworks.map(item => item.artworks_id);
+                const items = response.map(item => item.artworks_id);
                 const index = Math.floor(Math.random() * items.length);
                 const item = items[index];
                 items.splice(index, 1);
