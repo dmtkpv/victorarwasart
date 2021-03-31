@@ -16,15 +16,8 @@
         }
 
         .text {
-            a {
-                @extend %ui-link;
-            }
-            @include md-xl {
-                padding: $indent-y $indent-x;
-            }
-            @include sm {
-                padding-top: $indent-y;
-            }
+            a { @extend %ui-link; }
+            padding: $indent-x;
         }
 
         @include sm {

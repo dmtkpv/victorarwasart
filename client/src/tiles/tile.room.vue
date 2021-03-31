@@ -15,12 +15,7 @@
         }
 
         .text {
-            @include md-xl {
-                padding: $indent-y $indent-x;
-            }
-            @include sm {
-                padding-top: $indent-y;
-            }
+            padding: $indent-x;
         }
 
         @include sm {
