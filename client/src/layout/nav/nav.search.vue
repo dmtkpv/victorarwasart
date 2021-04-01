@@ -46,7 +46,7 @@
             text-transform: uppercase;
             justify-content: space-between;
             svg { width: 12px }
-            margin-bottom: $indent-top;
+            margin-bottom: $indent-y;
         }
 
         .l-filter {

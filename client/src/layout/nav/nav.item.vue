@@ -32,6 +32,10 @@
                 &.filtered { color: $white; }
             }
 
+            &:first-child {
+                .l-filter-head { margin-top: calc(#{$indent-y} * 0.8) }
+            }
+
             &:not(:first-child) {
                 .l-filter-head { margin-top: $indent-top }
             }
@@ -86,7 +90,7 @@
                 .l-nav-link .clear { display: block };
             }
             &.active .l-nav-link {
-                margin-bottom: $indent-top;
+                margin-bottom: $indent-y;
             }
         }
         @include sm {
