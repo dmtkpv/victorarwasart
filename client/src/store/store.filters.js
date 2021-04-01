@@ -90,6 +90,9 @@ export default () => ({
             return {
                 id: 's',
                 mode: 'params',
+                options: {
+                    opened: true,
+                },
                 items: [{
                     id: 'artworks',
                     title: 'Artwork',

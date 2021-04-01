@@ -78,13 +78,15 @@
         &.active {
             .l-nav-link {
                 @extend %link-active;
-                margin-bottom: $indent-top;
             }
         }
         @include md-xl {
             &.active.filtered {
                 .l-nav-link .total { display: none };
                 .l-nav-link .clear { display: block };
+            }
+            &.active .l-nav-link {
+                margin-bottom: $indent-top;
             }
         }
         @include sm {
