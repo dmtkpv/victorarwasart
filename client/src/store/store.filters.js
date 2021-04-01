@@ -72,6 +72,9 @@ export default () => ({
             return {
                 id: 'p1',
                 mode: 'params',
+                options: {
+                    opened: true,
+                },
                 items: getters['api/filter/publications']
             }
         },

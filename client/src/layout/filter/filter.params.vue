@@ -95,7 +95,7 @@
 
         data () {
             return {
-                opened: NODE ? true : window.innerWidth > vars.smMax
+                opened: NODE ? true : this.options.opened || window.innerWidth > vars.smMax
             }
         },
 
@@ -134,6 +134,7 @@
             },
 
             resize () {
+                if (this.options.opened) return;
                 this.opened = window.innerWidth > vars.smMax;
             }
 
