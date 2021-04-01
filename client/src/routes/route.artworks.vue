@@ -34,10 +34,10 @@
                 .total { opacity: 1 }
             }
 
-        }
+            ::v-deep .l-filter:last-child .l-filter-list {
+                margin-bottom: $indent-bottom;
+            }
 
-        ::v-deep .l-filter:last-child .l-filter-list {
-            margin-bottom: $indent-bottom;
         }
 
     }

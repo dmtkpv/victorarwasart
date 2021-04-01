@@ -30,6 +30,7 @@
                 left: 0;
                 bottom: 0;
                 width: 100%;
+                padding-bottom: 60px;
                 overflow: auto;
                 background: $black;
                 visibility: hidden;
