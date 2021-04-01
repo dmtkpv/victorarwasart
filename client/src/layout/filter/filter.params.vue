@@ -21,7 +21,7 @@
 
         @include sm {
             .clear span { display: none }
-            &.filtered.active .close { display: none }
+            &.filtered.opened .close { display: none }
         }
 
     }
@@ -95,7 +95,7 @@
 
         data () {
             return {
-                opened: false
+                opened: NODE ? true : window.innerWidth > vars.smMax
             }
         },
 
@@ -135,24 +135,11 @@
 
             resize () {
                 this.opened = window.innerWidth > vars.smMax;
-
             }
 
         },
 
-        watch: {
-
-            opened: {
-                immediate: true,
-                handler (value) {
-                    console.log(value)
-                }
-            }
-
-        },
-
-        beforeMount () {
-            this.resize();
+        mounted () {
             window.addEventListener('resize', this.resize);
         },
 

@@ -25,17 +25,19 @@
 
         <!-- head -->
 
-        <filter-head :head="head" />
+        <filter-head :head="head" @opened="opened = $event" />
 
 
         <!-- list -->
 
-        <filter-list
-            :items="items"
-            :options="options"
-            :active="active"
-            @click="open"
-        />
+        <ui-accordion v-show="opened">
+            <filter-list
+                :items="items"
+                :options="options"
+                :active="active"
+                @click="open"
+            />
+        </ui-accordion>
 
 
     </div>
@@ -49,7 +51,9 @@
 
 <script>
 
+    import vars from 'unitless!$styles/abstract/vars'
     import svgClose from '$svg/close'
+    import uiAccordion from '$ui/accordion'
     import filterList from './filter.list'
     import filterHead from './filter.head'
 
@@ -58,7 +62,8 @@
         components: {
             svgClose,
             filterList,
-            filterHead
+            filterHead,
+            uiAccordion
         },
 
         props: [
@@ -67,6 +72,12 @@
             'items',
             'options'
         ],
+
+        data () {
+            return {
+                opened: NODE ? true : window.innerWidth > vars.smMax
+            }
+        },
 
         methods: {
 
@@ -81,8 +92,20 @@
             open (item) {
                 const link = this.active(item) ? this.options.back : this.options.path + item.id;
                 this.$router.push(link);
+            },
+
+            resize () {
+                this.opened = window.innerWidth > vars.smMax;
             }
 
+        },
+
+        mounted () {
+            window.addEventListener('resize', this.resize);
+        },
+
+        destroyed () {
+            window.removeEventListener('resize', this.resize);
         }
 
 
