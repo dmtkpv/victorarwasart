@@ -118,7 +118,7 @@
     function getQuery (filters, query) {
         return {
             ...$.filters(filters, query),
-            sort: query.sort
+            sort: query.sort || 'created_at'
         }
     }
 
