@@ -42,7 +42,7 @@
             h1 {
                 flex: 1;
                 color: $red;
-                margin-bottom: calc(#{$indent-y} * 2);
+                margin-bottom: $indent-top;
             }
 
             a {
@@ -116,7 +116,7 @@
         background: $black;
 
         h2 {
-            margin-bottom: calc(#{$indent-y} * 2);
+            margin-bottom: $indent-top;
         }
 
         @include sm-md {
@@ -158,7 +158,7 @@
         }
 
         @include lg-xl {
-            margin-bottom: calc(var(--indent-y) * 4);
+            margin-bottom: calc(#{$indent-top} * 2);
             &:last-child { margin-bottom: calc(var(--windowHeight) * 0.6) }
         }
 

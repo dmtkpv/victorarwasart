@@ -29,7 +29,7 @@
 
         @include md-xl {
             .toggle { pointer-events: none }
-            margin-bottom: calc(#{$indent-y} * 2);
+            margin-bottom: $indent-top;
         }
 
         @include sm {

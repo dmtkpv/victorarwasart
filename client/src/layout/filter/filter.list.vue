@@ -7,20 +7,6 @@
 
 
     // --------------------
-    // List
-    // --------------------
-
-    .l-filter-list {
-
-        @include md-xl {
-            margin-top: $indent-y;
-        }
-
-    }
-
-
-
-    // --------------------
     // Letter
     // --------------------
 
@@ -30,7 +16,7 @@
             text-transform: uppercase;
 
         @include md-xl {
-            margin-top: 36px;
+            &:not(:first-child) { margin-top: 36px; }
             margin-bottom: $indent-y;
         }
 

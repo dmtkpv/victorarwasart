@@ -26,7 +26,7 @@
         }
 
         @include md-xl {
-            &.primary { margin-bottom: calc(#{$indent-y} * 2); }
+            &.primary { margin-bottom: $indent-top }
             &.secondary { display: none }
         }
 

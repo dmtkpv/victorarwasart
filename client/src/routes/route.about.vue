@@ -7,6 +7,18 @@
 
 
     // --------------------
+    // Header
+    // --------------------
+
+    .l-header {
+        @include md-xl {
+            display: none;
+        }
+    }
+
+
+
+    // --------------------
     // Article
     // --------------------
 
@@ -65,7 +77,7 @@
             left: calc(#{$column-width} * 2);
             &:before { @include line; }
             .copy { margin-top: auto; }
-            padding-top: calc(13px + #{$indent-y} * 2);
+            padding-top: calc(#{$indent-y} + 19px + #{$indent-top});
         }
 
         @include md {
@@ -104,7 +116,7 @@
         }
 
         @include md-xl {
-            padding-top: calc(13px + #{$indent-y} * 2);
+            padding-top: calc(#{$indent-y} + 19px + #{$indent-top});
         }
 
         @include sm {

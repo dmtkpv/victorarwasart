@@ -68,7 +68,7 @@
             text-align: left;
             text-transform: uppercase;
             font-weight: inherit;
-            padding: 0 $indent-x 44px $indent-x;
+            padding: 0 $indent-x 36px $indent-x;
             border-bottom: 1px solid $white-transparent;
         }
 

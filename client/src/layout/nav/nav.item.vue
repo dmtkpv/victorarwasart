@@ -27,10 +27,13 @@
         .l-filter {
 
             .l-filter-head {
-                margin-top: calc(#{$indent-y} * 2);
                 margin-bottom: $indent-y;
                 .clear { display: none }
                 &.filtered { color: $white; }
+            }
+
+            &:not(:first-child) {
+                .l-filter-head { margin-top: $indent-top }
             }
 
             &:last-child {
@@ -73,7 +76,10 @@
         // --------------------
 
         &.active {
-            .l-nav-link { @extend %link-active }
+            .l-nav-link {
+                @extend %link-active;
+                margin-bottom: $indent-top;
+            }
         }
         @include md-xl {
             &.active.filtered {
