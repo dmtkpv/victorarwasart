@@ -10,7 +10,8 @@
 
         .logo svg {
             height: 13px;
-            margin-top: 6px;
+            @include md-xl { margin: 3px 0; }
+            @include sm { margin-top: 6px; }
         }
 
         .toggle {
