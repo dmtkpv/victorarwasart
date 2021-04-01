@@ -39,7 +39,7 @@
 
         <!-- head -->
 
-        <filter-head :head="head" :class="{ filtered: selected.length }">
+        <filter-head :head="head" :class="{ filtered: selected.length }" @opened="opened = $event">
             <a class="clear" @click.stop="clear">
                 <svg-close />
                 <span>Clear</span>
@@ -49,12 +49,14 @@
 
         <!-- list -->
 
-        <filter-list
-            :items="items"
-            :options="options"
-            :active="active"
-            @click="select($event.id)"
-        />
+        <ui-accordion v-show="opened">
+            <filter-list
+                :items="items"
+                :options="options"
+                :active="active"
+                @click="select($event.id)"
+            />
+        </ui-accordion>
 
 
     </div>
@@ -68,8 +70,10 @@
 
 <script>
 
+    import vars from 'unitless!$styles/abstract/vars'
     import $ from '$services/utils'
     import svgClose from '$svg/close'
+    import uiAccordion from '$ui/accordion'
     import filterList from './filter.list'
     import filterHead from './filter.head'
 
@@ -78,7 +82,8 @@
         components: {
             svgClose,
             filterList,
-            filterHead
+            filterHead,
+            uiAccordion
         },
 
         props: [
@@ -87,6 +92,12 @@
             'items',
             'options'
         ],
+
+        data () {
+            return {
+                opened: false
+            }
+        },
 
         computed: {
 
@@ -120,10 +131,34 @@
                 if (index === -1) selected.push(id);
                 else selected.splice(index, 1);
                 this.selected = selected;
+            },
+
+            resize () {
+                this.opened = window.innerWidth > vars.smMax;
+
             }
 
-        }
+        },
 
+        watch: {
+
+            opened: {
+                immediate: true,
+                handler (value) {
+                    console.log(value)
+                }
+            }
+
+        },
+
+        beforeMount () {
+            this.resize();
+            window.addEventListener('resize', this.resize);
+        },
+
+        destroyed () {
+            window.removeEventListener('resize', this.resize);
+        }
 
     }
 

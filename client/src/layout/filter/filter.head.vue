@@ -35,9 +35,8 @@
         @include sm {
             padding-top: 60px;
             .title { font-size: 30px }
-            &:not(.active) .total { display: block }
-            &:not(.active) + .l-filter-list { display: none }
-            &.active .close { display: block }
+            &:not(.opened) .total { display: block }
+            &.opened .close { display: block }
         }
 
     }
@@ -50,7 +49,7 @@
 -->
 
 <template>
-    <div class="l-filter-head" v-if="head" :class="{ active }">
+    <div class="l-filter-head" v-if="head" :class="{ opened }">
         <a class="toggle" @click="toggle()">
             <p class="title">{{ head.title }}</p>
             <p class="total">{{ head.total }}</p>
@@ -82,14 +81,15 @@
 
         data () {
             return {
-                active: false
+                opened: false
             }
         },
 
         methods: {
 
-            toggle (value = !this.active) {
-                this.active = value;
+            toggle (value = !this.opened) {
+                this.opened = value;
+                this.$emit('opened', this.opened)
             }
 
         }
