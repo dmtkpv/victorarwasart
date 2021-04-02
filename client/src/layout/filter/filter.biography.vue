@@ -35,9 +35,10 @@
 <template>
     <div class="l-filter-biography">
         {{ text }}
-        <div class="l-filter-biography-more" v-show="!isFull">
+        <div class="l-filter-biography-more" v-show="hasMore">
             —
-            <a @click="load">Read more</a>
+            <a @click="more" v-show="!expanded">Read more</a>
+            <a @click="less" v-show="expanded">Read less</a>
         </div>
     </div>
 </template>
@@ -59,16 +60,16 @@
 
         data () {
             return {
+                expanded: false,
                 loading: false,
-                request: null,
                 full: null
             }
         },
 
         computed: {
 
-            isFull () {
-                return !this.short.endsWith('...') || this.full;
+            hasMore () {
+                return this.short.endsWith('...');
             },
 
             shortText () {
@@ -83,18 +84,25 @@
             },
 
             text () {
-                return this.full ? this.fullText : this.shortText;
+                return this.expanded ? this.fullText : this.shortText;
             }
 
         },
 
         methods: {
 
-            async load () {
+            async more () {
                 if (this.loading) return;
+                if (this.full) return (this.expanded = true);
                 this.loading = true;
                 const data = await this.$store.dispatch('load', ['filter/biography', this.id]);
                 this.full = data.biography;
+                this.loading = false;
+                this.expanded = true;
+            },
+
+            less () {
+                this.expanded = false;
             }
 
         }
