@@ -46,11 +46,11 @@
             text-transform: uppercase;
             justify-content: space-between;
             svg { width: 12px }
-            margin-bottom: $indent-y;
         }
 
         .l-filter {
             .total { opacity: 1 }
+            .l-filter-list { margin-top: $indent-y; }
         }
 
         @include md-xl {

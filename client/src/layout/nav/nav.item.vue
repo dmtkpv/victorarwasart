@@ -27,17 +27,13 @@
         .l-filter {
 
             .l-filter-head {
-                margin-bottom: $indent-y;
+                margin-top: $indent-top;
                 .clear { display: none }
                 &.filtered { color: $white; }
             }
 
-            &:first-child {
-                .l-filter-head { margin-top: calc(#{$indent-y} * 0.8) }
-            }
-
-            &:not(:first-child) {
-                .l-filter-head { margin-top: $indent-top }
+            .l-filter-list {
+                margin-top: $indent-y;
             }
 
             &:last-child {
@@ -88,9 +84,6 @@
             &.active.filtered {
                 .l-nav-link .total { display: none };
                 .l-nav-link .clear { display: block };
-            }
-            &.active .l-nav-link {
-                margin-bottom: $indent-y;
             }
         }
         @include sm {

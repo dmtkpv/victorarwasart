@@ -29,7 +29,6 @@
 
         @include md-xl {
             .toggle { pointer-events: none }
-            margin-bottom: $indent-top;
         }
 
         @include sm {

@@ -61,7 +61,6 @@
             }
 
             @include md-xl {
-                margin-bottom: $indent-top;
                 span:first-child { display: none }
             }
 

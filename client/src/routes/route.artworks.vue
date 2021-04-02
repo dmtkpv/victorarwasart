@@ -24,6 +24,10 @@
                 display: none;
             }
 
+            ::v-deep .l-filter-head {
+                margin: $indent-top 0;
+            }
+
             ::v-deep .l-filter-head .total {
                 display: block;
                 opacity: 0;
