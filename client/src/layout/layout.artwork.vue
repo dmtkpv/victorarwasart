@@ -217,7 +217,11 @@
 
                 <p v-if="artist">{{ artist.name }}, {{ artist.lifetime }}</p>
                 <p>{{ title }}, {{ year }}</p>
-                <p>{{ technique }}, {{ dimensions }}, {{ note }}</p>
+                <p>
+                    <span v-if="technique">{{ technique }},</span>
+                    <span v-if="dimensions">{{ dimensions }},</span>
+                    <span>{{ note }}</span>
+                </p>
                 <p>Reference No. {{ id }} | <a class="inquire" @click="inquire">Inquire</a> </p>
 
             </div>
