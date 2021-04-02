@@ -217,6 +217,8 @@
 
     export default {
 
+        inheritAttrs: false,
+
         props: [
             'title',
             'text'
@@ -228,6 +230,7 @@
                 notes: [],
                 larger: false,
                 opened: false,
+                active: -1,
                 scrollNote: new Animation({
                     update: value => this.$refs.notes.scrollTop = value
                 }),
