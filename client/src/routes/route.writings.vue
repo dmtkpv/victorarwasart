@@ -10,10 +10,6 @@
     // Filters
     // --------------------
 
-    ::v-deep .l-filter:hover .l-filter-head {
-        color: $red;
-    }
-
     ::v-deep .filter-wrapper {
         @include md {
             left: $column-width;
@@ -46,6 +42,15 @@
         @include md-xl {
             padding: $indent-y $indent-x;
             .l-filter-list { margin-bottom: $indent-bottom }
+        }
+    }
+
+    @include md-xl {
+        ::v-deep .l-filter-head {
+            margin-bottom: $indent-top;
+        }
+        ::v-deep .l-filter:hover .l-filter-head {
+            color: $red;
         }
     }
 

@@ -19,7 +19,10 @@
             left: $column-width;
             padding: $indent-y $indent-x;
             ::v-deep .l-header-head { display: none }
-            ::v-deep .l-filter-head { color: $red }
+            ::v-deep .l-filter-head {
+                color: $red;
+                margin-bottom: $indent-top;
+            }
         }
 
         @include sm {
