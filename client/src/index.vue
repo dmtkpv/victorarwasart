@@ -47,6 +47,7 @@
 
 <script>
 
+    import scrollDisable from '$mixins/mixin.scroll.disable'
     import layoutNav from '$layout/nav/layout.nav'
     import layoutFooter from '$layout/layout.footer'
     import layoutModal from '$layout/modal/layout.modal'
@@ -58,6 +59,10 @@
             layoutFooter,
             layoutModal
         },
+
+        mixins: [
+            scrollDisable
+        ],
 
         computed: {
 

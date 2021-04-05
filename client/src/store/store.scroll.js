@@ -1,15 +1,23 @@
 export default () => ({
 
     namespaced: true,
-    state: {},
+    state: {
+        data: {}
+    },
+
+    getters: {
+
+        disabled (state) {
+            return !!Object.values(state.data).find(value => value);
+        }
+
+    },
 
     mutations: {
 
-        set (state, value) {
+        set (state, data) {
             if (NODE) return;
-            Object.assign(state, value);
-            const disabled = Object.values(state).find(value => value);
-            document.body.style.overflow = disabled ? 'hidden' : '';
+            state.data = { ...state.data, ...data }
         }
 
     }
