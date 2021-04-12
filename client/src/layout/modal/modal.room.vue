@@ -173,7 +173,7 @@
         <div class="gallery" :style="{ transform }">
             <div class="screen" v-for="screen in gallery" :class="classes(screen)">
                 <div class="images" v-if="screen.artworks" :style="styles(screen)">
-                    <img v-for="artwork in screen.artworks" :src="`${baseURL}/assets/${artwork.artworks_id.image.id}`" @click="modal(artwork.artworks_id.id)">
+                    <img v-for="artwork in screen.artworks" v-if="artwork.artworks_id" :src="`${baseURL}/assets/${artwork.artworks_id.image.id}`" @click="modal(artwork.artworks_id.id)">
                 </div>
                 <div class="text" v-if="screen.text" v-text="screen.text" />
             </div>

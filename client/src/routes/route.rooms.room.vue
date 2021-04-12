@@ -86,7 +86,7 @@
             <div class="note">{{ room.note }}</div>
         </div>
         <layout-masonry :grid="grid">
-            <tile-artwork v-for="item in artworks" v-bind="item" :key="item.id" @click="modal" />
+            <tile-artwork v-for="item in artworks" v-if="item" v-bind="item" :key="item.id" @click="modal" />
         </layout-masonry>
     </layout-section>
 </template>
