@@ -231,14 +231,25 @@ export default {
                 fields: [
                     'title',
                     'note',
+                    'gallery.sort',
                     ...fields.screen.map(field => `gallery.screens_id.${field}`),
+                    'gallery.screens_id.artworks.sort',
                     ...fields.artworks.map(field => `gallery.screens_id.artworks.artworks_id.${field}`),
                 ].join(',')
+            },
+            transform (room) {
+                const sort = (a, b) =>  a.sort - b.sort;
+                room.gallery = room.gallery ? room.gallery.sort(sort).filter(item => item.screens_id).map(item => {
+                    const screen = item.screens_id;
+                    screen.artworks = screen.artworks ? screen.artworks.sort(sort).filter(item => item.artworks_id).map(item => item.artworks_id) : [];
+                    return screen;
+                }) : [];
+                return room;
             },
             default: {}
         }
     },
-
+    
     'publications' ({ p1, offset, limit } = {}) {
         let filter = { _or: [] };
         if (p1) filter._or = p1.map(_contains => ({ in_types: { _contains } }));

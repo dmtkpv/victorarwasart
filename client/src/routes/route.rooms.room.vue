@@ -143,13 +143,7 @@
             },
 
             artworks () {
-                if (!this.room.gallery) return [];
-                return this.room.gallery
-                    .map(screen => screen.screens_id.artworks)
-                    .flat()
-                    .filter(artwork => artwork)
-                    .map(artwork => artwork.artworks_id);
-
+                return this.room.gallery.map(screen => screen.artworks).flat();
             }
 
         },

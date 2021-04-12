@@ -172,8 +172,8 @@
 
         <div class="gallery" :style="{ transform }">
             <div class="screen" v-for="screen in gallery" :class="classes(screen)">
-                <div class="images" v-if="screen.artworks" :style="styles(screen)">
-                    <img v-for="artwork in screen.artworks" v-if="artwork.artworks_id" :src="`${baseURL}/assets/${artwork.artworks_id.image.id}`" @click="modal(artwork.artworks_id.id)">
+                <div class="images" v-if="screen.artworks.length" :style="styles(screen)">
+                    <img v-for="artwork in screen.artworks" :src="`${baseURL}/assets/${artwork.image.id}`" @click="modal(artwork.id)">
                 </div>
                 <div class="text" v-if="screen.text" v-text="screen.text" />
             </div>
@@ -212,9 +212,7 @@
         computed: {
 
             gallery () {
-                const gallery = this.$store.getters['api/rooms/item'].gallery;
-                if (!gallery) return [];
-                return gallery.map(screen => screen.screens_id);
+                return this.$store.getters['api/rooms/item'].gallery;
             },
 
             transform () {
@@ -222,12 +220,7 @@
             },
 
             artworks () {
-                if (!this.gallery) return [];
-                return this.gallery
-                    .map(screen => screen.artworks)
-                    .flat()
-                    .filter(artwork => artwork)
-                    .map(artwork => artwork.artworks_id);
+                return this.gallery.map(screen => screen.artworks).flat();
             }
 
         },
