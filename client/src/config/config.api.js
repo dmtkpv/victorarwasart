@@ -122,7 +122,7 @@ export default {
         return {
             url: '/items/artists',
             params: {
-                fields: 'id,name,artworks,note',
+                fields: 'id,name,artworks.hidden_in_artworks,note',
                 limit: -1
             },
             transform (items) {
@@ -130,7 +130,7 @@ export default {
                     return {
                         id: item.id,
                         title: item.name,
-                        total: item.artworks && item.artworks.length,
+                        total: item.artworks && item.artworks.filter(artwork => !artwork.hidden_in_artworks).length,
                         biography: item.note
                     }
                 })
@@ -249,7 +249,7 @@ export default {
             default: {}
         }
     },
-    
+
     'publications' ({ p1, offset, limit } = {}) {
         let filter = { _or: [] };
         if (p1) filter._or = p1.map(_contains => ({ in_types: { _contains } }));
