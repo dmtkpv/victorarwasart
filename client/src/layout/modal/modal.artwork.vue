@@ -92,8 +92,8 @@
                 .slide {
                     padding-left: 0;
                     padding-right: 0;
-                    &.next { display: none }
-                    &.prev { display: none }
+                    &.next { visibility: hidden }
+                    &.prev { visibility: hidden }
 
                 }
             }

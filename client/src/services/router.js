@@ -30,6 +30,9 @@ export default function (context) {
     return new VueRouter({
         mode: 'history',
         routes: bind(context),
-        scrollBehavior: () => ({ x: 0, y: 0 })
+        scrollBehavior: (to, from, savedPosition) => {
+            if (to.path === from.path) return savedPosition;
+            return { x: 0, y: 0 }
+        }
     })
 }
