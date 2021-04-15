@@ -27,6 +27,7 @@
         flex: 1;
         white-space: nowrap;
         overflow-x: scroll;
+        scrollbar-width: none;
 
         &::-webkit-scrollbar {
             display: none;

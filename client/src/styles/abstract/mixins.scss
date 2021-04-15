@@ -68,6 +68,8 @@
     width: $column-width;
     height: 100%;
     overflow: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
 }
 @mixin line {
     content: '';
