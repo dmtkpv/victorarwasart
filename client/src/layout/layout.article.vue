@@ -114,6 +114,11 @@
         height: 100%;
         overflow: auto;
         background: $black;
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
 
         h2 {
             margin-bottom: $indent-top;
