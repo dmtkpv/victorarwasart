@@ -69,7 +69,7 @@
 
         ::v-deep .image {
             padding-top: 0 !important;
-            height: calc(var(--windowHeight) * 0.4);
+            height: calc(var(--windowHeight) * 0.5);
             min-height: 300px;
             img { object-fit: cover }
         }
