@@ -19,13 +19,19 @@
         display: grid;
         background: $cream;
         color: $black;
-        padding-bottom: $indent-y;
 
 
         // height
 
-        @include md-xl { height: 438px; }
-        @include sm { height: 600px;}
+        @include md-xl {
+            height: 438px;
+            padding-bottom: $indent-y;
+        }
+
+        @include sm {
+            height: var(--windowHeight);
+            min-height: 600px;
+        }
 
 
         // template
@@ -43,7 +49,7 @@
             .l-footer-item:nth-child(3) { grid-row: 1 / 3; }
         }
         @include sm {
-            grid-template-rows: 1fr 2fr 1fr 1fr;
+            grid-template-rows: 1fr 3fr 1fr auto;
         }
 
     }
