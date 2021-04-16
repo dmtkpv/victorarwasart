@@ -128,8 +128,8 @@
         }
 
         @include sm {
-            width: 165px;
-            height: 165px;
+            width: 208px;
+            height: 208px;
             img { object-fit: contain; }
             &.cover img { object-fit: cover; }
         }
