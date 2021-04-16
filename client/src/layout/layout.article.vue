@@ -162,6 +162,10 @@
             margin-bottom: $indent-y;
         }
 
+        p {
+            white-space: pre-line;
+        }
+
         @include lg-xl {
             margin-bottom: calc(#{$indent-top} * 2);
             &:last-child { margin-bottom: calc(var(--windowHeight) * 0.6) }
