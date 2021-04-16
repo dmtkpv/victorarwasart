@@ -10,6 +10,7 @@
 
             @extend %row;
             position: relative;
+            cursor: pointer;
 
             input[type=text] {
                 padding-right: $indent-x;
@@ -31,10 +32,11 @@
             &.disabled input[type=submit] {
                 right: 100%;
                 transform: translateX(100%);
+                pointer-events: none;
             }
 
             @include md-xl {
-                input[type=submit]:hover  { color: $red }
+                &:hover { color: $red }
                 &:not(.disabled) { color: $red }
             }
 
@@ -77,7 +79,7 @@
 <template>
     <div class="l-nav-search" :class="{ routed }">
 
-        <form :class="{ disabled: !active }" @submit.prevent="start">
+        <form :class="{ disabled: !active }" @click="click" @submit.prevent="submit">
             <input type="text" v-model="text" ref="input" @blur="focus(false)" @focus="focus(true)">
             <input type="submit" value="Search" @mousedown.prevent>
         </form>
@@ -132,18 +134,21 @@
 
         methods: {
 
-            focus (value) {
-                this.active = value;
-                this.$emit('focus', value);
+            click () {
+                this.$refs.input.focus();
             },
 
-            start () {
-                if (!this.active) return this.$refs.input.focus();
+            submit () {
                 if (!this.text) return;
                 this.$refs.input.blur();
                 this.back = this.$route.fullPath;
                 this.$router.push(`/search?text=${this.text}`);
                 this.$emit('search')
+            },
+
+            focus (value) {
+                this.active = value;
+                this.$emit('focus', value);
             },
 
             end () {
