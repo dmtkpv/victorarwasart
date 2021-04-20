@@ -39,13 +39,14 @@
         }
 
         @include sm {
-            padding-top: 0;
+            padding: 0 $indent-x;
             img {
                 width: 100%;
                 height: 100%;
             }
-            &.cover img {
-                object-fit: cover;
+            &.cover {
+                padding: 0;
+                img { object-fit: cover; }
             }
         }
 
