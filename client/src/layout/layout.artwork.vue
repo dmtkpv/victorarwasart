@@ -342,8 +342,8 @@
                 const root = this.$el.getBoundingClientRect();
                 const node = $node.getBoundingClientRect();
                 const src = $src.getBoundingClientRect();
-                const nodeX = event.pageX - root.left - node.width / 2;
-                const nodeY = event.pageY - root.top - node.height / 2;
+                const nodeX = event.clientX - root.left - node.width / 2;
+                const nodeY = event.clientY - root.top - node.height / 2;
                 const dstX = src.left - root.left - nodeX;
                 const dstY = src.top - root.top - nodeY;
                 const oX = -dstX + node.width / 2;
