@@ -9,6 +9,8 @@ const nodeExternals = require('webpack-node-externals');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserJSPlugin = require('terser-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 
@@ -115,6 +117,13 @@ const Common = {
 // --------------------------
 
 const Client = {
+
+    optimization: {
+        minimizer: [
+            new TerserJSPlugin(),
+            new CssMinimizerPlugin()
+        ]
+    },
 
     module: {
         rules: [
