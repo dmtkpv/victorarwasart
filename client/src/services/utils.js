@@ -28,10 +28,11 @@ export default {
     },
 
     filter (config, query) {
+        const available = config.items.map(item => item.value).flat();
         let values = this.array(query[config.id]);
         values = values.map(id => isNaN(id) ? id : +id);
         values = values.filter((value, i, self) => self.indexOf(value) === i);
-        values = values.filter(value => config.items.find(item => item.id === value));
+        values = values.filter(value => available.indexOf(value) !== -1);
         return values;
     },
 

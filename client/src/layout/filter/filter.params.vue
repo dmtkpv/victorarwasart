@@ -54,7 +54,7 @@
                 :items="items"
                 :options="options"
                 :active="active"
-                @click="select($event.id)"
+                @click="select($event)"
             />
         </ui-accordion>
 
@@ -118,19 +118,16 @@
         methods: {
 
             active (item) {
-                return this.selected.includes(item.id);
+                return !item.value.some(value => !this.selected.includes(value));
             },
 
             clear () {
                 this.selected = [];
             },
 
-            select (id) {
-                let selected = [...this.selected];
-                const index = selected.indexOf(id);
-                if (index === -1) selected.push(id);
-                else selected.splice(index, 1);
-                this.selected = selected;
+            select (item) {
+                if (this.active(item)) this.selected = this.selected.filter(value => !item.value.includes(value));
+                else this.selected = this.selected.concat(item.value.filter(value => !this.selected.includes(value)));
             },
 
             resize () {

@@ -41,7 +41,7 @@ module.exports = function (router, { database, exceptions }) {
 
         let filters = [];
 
-        function add (title, value = title, total = totals[value]) {
+        function add (title, value = [title], total = totals[value]) {
             if (total) filters.push({ title, value, total })
         }
 
