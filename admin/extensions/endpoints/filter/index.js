@@ -6,53 +6,84 @@ module.exports = function (router, { database, exceptions }) {
     // Helpers
     // -------------------
 
-    function sortRecords (records, choices) {
-        return records.sort((a, b) => {
-            const ai = choices.findIndex(choice => choice.value === a.id);
-            const bi = choices.findIndex(choice => choice.value === b.id);
-            return ai - bi;
-        })
+    function select (collection) {
+        return database.raw(`SELECT * FROM filters WHERE collection = '${collection}'`).then(data => data[0])
     }
 
     function choices2Table (choices) {
-        const first = `SELECT '${choices[0].value}' as id, '${choices[0].text}' as title `;
-        const other = choices.slice(1).map(item => `UNION ALL SELECT '${item.value}', '${item.text}'`).join(' ');
+        const items = choices.split(',');
+        const first = `SELECT '${items[0]}' as id `;
+        const other = items.slice(1).map(item => `UNION ALL SELECT '${item}'`).join(' ');
         return first + other;
     }
 
-    function count (table, column, choices, filter = '') {
+    function count (record, filter = '') {
+        const { collection, field, choices } = record;
         return database.raw(`
-            SELECT choices.id, ANY_VALUE(choices.title) as title, COUNT(choices.id) as total FROM (${choices2Table(choices)}) as choices
-            INNER JOIN ${table}
-            ON find_in_set(choices.id, ${table}.${column}) 
+            SELECT choices.id, COUNT(choices.id) as total FROM (${choices2Table(choices)}) as choices
+            INNER JOIN ${collection}
+            ON find_in_set(choices.id, ${collection}.${field}) 
             ${filter}
             GROUP BY choices.id;
         `).then(data => {
-            return sortRecords(data[0], choices)
-        })
-    }
-
-    function getChoices (id) {
-        return database.raw(`
-            SELECT options FROM directus_fields WHERE id = ${id} 
-        `).then(data => {
-            return JSON.parse(data[0][0].options).choices;
+            const totals = data[0].map(item => [item.id, item.total]);
+            return Object.fromEntries(totals)
         })
     }
 
 
 
     // -------------------
-    // Artwork movements
+    // Data normalization
     // -------------------
 
-    router.get('/artwork_movements', (req, res, next) => {
-        getChoices(172)
-            .then(choices => {
-                return count('artworks', 'in_movements', choices, 'WHERE artworks.hidden_in_artworks = 0');
-            })
+    function normalize (record, totals) {
+
+        let filters = [];
+
+        function add (title, value = title, total = totals[value]) {
+            if (total) filters.push({ title, value, total })
+        }
+
+        JSON.parse(record.filters).forEach(({ filter }) => {
+            const grouped = filter.includes(':');
+            if (grouped) {
+                const data = filter.split(':');
+                const group = data[0].trim();
+                const items = data[1].split(',').map(value => value.trim()).filter(value => totals[value]);
+                const total = items.reduce((total, value) => total + (totals[value] || 0), 0)
+                add(group, items, total);
+                items.forEach(item => add(item));
+            }
+            else {
+                add(filter);
+            }
+        })
+
+        return {
+            title: record.title,
+            field: record.field,
+            filters
+        };
+
+    }
+
+
+
+    // -------------------
+    // Artworks
+    // -------------------
+
+    router.get('/artworks', (req, res, next) => {
+
+        select('artworks')
             .then(records => {
-                res.send({ data: records });
+                return Promise.all(records.map(record => {
+                    return count(record, 'WHERE artworks.hidden_in_artworks = 0').then(count => normalize(record, count));
+                }))
+            })
+            .then(data => {
+                res.send({ data })
             })
             .catch(next);
     });
@@ -60,35 +91,21 @@ module.exports = function (router, { database, exceptions }) {
 
 
     // -------------------
-    // Artwork types
+    // Publications
     // -------------------
 
-    router.get('/artwork_types', (req, res, next) => {
-        getChoices(171)
-            .then(choices => {
-                return count('artworks', 'in_types', choices, 'WHERE artworks.hidden_in_artworks = 0');
-            })
+    router.get('/publications', (req, res, next) => {
+
+        select('publications')
             .then(records => {
-                res.send({ data: records });
+                return Promise.all(records.map(record => {
+                    return count(record).then(count => normalize(record, count));
+                }))
             })
-            .catch(next);
-    });
-
-
-
-    // -------------------
-    // Publication types
-    // -------------------
-
-    router.get('/publication_types', (req, res, next) => {
-        getChoices(173)
-            .then(choices => {
-                return count('publications', 'in_types', choices);
+            .then(data => {
+                res.send({ data })
             })
-            .then(records => {
-                res.send({ data: records });
-            })
-            .catch(next);
+            .catch(next)
     });
 
 
