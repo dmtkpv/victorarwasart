@@ -3,8 +3,8 @@
 -->
 
 <template>
-    <div>
-        <interface-wysiwyg />
+    <div v-show="!loading">
+        <interface-wysiwyg v-if="loading" />
         <textarea ref="target" />
         <reference-dialog ref="reference" />
     </div>
