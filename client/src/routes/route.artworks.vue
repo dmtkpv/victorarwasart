@@ -113,15 +113,26 @@
 
     function getFilters (ctx) {
         return [
-            ctx.$store.getters['filter/movements'],
-            ctx.$store.getters['filter/types'],
+            ...ctx.$store.getters['filter/artworks'],
             ctx.$store.getters['filter/artists']
         ]
     }
 
+    function getFilter (filters, query) {
+        let filter = { _and: [{ hidden_in_artworks: { _eq: false } }] };
+        const { artist, ...rest } = $.filters(filters, query);
+
+        console.log($.filters(filters, query))
+
+        if (artist) filter._and.push({ artist: { _in:  artist.join(',') } });
+
+        Object.keys(rest).forEach(key => filter._and.push({ _or: rest[key].map(_contains => ({ [key]: { _contains } })) }));
+        return filter;
+    }
+
     function getQuery (filters, query) {
         return {
-            ...$.filters(filters, query),
+            filter: getFilter(filters, query),
             sort: query.sort || '-created_at'
         }
     }
@@ -232,8 +243,7 @@
                 this.$store.commit('cancel', 'artworks/enabled');
             }
             await Promise.all([
-                this.$store.dispatch('request', 'filter/movements'),
-                this.$store.dispatch('request', 'filter/types'),
+                this.$store.dispatch('request', 'filter/artworks'),
                 this.$store.dispatch('request', 'filter/artists')
             ]);
             const filters = getFilters(this);

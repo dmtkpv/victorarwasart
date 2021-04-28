@@ -7,50 +7,65 @@ export default () => ({
         // Artworks
         // ------------------
 
-        'filter/movements' (state, getters) {
-            const items = getters['api/filter/movements'];
-            const enabled = getters['api/artworks/enabled'].in_movements;
-            return {
-                id: 'a1',
-                mode: 'params',
-                items: items.map(item => ({
-                    ...item,
-                    disabled: !enabled.find(id => item.id === id)
-                })),
-                head: {
-                    title: 'Movements',
-                    total: items.length
+        'filter/artworks' (state, getters) {
+            return getters['api/filter/artworks'].map(filter => {
+                return {
+                    id: filter.field,
+                    mode: 'params',
+                    items: filter.filters,
+                    head: {
+                        title: filter.title,
+                        total: filter.filters.length
+                    }
                 }
-            }
+            })
         },
 
-        'filter/types' (state, getters) {
-            const items = getters['api/filter/types'];
-            const enabled = getters['api/artworks/enabled'].in_types;
-            return {
-                id: 'a2',
-                mode: 'params',
-                items: items.map(item => ({
-                    ...item,
-                    disabled: !enabled.find(id => item.id === id)
-                })),
-                head: {
-                    title: 'Type',
-                    total: items.length
-                }
-            }
-        },
+        // 'filter/movements' (state, getters) {
+        //     const items = getters['api/filter/movements'];
+        //     const enabled = getters['api/artworks/enabled'].in_movements;
+        //     return {
+        //         id: 'a1',
+        //         mode: 'params',
+        //         items: items.map(item => ({
+        //             ...item,
+        //             disabled: !enabled.find(id => item.id === id)
+        //         })),
+        //         head: {
+        //             title: 'Movements',
+        //             total: items.length
+        //         }
+        //     }
+        // },
+
+        // 'filter/types' (state, getters) {
+        //     const items = getters['api/filter/types'];
+        //     const enabled = getters['api/artworks/enabled'].in_types;
+        //     return {
+        //         id: 'a2',
+        //         mode: 'params',
+        //         items: items.map(item => ({
+        //             ...item,
+        //             disabled: !enabled.find(id => item.id === id)
+        //         })),
+        //         head: {
+        //             title: 'Type',
+        //             total: items.length
+        //         }
+        //     }
+        // },
 
         'filter/artists' (state, getters) {
             const data = getters['api/filter/artists'];
             const enabled = getters['api/artworks/enabled'].artist;
             const items = data.filter(item => item.total);
             return {
-                id: 'a3',
+                id: 'artist',
                 mode: 'params',
                 items: items.map(item => ({
                     ...item,
-                    disabled: !enabled.find(id => item.id === id)
+                    value: [item.value]
+                    // disabled: !enabled.find(id => item.id === id)
                 })),
                 options: {
                     alphabetic: true
@@ -69,14 +84,25 @@ export default () => ({
         // ------------------
 
         'filter/publications' (state, getters) {
-            return {
-                id: 'p1',
-                mode: 'params',
-                options: {
-                    opened: true,
-                },
-                items: getters['api/filter/publications']
-            }
+            return getters['api/filter/publications'].map(filter => {
+                return {
+                    id: 'p' + filter.title,
+                    mode: 'params',
+                    items: filter.filters,
+                    head: {
+                        title: filter.title,
+                        total: filter.filters.length
+                    }
+                }
+            })
+            // return {
+            //     id: 'p1',
+            //     mode: 'params',
+            //     options: {
+            //         opened: true,
+            //     },
+            //     items: getters['api/filter/publications']
+            // }
         },
 
 
@@ -94,19 +120,19 @@ export default () => ({
                     opened: true,
                 },
                 items: [{
-                    id: 'artworks',
+                    value: ['artworks'],
                     title: 'Artwork',
                     total: count.artworks || 0
                 }, {
-                    id: 'viewing_room',
+                    value: ['viewing_room'],
                     title: 'Viewing room',
                     total: count.viewing_room || 0
                 }, {
-                    id: 'publications',
+                    value: ['publications'],
                     title: 'Publications',
                     total: count.publications || 0
                 }, {
-                    id: 'writings',
+                    value: ['writings'],
                     title: 'Writing',
                     total: (count.essays + count.poems + count.artists) || 0
                 }]

@@ -7,10 +7,7 @@ export default () => ({
                     title: 'Artwork',
                     path: '/artwork',
                     total: getters['api/count'].artworks,
-                    filters: [
-                        getters['filter/movements'],
-                        getters['filter/types']
-                    ]
+                    filters: getters['filter/artworks']
                 },
                 {
                     title: 'Viewing room',
@@ -21,9 +18,7 @@ export default () => ({
                     title: 'Publications',
                     path: '/publications',
                     total: getters['api/count'].publications,
-                    filters: [
-                        getters['filter/publications']
-                    ]
+                    filters: getters['filter/publications']
                 },
                 {
                     title: 'Writings',

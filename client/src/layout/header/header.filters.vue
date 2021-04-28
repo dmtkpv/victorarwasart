@@ -68,10 +68,10 @@
         computed: {
 
             heading () {
-                return this.filters.map(config => {
-                    const values = $.filter(config, this.$route.query);
-                    return values.map(id => config.items.find(item => item.id === id).title);
-                }).flat().join(' + ');
+                // return this.filters.map(config => {
+                //     const values = $.filter(config, this.$route.query);
+                //     return values.map(value => config.items.find(item => item.value === value).title);
+                // }).flat().join(' + ');
             }
 
         },
