@@ -54,7 +54,6 @@
 
 <script>
 
-    import './plugin';
     import imagePreview from './image.vue'
 
     export default {
