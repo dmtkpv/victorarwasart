@@ -2,7 +2,7 @@ module.exports = function () {
 
     return {
         'items.update.before' (input, context) {
-            if (context.collection !== 'filters') return;
+            if (context.collection !== 'filters') return input;
             if (!input.filters) return;
 
             input.choices = [];

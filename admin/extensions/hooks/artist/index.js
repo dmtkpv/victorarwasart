@@ -5,7 +5,7 @@ module.exports = function () {
     const max = 500;
 
     function hook (input, context) {
-        if (context.collection !== 'artists') return;
+        if (context.collection !== 'artists') return input;
         let data = {};
         if (context.event === 'items.create.before') data = input[0];
         if (context.event === 'items.update.before') data = input;
