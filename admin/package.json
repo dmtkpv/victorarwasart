@@ -2,16 +2,18 @@
     "//": [
         "npm run dev serve",
         "npm run prod daemon",
-        "npm run article",
-        "npm run styles"
+        "npm run interface:article",
+        "npm run interface:styles",
+        "npm run display:tags"
     ],
     "scripts": {
         "serve": "directus start",
         "daemon": "pm2 delete --silent \"victorarwas:admin\"; pm2 start npm --name \"victorarwas:admin\" -- run serve",
         "dev": "NODE_ENV=development npm run",
         "prod": "NODE_ENV=production npm run",
-        "article": "rollup -c extensions/interfaces/article/src/rollup.js -w",
-        "styles": "rollup -c extensions/interfaces/styles/src/rollup.js -w"
+        "interface:article": "rollup -c extensions/interfaces/article/src/rollup.js -w",
+        "interface:styles": "rollup -c extensions/interfaces/styles/src/rollup.js -w",
+        "display:tags": "rollup -c extensions/displays/tags/src/rollup.js -w"
     },
     "dependencies": {
         "directus": "9.0.0-rc.61",
