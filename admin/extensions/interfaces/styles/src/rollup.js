@@ -2,7 +2,6 @@
 // Modules
 // ----------------------
 
-import path from 'path'
 import { terser } from 'rollup-plugin-terser';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
@@ -12,24 +11,14 @@ import styles from "rollup-plugin-styles";
 
 
 // ----------------------
-// Helpers
-// ----------------------
-
-function rootPath (value) {
-    return path.join(__dirname, '../../', value);
-}
-
-
-
-// ----------------------
 // Exports
 // ----------------------
 
 export default {
-    input: rootPath('interfaces/styles/index.js'),
+    input: 'extensions/interfaces/styles/src/index.js',
     output: {
         format: 'es',
-        file: rootPath('extensions/interfaces/styles/index.js'),
+        file: 'extensions/interfaces/styles/index.js'
     },
     plugins: [
         terser(),

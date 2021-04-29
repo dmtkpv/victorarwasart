@@ -3,7 +3,7 @@
         "npm run dev serve",
         "npm run prod daemon",
         "npm run article",
-        "npm run styles -- -w"
+        "npm run styles"
     ],
     "scripts": {
         "serve": "directus start",
@@ -11,7 +11,7 @@
         "dev": "NODE_ENV=development npm run",
         "prod": "NODE_ENV=production npm run",
         "article": "rollup -c extensions/interfaces/article/src/rollup.js -w",
-        "styles": "rollup -c interfaces/styles/rollup.js"
+        "styles": "rollup -c extensions/interfaces/styles/src/rollup.js -w"
     },
     "dependencies": {
         "directus": "9.0.0-rc.61",
