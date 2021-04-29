@@ -3,7 +3,6 @@
         "npm run dev serve",
         "npm run prod daemon",
         "npm run article",
-        "npm run article -- -w",
         "npm run styles -- -w"
     ],
     "scripts": {
@@ -11,7 +10,7 @@
         "daemon": "pm2 delete --silent \"victorarwas:admin\"; pm2 start npm --name \"victorarwas:admin\" -- run serve",
         "dev": "NODE_ENV=development npm run",
         "prod": "NODE_ENV=production npm run",
-        "article": "rollup -c interfaces/article/rollup.js",
+        "article": "rollup -c extensions/interfaces/article/src/rollup.js -w",
         "styles": "rollup -c interfaces/styles/rollup.js"
     },
     "dependencies": {
