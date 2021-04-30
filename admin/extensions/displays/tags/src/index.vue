@@ -67,7 +67,7 @@
         computed: {
 
             items () {
-                return this.value.map(item => item.artwork_tags_id);
+                return this.value.filter(item => item.artwork_tags_id).map(item => item.artwork_tags_id);
             },
 
             styles () {

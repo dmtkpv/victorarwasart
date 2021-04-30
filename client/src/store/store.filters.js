@@ -8,17 +8,62 @@ export default () => ({
         // ------------------
 
         'filter/artworks' (state, getters) {
-            return getters['api/filter/artworks'].map(filter => {
-                return {
-                    id: filter.field,
-                    mode: 'params',
-                    items: filter.filters,
-                    head: {
-                        title: filter.title,
-                        total: filter.filters.length
-                    }
+
+            const response = getters['api/filter/artworks'];
+            const enabled = getters['api/artworks/enabled'];
+            let filters = [];
+
+            const Filter = item => ({
+                mode: 'params',
+                items: [],
+                head: {
+                    title: item.group,
+                    total: 0
                 }
             })
+
+            const Group = item => ({
+                title: item.subgroup,
+                value: [],
+                total: 0
+            })
+
+            response.forEach(item => {
+                if (!item.artworks.length) return;
+                let filter = filters.find(filter => filter.head.title === item.group);
+                if (!filter) {
+                    filter = Filter(item);
+                    filter.id = 'a' + filters.push(filter);
+                }
+                if (item.group) {
+                    let group = filter.items.find(_item => Array.isArray(_item.value) && _item.title === item.subgroup);
+                    if (!group) {
+                        group = Group(item);
+                        filter.items.push(group);
+                    }
+                    group.value.push(item.id);
+                    group.total += item.artworks.length;
+                }
+                filter.head.total++;
+                filter.items.push({
+                    title: item.title,
+                    disabled: enabled[filter.id] && !enabled[filter.id].includes(item.id),
+                    value: item.id,
+                    total: item.artworks.length
+                })
+            })
+
+            filters.forEach(filter => {
+                filter.items.forEach(item => {
+                    if (Array.isArray(item.value)) {
+                        if (enabled[filter.id]) {
+                            item.disabled = item.value.some(value => !enabled[filter.id].includes(item.id))
+                        }
+                    }
+                })
+            })
+
+            return filters;
         },
 
         // 'filter/movements' (state, getters) {
@@ -64,8 +109,7 @@ export default () => ({
                 mode: 'params',
                 items: items.map(item => ({
                     ...item,
-                    value: [item.value]
-                    // disabled: !enabled.find(id => item.id === id)
+                    disabled: enabled && !enabled.includes(item.value),
                 })),
                 options: {
                     alphabetic: true

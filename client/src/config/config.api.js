@@ -100,6 +100,16 @@ export default {
     // Filters
     // ------------------
 
+    'filter/artworks' () {
+        return {
+            url: '/items/artwork_tags',
+            params: {
+                limit: -1,
+                'deep[artworks][_filter][artworks_id][hidden_in_artworks][_eq]': false
+            }
+        }
+    },
+
     'filter/movements' () {
         return {
             url: '/custom/filter/artwork_movements'
@@ -128,7 +138,7 @@ export default {
             transform (items) {
                 return items.map(item => {
                     return {
-                        id: item.id,
+                        value: item.id,
                         title: item.name,
                         total: item.artworks && item.artworks.filter(artwork => !artwork.hidden_in_artworks).length,
                         biography: item.note
@@ -146,6 +156,8 @@ export default {
             }
         }
     },
+
+
 
 
 
@@ -172,12 +184,7 @@ export default {
         }
     },
 
-    'artworks' ({ a1, a2, a3, sort, offset, limit } = {}) {
-        let filter = { _and: [] };
-        if (a1) filter._and.push({ _or: a1.map(_contains => ({ in_movements: { _contains } })) })
-        if (a2) filter._and.push({ _or: a2.map(_contains => ({ in_types: { _contains } })) })
-        if (a3) filter._and.push({ artist: { _in:  csv(a3) } })
-        filter._and.push({ hidden_in_artworks: { _eq: false } });
+    'artworks' ({ filter, sort, offset, limit } = {}) {
         return {
             url: '/items/artworks',
             params: {
@@ -187,19 +194,11 @@ export default {
         }
     },
 
-    'artworks/enabled' ({ a1, a2, a3 } = {}) {
-        let params = {};
-        if (a1) params.in_movements = { _or: a1.map(_contains => ({ in_movements: { _contains } })) }
-        if (a2) params.in_types = { _or: a2.map(_contains => ({ in_types: { _contains } })) }
-        if (a3) params.artist = { artist: { _in:  csv(a3) } }
+    'artworks/enabled' (params) {
         return {
             url: '/custom/enabled-filters',
             params,
-            default: {
-                in_movements: [],
-                in_types: [],
-                artist: []
-            }
+            default: {}
         }
     },
 

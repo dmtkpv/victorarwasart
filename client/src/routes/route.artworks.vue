@@ -118,26 +118,25 @@
         ]
     }
 
-    function getFilter (filters, query) {
-        let filter = { _and: [{ hidden_in_artworks: { _eq: false } }] };
-        const { artist, ...rest } = $.filters(filters, query);
-
-        console.log($.filters(filters, query))
-
-        if (artist) filter._and.push({ artist: { _in:  artist.join(',') } });
-
-        Object.keys(rest).forEach(key => filter._and.push({ _or: rest[key].map(_contains => ({ [key]: { _contains } })) }));
-        return filter;
+    function getFiltersQuery (configs, query) {
+        let filters = $.filters(configs, query);
+        configs.forEach(config => filters[config.id] = (filters[config.id] || ''));
+        return filters
     }
 
-    function getQuery (filters, query) {
+    function getArtworksQuery (filters, query) {
+        const { artist, ...tags } = $.filters(filters, query);
+        let _and = [{ hidden_in_artworks: { _eq: false } }]
+        if (artist) _and.push({ artist: { _in: artist } });
+        Object.values(tags).forEach(_in => _and.push({ tags: { artwork_tags_id: { _in } } }));
         return {
-            filter: getFilter(filters, query),
+            filter: { _and },
             sort: query.sort || '-created_at'
         }
     }
 
     function getParams (query) {
+        console.log(query)
         return {
             ...query,
             limit: 50,
@@ -195,12 +194,16 @@
                 return getFilters(this);
             },
 
-            query () {
-                return getQuery(this.filters, this.$route.query);
+            artworksQuery () {
+                return getArtworksQuery(this.filters, this.$route.query);
+            },
+
+            filtersQuery () {
+                return getFiltersQuery(this.filters, this.$route.query);
             },
 
             queryString () {
-                return JSON.stringify(this.query);
+                return JSON.stringify(this.artworksQuery);
             }
 
         },
@@ -208,11 +211,11 @@
         methods: {
 
             update () {
-                this.params = getParams(this.query);
+                this.params = getParams(this.artworksQuery);
                 this.$store.commit('cancel', 'artworks');
                 this.$store.commit('cancel', 'artworks/enabled');
                 this.$store.dispatch('request', ['artworks', this.params]);
-                this.$store.dispatch('request', ['artworks/enabled', this.params]);
+                this.$store.dispatch('request', ['artworks/enabled', this.filtersQuery]);
             },
 
             more () {
@@ -247,11 +250,9 @@
                 this.$store.dispatch('request', 'filter/artists')
             ]);
             const filters = getFilters(this);
-            const query = getQuery(filters, to.query);
-            const params = getParams(query);
             await Promise.all([
-                this.$store.dispatch('request', ['artworks', params]),
-                this.$store.dispatch('request', ['artworks/enabled', params]),
+                this.$store.dispatch('request', ['artworks', getParams(getArtworksQuery(filters, to.query))]),
+                this.$store.dispatch('request', ['artworks/enabled', getFiltersQuery(filters, to.query)]),
             ]);
             next();
         },

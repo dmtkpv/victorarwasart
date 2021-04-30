@@ -118,7 +118,7 @@
         methods: {
 
             active (item) {
-                return !item.value.some(value => !this.selected.includes(value));
+                return !$.array(item.value).some(value => !this.selected.includes(value));
             },
 
             clear () {
@@ -126,8 +126,8 @@
             },
 
             select (item) {
-                if (this.active(item)) this.selected = this.selected.filter(value => !item.value.includes(value));
-                else this.selected = this.selected.concat(item.value.filter(value => !this.selected.includes(value)));
+                if (this.active(item)) this.selected = this.selected.filter(value => !$.array(item.value).includes(value));
+                else this.selected = [...new Set([...this.selected, ...$.array(item.value)])];
             },
 
             resize () {
