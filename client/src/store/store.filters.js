@@ -35,7 +35,7 @@ export default () => ({
                     filter = Filter(item);
                     filter.id = 'a' + filters.push(filter);
                 }
-                if (item.group) {
+                if (item.subgroup) {
                     let group = filter.items.find(_item => Array.isArray(_item.value) && _item.title === item.subgroup);
                     if (!group) {
                         group = Group(item);
