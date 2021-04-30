@@ -4,7 +4,7 @@
 
 <style scoped>
 
-    .display-labels {
+    .display-tags {
         display: inline-flex;
     }
     .v-chip + .v-chip {
@@ -20,9 +20,10 @@
 -->
 
 <template>
-    <div class="display-labels">
-        <v-chip v-for="item in items" :style="styles[item.group]" small disabled label>
-            {{ item.title }}
+    <div class="display-tags">
+<!--        {{ value }}-->
+        <v-chip v-for="item in items" :style="style(item[groupField])" small disabled label>
+            {{ item[titleField] }}
         </v-chip>
     </div>
 </template>
@@ -35,45 +36,36 @@
 
 <script>
 
-    const styles = [
-        {
-            '--v-chip-color': '#263238',
-            '--v-chip-background-color': '#EDEFF1'
-        },
-        {
-            '--v-chip-color': '#FFF',
-            '--v-chip-background-color': '#667C89'
-        },
-        {
-            '--v-chip-color': '#FFF',
-            '--v-chip-background-color': '#5DC49A'
-        },
-        {
-            '--v-chip-color': '#FFF',
-            '--v-chip-background-color': '#667C89'
-        },
-        {
-            '--v-chip-color': '#FFF',
-            '--v-chip-background-color': '#D15B6B'
-        }
-    ]
-
     export default {
 
         props: [
-            'value'
+            'value',
+            'colors',
+            'keyField',
+            'titleField',
+            'groupField'
         ],
 
         computed: {
 
             items () {
-                return this.value.filter(item => item.artwork_tags_id).map(item => item.artwork_tags_id);
+                return this.value.filter(item => item[this.keyField]).map(item => item[this.keyField]).sort((a, b) => a.sort - b.sort);
             },
 
-            styles () {
-                const titles = [...this.items].sort((a, b) => a.sort - b.sort).map(tag => tag.group);
-                const unique = [...new Set(titles)];
-                return Object.fromEntries(unique.map((title, index) => [title, styles[index]]));
+            groups () {
+                return [...new Set(this.items.map(tag => tag[this.groupField]))];
+            }
+
+        },
+
+        methods: {
+
+            style (group) {
+                const i = this.groups.indexOf(group)
+                return {
+                    '--v-chip-color': this.colors[i].foreground,
+                    '--v-chip-background-color': this.colors[i].background,
+                }
             }
 
         }
