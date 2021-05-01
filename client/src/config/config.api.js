@@ -276,14 +276,14 @@ export default {
         }
     },
 
-    'publications' ({ p1, offset, limit } = {}) {
-        let filter = { _or: [] };
-        if (p1) filter._or = p1.map(_contains => ({ in_types: { _contains } }));
+    'publications' ({ p, offset, limit } = {}) {
+        let filters = {};
+        if (p) filters['filter[tags][publication_tags_id][_in]'] = csv(p);
         return {
             url: '/items/publications',
             params: {
                 fields: fields.publications.join(','),
-                filter, limit, offset
+                ...filters, limit, offset
             }
         }
     },

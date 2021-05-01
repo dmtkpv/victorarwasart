@@ -185,7 +185,7 @@
     }
 
     function getQuery (filters, query) {
-        return $.filters(filters, query)
+        return $.filters(filters, query);
     }
 
     function getParams (query) {
