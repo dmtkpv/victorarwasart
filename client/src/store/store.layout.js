@@ -18,7 +18,7 @@ export default () => ({
                     title: 'Publications',
                     path: '/publications',
                     total: getters['api/count'].publications,
-                    filters: getters['filter/publications']
+                    filters: [getters['filter/publications']]
                 },
                 {
                     title: 'Writings',

@@ -124,7 +124,18 @@ export default {
 
     'filter/publications' () {
         return {
-            url: '/custom/filter/publication_types'
+            url: '/items/publication_tags',
+            params: {
+                limit: -1,
+                fields: 'id,title,publications',
+                'filter[publications][publications_id][_nempty]': true
+            },
+            transform (items) {
+                return items.map(item => {
+                    const { id, title, publications } = item;
+                    return { id, title, total: publications.length }
+                })
+            }
         }
     },
 

@@ -162,10 +162,7 @@
 
         serverPrefetch () {
             return Promise.all([
-                this.$store.dispatch('request', 'count'),
-                this.$store.dispatch('request', 'filter/movements'),
-                this.$store.dispatch('request', 'filter/types'),
-                this.$store.dispatch('request', 'filter/publications')
+                this.$store.dispatch('request', 'count')
             ])
         }
 
