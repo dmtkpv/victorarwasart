@@ -112,7 +112,7 @@ export default () => ({
             return {
                 id: 'w1',
                 mode: 'links',
-                items: getters['api/filter/artists'].filter(item => item.biography).map(({ value, title }) => ({ value, title })),
+                items: getters['api/filter/artists'].filter(item => item.biography).map(({ id, title }) => ({ id, title })),
                 options: {
                     alphabetic: true,
                     back: '/writings',
