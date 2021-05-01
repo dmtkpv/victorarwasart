@@ -127,7 +127,7 @@
             <!-- item -->
 
             <div class="l-filter-item">
-                <a class="l-filter-item-link" :class="{ active: active(item), disabled: item.disabled, group: Array.isArray(item.value) }" @click="$emit('click', item)">
+                <a class="l-filter-item-link" :class="{ active: active(item), disabled: item.disabled, group: Array.isArray(item.id) }" @click="$emit('click', item)">
                     <svg-close class="hidden" />
                     <p class="title">{{ item.title }}</p>
                     <p class="total">{{ item.total }}</p>

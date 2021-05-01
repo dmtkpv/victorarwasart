@@ -106,19 +106,35 @@ export default {
             params: {
                 limit: -1,
                 'deep[artworks][_filter][artworks_id][hidden_in_artworks][_eq]': false
+            },
+            transform (items) {
+                let filters = [];
+                const getFilter = ({ group }) => filters.find(filter => filter.title === group);
+                const getGroup = ({ subgroup }, filter) => filter.items.find(i => Array.isArray(i.id) && i.title === subgroup);
+                const toFilter = ({ group }) => ({ id: 0, items: [], title: group, total: 0 })
+                const toGroup = ({ subgroup }) => ({ id: [], title: subgroup, total: 0 })
+                const toItem = ({ id, title, artworks }) => ({ id, title, total: artworks.length })
+                items.forEach(item => {
+                    if (!item.artworks.length) return;
+                    let filter = getFilter(item);
+                    if (!filter) {
+                        filter = toFilter(item);
+                        filter.id = 'a' + filters.push(filter);
+                    }
+                    if (item.subgroup) {
+                        let group = getGroup(item, filter)
+                        if (!group) {
+                            group = toGroup(item);
+                            filter.items.push(group);
+                        }
+                        group.id.push(item.id);
+                        group.total += item.artworks.length;
+                    }
+                    filter.total++;
+                    filter.items.push(toItem(item))
+                })
+                return filters;
             }
-        }
-    },
-
-    'filter/movements' () {
-        return {
-            url: '/custom/filter/artwork_movements'
-        }
-    },
-
-    'filter/types' () {
-        return {
-            url: '/custom/filter/artwork_types'
         }
     },
 
@@ -149,7 +165,7 @@ export default {
             transform (items) {
                 return items.map(item => {
                     return {
-                        value: item.id,
+                        id: item.id,
                         title: item.name,
                         total: item.artworks && item.artworks.filter(artwork => !artwork.hidden_in_artworks).length,
                         biography: item.note

@@ -136,7 +136,6 @@
     }
 
     function getParams (query) {
-        console.log(query)
         return {
             ...query,
             limit: 50,
@@ -258,7 +257,7 @@
         },
 
         created () {
-            this.params = getParams(this.query);
+            this.params = getParams(this.artworksQuery);
         }
 
     }

@@ -28,7 +28,7 @@ export default {
     },
 
     filter (config, query) {
-        const available = config.items.map(item => item.value).flat();
+        const available = config.items.map(item => item.id).flat();
         let values = this.array(query[config.id]);
         values = values.map(id => isNaN(id) ? id : +id);
         values = values.filter((value, i, self) => self.indexOf(value) === i);

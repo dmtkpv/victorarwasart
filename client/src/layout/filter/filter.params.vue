@@ -107,8 +107,8 @@
                     return $.filter({ id: this.id, items: this.items }, this.$route.query);
                 },
 
-                set (value) {
-                    this.$router.push({ query: { ...this.$route.query, [this.id]: value }});
+                set (selected) {
+                    this.$router.push({ query: { ...this.$route.query, [this.id]: selected }});
                 }
 
             }
@@ -118,7 +118,8 @@
         methods: {
 
             active (item) {
-                return !$.array(item.value).some(value => !this.selected.includes(value));
+
+                return !$.array(item.id).some(id => !this.selected.includes(id));
             },
 
             clear () {
@@ -126,8 +127,8 @@
             },
 
             select (item) {
-                if (this.active(item)) this.selected = this.selected.filter(value => !$.array(item.value).includes(value));
-                else this.selected = [...new Set([...this.selected, ...$.array(item.value)])];
+                if (this.active(item)) this.selected = this.selected.filter(id => !$.array(item.id).includes(id));
+                else this.selected = [...new Set([...this.selected, ...$.array(item.id)])];
             },
 
             resize () {
@@ -138,6 +139,7 @@
         },
 
         mounted () {
+            // console.log(this.items)
             window.addEventListener('resize', this.resize);
         },
 

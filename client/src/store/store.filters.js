@@ -9,107 +9,37 @@ export default () => ({
 
         'filter/artworks' (state, getters) {
 
-            const response = getters['api/filter/artworks'];
+            const filters = getters['api/filter/artworks'];
             const enabled = getters['api/artworks/enabled'];
-            let filters = [];
 
-            const Filter = item => ({
-                mode: 'params',
-                items: [],
-                head: {
-                    title: item.group,
-                    total: 0
+            const isDisabled = (item, id) => {
+                if (!enabled[id]) return false;
+                if (Array.isArray(item.id)) return item.id.some(i => !enabled[id].includes(i));
+                return !enabled[id].includes(item.id);
+            }
+
+            return filters.map(({ id, title, total, items }) => {
+                return {
+                    id,
+                    mode: 'params',
+                    head: { title, total },
+                    items: items.map(item => ({ ...item, disabled: isDisabled(item, id) }))
                 }
             })
-
-            const Group = item => ({
-                title: item.subgroup,
-                value: [],
-                total: 0
-            })
-
-            response.forEach(item => {
-                if (!item.artworks.length) return;
-                let filter = filters.find(filter => filter.head.title === item.group);
-                if (!filter) {
-                    filter = Filter(item);
-                    filter.id = 'a' + filters.push(filter);
-                }
-                if (item.subgroup) {
-                    let group = filter.items.find(_item => Array.isArray(_item.value) && _item.title === item.subgroup);
-                    if (!group) {
-                        group = Group(item);
-                        filter.items.push(group);
-                    }
-                    group.value.push(item.id);
-                    group.total += item.artworks.length;
-                }
-                filter.head.total++;
-                filter.items.push({
-                    title: item.title,
-                    disabled: enabled[filter.id] && !enabled[filter.id].includes(item.id),
-                    value: item.id,
-                    total: item.artworks.length
-                })
-            })
-
-            filters.forEach(filter => {
-                filter.items.forEach(item => {
-                    if (Array.isArray(item.value)) {
-                        if (enabled[filter.id]) {
-                            item.disabled = item.value.some(value => !enabled[filter.id].includes(item.id))
-                        }
-                    }
-                })
-            })
-
-            return filters;
         },
 
-        // 'filter/movements' (state, getters) {
-        //     const items = getters['api/filter/movements'];
-        //     const enabled = getters['api/artworks/enabled'].in_movements;
-        //     return {
-        //         id: 'a1',
-        //         mode: 'params',
-        //         items: items.map(item => ({
-        //             ...item,
-        //             disabled: !enabled.find(id => item.id === id)
-        //         })),
-        //         head: {
-        //             title: 'Movements',
-        //             total: items.length
-        //         }
-        //     }
-        // },
-
-        // 'filter/types' (state, getters) {
-        //     const items = getters['api/filter/types'];
-        //     const enabled = getters['api/artworks/enabled'].in_types;
-        //     return {
-        //         id: 'a2',
-        //         mode: 'params',
-        //         items: items.map(item => ({
-        //             ...item,
-        //             disabled: !enabled.find(id => item.id === id)
-        //         })),
-        //         head: {
-        //             title: 'Type',
-        //             total: items.length
-        //         }
-        //     }
-        // },
-
         'filter/artists' (state, getters) {
+
             const data = getters['api/filter/artists'];
             const enabled = getters['api/artworks/enabled'].artist;
             const items = data.filter(item => item.total);
+
             return {
                 id: 'artist',
                 mode: 'params',
                 items: items.map(item => ({
                     ...item,
-                    disabled: enabled && !enabled.includes(item.value),
+                    disabled: enabled && !enabled.includes(item.id),
                 })),
                 options: {
                     alphabetic: true
@@ -128,25 +58,14 @@ export default () => ({
         // ------------------
 
         'filter/publications' (state, getters) {
-            return getters['api/filter/publications'].map(filter => {
-                return {
-                    id: 'p' + filter.title,
-                    mode: 'params',
-                    items: filter.filters,
-                    head: {
-                        title: filter.title,
-                        total: filter.filters.length
-                    }
-                }
-            })
-            // return {
-            //     id: 'p1',
-            //     mode: 'params',
-            //     options: {
-            //         opened: true,
-            //     },
-            //     items: getters['api/filter/publications']
-            // }
+            return {
+                id: 'p',
+                mode: 'params',
+                options: {
+                    opened: true,
+                },
+                items: getters['api/filter/publications']
+            }
         },
 
 
@@ -164,19 +83,19 @@ export default () => ({
                     opened: true,
                 },
                 items: [{
-                    value: ['artworks'],
+                    id: 'artworks',
                     title: 'Artwork',
                     total: count.artworks || 0
                 }, {
-                    value: ['viewing_room'],
+                    id: 'viewing_room',
                     title: 'Viewing room',
                     total: count.viewing_room || 0
                 }, {
-                    value: ['publications'],
+                    id: 'publications',
                     title: 'Publications',
                     total: count.publications || 0
                 }, {
-                    value: ['writings'],
+                    id: 'writings',
                     title: 'Writing',
                     total: (count.essays + count.poems + count.artists) || 0
                 }]
@@ -193,7 +112,7 @@ export default () => ({
             return {
                 id: 'w1',
                 mode: 'links',
-                items: getters['api/filter/artists'].filter(item => item.biography).map(({ id, title }) => ({ id, title })),
+                items: getters['api/filter/artists'].filter(item => item.biography).map(({ value, title }) => ({ value, title })),
                 options: {
                     alphabetic: true,
                     back: '/writings',
