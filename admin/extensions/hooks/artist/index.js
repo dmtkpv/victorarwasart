@@ -6,12 +6,9 @@ module.exports = function () {
 
     function hook (input, context) {
         if (context.collection !== 'artists') return input;
-        let data = {};
-        if (context.event === 'items.create.before') data = input[0];
-        if (context.event === 'items.update.before') data = input;
-        if (data.biography === undefined) return input;
-        data.note = htmlToText(data.biography, { wordwrap: false });
-        if (data.note.length > max) data.note = data.note.slice(0, max) + '...';
+        if (input.biography === undefined) return input;
+        input.note = htmlToText(input.biography, { wordwrap: false });
+        if (input.note.length > max) input.note = input.note.slice(0, max) + '...';
         return input;
     }
 
