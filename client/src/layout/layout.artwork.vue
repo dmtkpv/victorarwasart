@@ -330,9 +330,9 @@
                 await this.$nextTick();
                 const $src = this.$refs.image[this.index];
                 const rect = $src.getBoundingClientRect();
-                const pageX = rect.left + rect.width / 2;
-                const pageY = rect.top + rect.height / 2;
-                this.moveMagnifier({ pageX, pageY });
+                const clientX = rect.left + rect.width / 2;
+                const clientY = rect.top + rect.height / 2;
+                this.moveMagnifier({ clientX, clientY });
             },
 
             moveMagnifier (e) {
