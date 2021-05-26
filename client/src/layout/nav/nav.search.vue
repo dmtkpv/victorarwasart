@@ -140,7 +140,7 @@
 
             submit () {
                 if (!this.text) return;
-                this.$refs.input.blur();
+                // this.$refs.input.blur();
                 this.back = this.$route.fullPath;
                 this.$router.push(`/search?text=${this.text}`);
                 this.$emit('search')
