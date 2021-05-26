@@ -168,7 +168,10 @@
 
         @include lg-xl {
             margin-bottom: calc(#{$indent-top} * 2);
-            &:last-child { margin-bottom: calc(var(--windowHeight) * 0.6) }
+            &:last-child {
+                height: calc(var(--windowHeight) - var(--indent-y) * 2);
+                margin-bottom: 0;
+            }
         }
 
         @include sm-md {
@@ -273,7 +276,8 @@
                     const $ref = this.refs[index];
                     const $note = this.$refs.note[index];
                     const from = this.$refs.notes.scrollTop;
-                    const to = $note.offsetTop - $ref.getBoundingClientRect().top;
+                    const top = getComputedStyle(document.body).getPropertyValue('--indent-y');
+                    const to = $note.offsetTop - parseFloat(top);
                     this.scrollNote.from(from).to(to).play();
                 }
             },
