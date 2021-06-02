@@ -89,6 +89,7 @@
             toggle (value = !this.opened) {
                 this.opened = value;
                 this.$emit('opened', this.opened)
+                if (value) window.dispatchEvent(new CustomEvent('filter:opened', { detail: this.$el }));
             }
 
         }
