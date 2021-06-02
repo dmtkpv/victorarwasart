@@ -37,7 +37,7 @@
             }
 
             &:last-child {
-                margin-bottom: 118px;
+                margin-bottom: 94px;
             }
 
         }
