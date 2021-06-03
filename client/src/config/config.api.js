@@ -264,10 +264,9 @@ export default {
                 ].join(',')
             },
             transform (room) {
-                const sort = (a, b) =>  a.sort - b.sort;
-                room.gallery = room.gallery ? room.gallery.sort(sort).filter(item => item.screens_id).map(item => {
+                room.gallery = room.gallery ? room.gallery.filter(item => item.screens_id).map(item => {
                     const screen = item.screens_id;
-                    screen.artworks = screen.artworks ? screen.artworks.sort(sort).filter(item => item.artworks_id).map(item => item.artworks_id) : [];
+                    screen.artworks = screen.artworks ? screen.artworks.filter(item => item.artworks_id).map(item => item.artworks_id) : [];
                     return screen;
                 }) : [];
                 return room;
