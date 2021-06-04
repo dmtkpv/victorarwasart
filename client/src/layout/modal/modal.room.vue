@@ -124,7 +124,15 @@
             flex-flow: column nowrap;
             justify-content: center;
             height: var(--windowHeight);
+            padding: 0 96px;
 
+            @include sm-md {
+                padding: 0; // !!!!
+            }
+
+            &.stretch {
+                padding: 0;
+            }
             &.stretch .images {
                 padding: 0;
                 img {
@@ -138,6 +146,7 @@
             &.container {
                 max-width: 1200px;
                 margin: 0 auto;
+                padding: 0;
             }
 
         }
