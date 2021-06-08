@@ -15,7 +15,7 @@
     // enter
 
     .ui-accordion-enter-active {
-        transition: height .3s, opacity .3s .3s;
+        transition: height .5s, opacity .5s .5s;
     }
     .ui-accordion-enter {
         height: 0 !important;
@@ -29,7 +29,7 @@
     // leave
 
     .ui-accordion-leave-active {
-        transition: height .3s .3s, opacity .3s;
+        transition: height .5s .5s, opacity .5s;
     }
     .ui-accordion-leave {
         opacity: 1;
