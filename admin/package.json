@@ -16,7 +16,7 @@
         "display:tags": "rollup -c extensions/displays/tags/src/rollup.js -w"
     },
     "dependencies": {
-        "directus": "9.0.0-rc.61",
+        "directus": "9.0.0-rc.73",
         "html-to-text": "^6.0.0",
         "mysql": "^2.18.1"
     },
