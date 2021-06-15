@@ -19,7 +19,7 @@ import Index from './index.vue'
 // Constants
 // ------------------
 
-const baseURL = 'http://93.188.166.42:49012'
+const baseURL = 'http://35.176.99.5:49012'
 // const baseURL = 'http://localhost:49012'
 
 
@@ -59,7 +59,7 @@ export default function init () {
 
 
 // ------------------
-// Mounter 
+// Mounter
 // ------------------
 
 if (!NODE) {
