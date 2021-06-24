@@ -19,7 +19,7 @@ import Index from './index.vue'
 // Constants
 // ------------------
 
-const baseURL = 'http://35.176.99.5:49012'
+const baseURL = 'https://api.victorarwas.com'
 // const baseURL = 'http://localhost:49012'
 
 
