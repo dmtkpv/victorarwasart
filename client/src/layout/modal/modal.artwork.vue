@@ -157,11 +157,16 @@
 <script>
 
     import layoutArtwork from '$layout/layout.artwork'
+    import firefoxHotFix from '$mixins/mixin.firefox-hotfix'
 
     export default {
 
         props: [
             'id'
+        ],
+
+        mixins: [
+            firefoxHotFix
         ],
 
         data () {
