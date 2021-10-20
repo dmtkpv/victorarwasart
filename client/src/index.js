@@ -65,4 +65,19 @@ export default function init () {
 if (!NODE) {
     const { app, router } = init();
     router.onReady(() => app.$mount('#app'));
+
+
+    
+    /**
+     * .l-modal-artwork
+     * .l-artwork-images img glitches on transition (FF)
+     * because of .l-modal-artwork position fixed
+     * following code fixes the issue
+     */
+
+    (function triggerReflow () {
+        document.body.offsetHeight;
+        requestAnimationFrame(triggerReflow);
+    })()
+
 }
