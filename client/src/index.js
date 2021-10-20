@@ -67,7 +67,7 @@ if (!NODE) {
     router.onReady(() => app.$mount('#app'));
 
 
-    
+
     /**
      * .l-modal-artwork
      * .l-artwork-images img glitches on transition (FF)
@@ -75,9 +75,10 @@ if (!NODE) {
      * following code fixes the issue
      */
 
-    (function triggerReflow () {
+    if (navigator.userAgent.includes('Firefox')) (function fix () {
         document.body.offsetHeight;
-        requestAnimationFrame(triggerReflow);
+        requestAnimationFrame(fix);
     })()
+
 
 }
