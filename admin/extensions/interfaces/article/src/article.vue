@@ -4,7 +4,7 @@
 
 <template>
     <div v-show="!loading">
-        <interface-wysiwyg v-if="loading" />
+        <interface-input-rich-text-html v-if="loading" />
         <textarea ref="target" />
         <reference-dialog ref="reference" />
     </div>
